@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IE 4531 - Subtractive Manufacturing Lab (Instructor Presentation)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-color: #ffc107;
+            --safety-red: #f44336;
+            --safety-green: #4caf50;
+            --neu-red: #CC0000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: var(--primary-gradient);
+            color: #333;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 80px 20px;
+        }
+
+        .slide {
+            display: none;
+            background: white;
+            border-radius: 24px;
+            padding: 60px 40px;
+            min-height: 85vh;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #4338ca;
+            margin-bottom: 24px;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #6d28d9;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: #4338ca;
+            margin: 24px 0 12px 0;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-color);
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 40px;
+            gap: 20px;
+        }
+
+        button, .btn-link {
+            padding: 16px 32px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(102, 126, 234, 0.39);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+        }
+
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .equipment-card {
+            background: #fff;
+            padding: 32px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .equipment-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #667eea;
+        }
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .spec-table th {
+            background: #f3f4f6;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .spec-table td {
+            padding: 16px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .timer {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #4338ca;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            border: 2px solid #e0e7ff;
+        }
+
+        .slide-indicator {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 9999px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #92400e;
+        }
+
+        .key-takeaway {
+            background: #f0f9ff;
+            border-left: 6px solid #0ea5e9;
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 12px;
+            color: #0369a1;
+        }
+
+        .danger-box {
+            background: #fef2f2;
+            border: 2px solid #fee2e2;
+            border-radius: 16px;
+            padding: 32px;
+            margin: 24px 0;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 27, 75, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 50px;
+            border-radius: 32px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 2.5em;
+            cursor: pointer;
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="timer" id="timer">00:00</div>
+    <div class="slide-indicator" id="slideIndicator">Slide 1 of 16</div>
+
+    <div class="container">
+        <!-- Slide 1: Welcome -->
+        <div class="slide active" id="slide1">
+            <div class="header-section">
+                <h1>IE 4531: Subtractive Manufacturing Lab</h1>
+                <h2>CNC Machining with the Emco Concept Mill 105</h2>
+            </div>
+            
+            <div style="text-align: center; margin: 40px 0;">
+                <div style="font-size: 5em; margin-bottom: 20px;">⚙️</div>
+                <p style="font-size: 1.5em; color: #4b5563; max-width: 800px; margin: 0 auto;">
+                    Master the fundamentals of Computer Numerical Control (CNC) and precision manufacturing.
+                </p>
+            </div>
+
+            <div class="key-takeaway">
+                <strong>What is Subtractive Manufacturing?</strong><br>
+                Think of it like sculpting - we start with a block of material and precisely remove what we don't need to create the final part. It's the engine behind modern industrial production.
+            </div>
+
+            <div class="navigation">
+                <a href="index.html" class="btn-link btn-secondary">🏠 Hub</a>
+                <button class="btn-primary" onclick="nextSlide()">Begin Lab Presentation →</button>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Outcomes -->
+        <div class="slide" id="slide2">
+            <h1>🎯 Today's Goals</h1>
+            <h2>What you will master in this session</h2>
+
+            <div class="equipment-grid">
+                <div class="equipment-card">
+                    <div style="font-size: 3em; margin-bottom: 16px;">🦾</div>
+                    <h3>Operating the Mill</h3>
+                    <p>Learn to control the Emco Concept Mill 105 interface and manual controls.</p>
+                </div>
+                <div class="equipment-card">
+                    <div style="font-size: 3em; margin-bottom: 16px;">📝</div>
+                    <h3>Programming</h3>
+                    <p>Write G-code and use Fusion 360 CAM to generate toolpaths.</p>
+                </div>
+                <div class="equipment-card">
+                    <div style="font-size: 3em; margin-bottom: 16px;">📐</div>
+                    <h3>Precision</h3>
+                    <p>Set work coordinates and measure tool offsets with micrometer accuracy.</p>
+                </div>
+            </div>
+
+            <div class="key-takeaway">
+                <strong>Industry Standard:</strong> These skills translate directly to large-scale industrial CNC centers used in aerospace, automotive, and medical manufacturing.
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Safety First →</button>
+            </div>
+        </div>
+
+        <!-- Slide 3: Safety Rules (1) -->
+        <div class="slide" id="slide3">
+            <h1>⚠️ Critical Safety Rules</h1>
+            <h2>Read this CAREFULLY - Safety is non-negotiable</h2>
+
+            <div class="danger-box" style="border-left: 8px solid #ef4444;">
+                <h3 style="color: #b91c1c; margin-top: 0;">🚨 Rule #1: Never Operate Alone</h3>
+                <p style="font-size: 1.25em; color: #7f1d1d;">
+                    Do NOT touch or operate any machine without a lab technician or TA present. Unauthorized operation can lead to serious injury or catastrophic machine damage.
+                </p>
+            </div>
+
+            <div class="equipment-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="equipment-card" style="background: #f0fdf4;">
+                    <h3>Safety Glasses</h3>
+                    <p>Must be worn at all times in the lab area. Flying chips and coolant present constant hazards.</p>
+                </div>
+                <div class="equipment-card" style="background: #f0fdf4;">
+                    <h3>Closed-Toe Shoes</h3>
+                    <p>Required (leather preferred). Protects your feet from falling tools or heavy workpieces.</p>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Attire Check →</button>
+            </div>
+        </div>
+
+        <!-- Slide 4: Safety Rules (2) -->
+        <div class="slide" id="slide4">
+            <h1>👕 Proper Shop Attire</h1>
+            <h2>Dress for the environment</h2>
+
+            <table class="spec-table">
+                <tr>
+                    <th>Item</th>
+                    <th>Requirement</th>
+                    <th>Reasoning</th>
+                </tr>
+                <tr>
+                    <td><strong>Hair</strong></td>
+                    <td>Tie back long hair securely</td>
+                    <td>Rotating spindles can catch hair instantly</td>
+                </tr>
+                <tr>
+                    <td><strong>Jewelry</strong></td>
+                    <td>NO rings, watches, or necklaces</td>
+                    <td>Conductive and snagging hazards</td>
+                </tr>
+                <tr>
+                    <td><strong>Pants</strong></td>
+                    <td>Long pants (no shorts)</td>
+                    <td>Protects against hot metal chips</td>
+                </tr>
+                <tr>
+                    <td><strong>Sleeves</strong></td>
+                    <td>Short or tight-fitting sleeves</td>
+                    <td>Prevents entanglement in moving parts</td>
+                </tr>
+            </table>
+
+            <div class="danger-box" style="background: #fffbeb; border-color: #fef3c7;">
+                <p style="color: #92400e; font-weight: 600; text-align: center;">
+                    💡 NOT properly dressed? You will NOT be allowed to participate in the lab session.
+                </p>
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Operational Safety →</button>
+            </div>
+        </div>
+
+        <!-- Slide 5: Operational Safety -->
+        <div class="slide" id="slide5">
+            <h1>🚫 Never Do These Things</h1>
+            <h2>Zero tolerance for these actions</h2>
+
+            <div class="equipment-grid">
+                <div class="equipment-card" style="border-top: 5px solid var(--safety-red);">
+                    <div style="font-size: 2.5em;">🖐️</div>
+                    <p><strong>Open the door</strong> while the machine is running.</p>
+                </div>
+                <div class="equipment-card" style="border-top: 5px solid var(--safety-red);">
+                    <div style="font-size: 2.5em;">💨</div>
+                    <p><strong>Blow air</strong> directly into the spindle or ways.</p>
+                </div>
+                <div class="equipment-card" style="border-top: 5px solid var(--safety-red);">
+                    <div style="font-size: 2.5em;">🚶</div>
+                    <p><strong>Leave the machine</strong> running unattended.</p>
+                </div>
+            </div>
+
+            <div class="key-takeaway" style="background: #fef2f2; border-color: #fca5a5; color: #991b1b;">
+                <strong>EMERGENCY STOP:</strong> Know the location of the red mushroom button. If you hear a crash or see something wrong, HIT IT IMMEDIATELY.
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Machine Overview →</button>
+            </div>
+        </div>
+
+        <!-- Slide 6: The Three Axes -->
+        <div class="slide" id="slide6">
+            <h1>📐 The Three Axes</h1>
+            <h2>Understanding the 3-axis CNC coordinate system</h2>
+
+            <div style="display: flex; gap: 40px; align-items: center; margin: 30px 0;">
+                <div style="flex: 1;">
+                    <ul style="list-style: none; font-size: 1.25em;">
+                        <li style="margin-bottom: 20px;"><strong>↔️ X-Axis:</strong> Left-right movement of the table.</li>
+                        <li style="margin-bottom: 20px;"><strong>↕️ Y-Axis:</strong> Front-back movement of the table.</li>
+                        <li style="margin-bottom: 20px;"><strong>⬆️ Z-Axis:</strong> Up-down movement of the spindle tool.</li>
+                    </ul>
+                </div>
+                <div style="flex: 1; background: #f8fafc; padding: 40px; border-radius: 24px; text-align: center;">
+                    <!-- Simple Axes Visualization -->
+                    <svg viewBox="0 0 200 200" style="width: 200px; height: 200px;">
+                        <line x1="100" y1="100" x2="180" y2="100" stroke="#4338ca" stroke-width="4" />
+                        <text x="185" y="105" font-weight="bold">+X</text>
+                        <line x1="100" y1="100" x2="60" y2="60" stroke="#6d28d9" stroke-width="4" />
+                        <text x="50" y="55" font-weight="bold">+Y</text>
+                        <line x1="100" y1="100" x2="100" y2="20" stroke="#0ea5e9" stroke-width="4" />
+                        <text x="92" y="15" font-weight="bold">+Z</text>
+                        <circle cx="100" cy="100" r="5" fill="#333" />
+                    </svg>
+                    <p style="margin-top: 20px; color: #64748b;">Cartesian Coordinate System</p>
+                </div>
+            </div>
+
+            <div class="key-takeaway">
+                <strong>Machine Origin (M):</strong> The absolute (0,0,0) point of the machine. It's the fixed reference point for all hardware limits.
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Main Components →</button>
+            </div>
+        </div>
+
+        <!-- Slide 7: Main Components -->
+        <div class="slide" id="slide7">
+            <h1>🛠️ Machine Components</h1>
+            <h2>Heart of the Emco Concept Mill 105</h2>
+
+            <div class="equipment-grid">
+                <div class="equipment-card">
+                    <h3>Milling Spindle</h3>
+                    <p>1.1 kW motor spinning up to 5,000 RPM. Holds the SK30 tool holders.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Milling Table</h3>
+                    <p>420x125mm surface with T-slots for secure workholding.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Control System</h3>
+                    <p>Siemens/WinNC PC-based control managing all logic and movement.</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <img src="Lab 2.jpg" alt="Emco Concept Mill 105" style="max-height: 250px; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">ATC & Slides →</button>
+            </div>
+        </div>
+
+        <!-- Slide 8: ATC & Slides -->
+        <div class="slide" id="slide8">
+            <h1>🔄 Automation & Movement</h1>
+            <h2>Automatic tool changes and precision slides</h2>
+
+            <div class="equipment-grid">
+                <div class="equipment-card" style="border-top: 4px solid var(--accent-color);">
+                    <h3>Tool Drum (ATC)</h3>
+                    <p>Holds 10 tools. The machine switches tools automatically using logic that finds the shortest path.</p>
+                </div>
+                <div class="equipment-card" style="border-top: 4px solid var(--accent-color);">
+                    <h3>Precision Slides</h3>
+                    <p>Driven by stepper motors and ball screws to position within 0.0015mm tolerance.</p>
+                </div>
+            </div>
+
+            <div class="key-takeaway">
+                <strong>Safety Feature:</strong> The chip guard door has a safety interlock. The machine will NOT move or spin the spindle if the door is open.
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Zero Points →</button>
+            </div>
+        </div>
+
+        <!-- Slide 9: Machine/Work Zero -->
+        <div class="slide" id="slide9">
+            <h1>📍 Zero Points</h1>
+            <h2>Navigating the workspace</h2>
+
+            <div class="equipment-grid">
+                <div class="equipment-card">
+                    <div style="font-size: 2.5em;">🏠</div>
+                    <h3>Machine Zero (M)</h3>
+                    <p>Fixed by the manufacturer. The absolute boundary of the machine's travel.</p>
+                </div>
+                <div class="equipment-card">
+                    <div style="font-size: 2.5em;">🏁</div>
+                    <h3>Reference Point (R)</h3>
+                    <p>Point used to calibrate the axes every time you power on (Homing).</p>
+                </div>
+                <div class="equipment-card">
+                    <div style="font-size: 2.5em;">🎯</div>
+                    <h3>Work Zero (W)</h3>
+                    <p>Set by YOU on the workpiece. Makes your code much easier to read!</p>
+                </div>
+            </div>
+
+            <div class="key-takeaway">
+                <strong>Why "Work Zero"?</strong> Instead of saying "move to X184.234 Y22.115", you can set your part corner as (0,0) and just say "move to X1.0 Y1.0".
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Startup Procedure →</button>
+            </div>
+        </div>
+
+        <!-- Slide 10: Startup & Homing -->
+        <div class="slide" id="slide10">
+            <h1>🚀 Startup Procedure</h1>
+            <h2>Bringing the machine to life safely</h2>
+
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="equipment-card" style="flex-direction: row; text-align: left; padding: 20px;">
+                    <div style="font-size: 2em; margin-right: 20px;">1</div>
+                    <p><strong>Power On:</strong> Switch the main breaker and launch WinNC software.</p>
+                </div>
+                <div class="equipment-card" style="flex-direction: row; text-align: left; padding: 20px;">
+                    <div style="font-size: 2em; margin-right: 20px;">2</div>
+                    <p><strong>AUX ON:</strong> Hold for 1 minute to power the drives and lubricate the slides.</p>
+                </div>
+                <div class="equipment-card" style="flex-direction: row; text-align: left; padding: 20px;">
+                    <div style="font-size: 2em; margin-right: 20px;">3</div>
+                    <p><strong>Reference (Homing):</strong> Hit "REF POINT". Axes MUST move to home before any other operation.</p>
+                </div>
+            </div>
+
+            <div class="key-takeaway" style="background: #fff7ed; border-color: #fbbf24;">
+                <strong>Lubrication:</strong> The machine pumps oil every 5 meters of travel. If you hear a regular "pulsing" sound, that's the central lubrication system at work!
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Manual Jogging →</button>
+            </div>
+        </div>
+
+        <!-- Slide 11: Manual Jogging -->
+        <div class="slide" id="slide11">
+            <h1>🎮 Manual Jogging</h1>
+            <h2>Direct control of machine movement</h2>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <p style="font-size: 1.25em; color: #4b5563;">Use the axis keys (+X, -X, etc.) to move the machine manually.</p>
+            </div>
+
+            <div class="equipment-grid">
+                <div class="equipment-card">
+                    <h3>Start SLOW</h3>
+                    <p>Always use the 10% or 25% override when approaching the workpiece.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Avoid Collisions</h3>
+                    <p>Watch the tool tip carefully. Don't rely on software limits to stop you.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Hand on E-Stop</h3>
+                    <p>Keep your free hand ready to hit Emergency Stop if you misjudge distance.</p>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">CNC Programming →</button>
+            </div>
+        </div>
+
+        <!-- Slide 12: G-Code Basics -->
+        <div class="slide" id="slide12">
+            <h1>📜 G-Code Fundamentals</h1>
+            <h2>The language of CNC machines</h2>
+
+            <table class="spec-table">
+                <tr>
+                    <th>Command</th>
+                    <th>Action</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><strong>G00</strong></td>
+                    <td>Rapid Linear Move</td>
+                    <td>Moving from A to B as fast as possible (no cutting).</td>
+                </tr>
+                <tr>
+                    <td><strong>G01</strong></td>
+                    <td>Linear Feed Move</td>
+                    <td>Controlled movement at a specific speed (cutting).</td>
+                </tr>
+                <tr>
+                    <td><strong>M03</strong></td>
+                    <td>Spindle On</td>
+                    <td>Starts the spindle rotating clockwise.</td>
+                </tr>
+                <tr>
+                    <td><strong>S</strong> and <strong>F</strong></td>
+                    <td>Speed & Feed</td>
+                    <td>S defines RPM, F defines Feed Rate in mm/min.</td>
+                </tr>
+            </table>
+
+            <div class="key-takeaway">
+                <strong>Conversational Mode:</strong> You don't always have to write G-code! The WinNC interface has a "Conversational" mode that asks questions and builds the code for you.
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">CAM with Fusion 360 →</button>
+            </div>
+        </div>
+
+        <!-- Slide 13: Fusion 360 CAM -->
+        <div class="slide" id="slide13">
+            <h1>🖥️ Integrated CAM</h1>
+            <h2>From CAD Design to G-Code with Fusion 360</h2>
+
+            <div class="equipment-grid">
+                <div class="equipment-card" style="padding: 20px;">
+                    <h3>1. Setup</h3>
+                    <p>Define material (stock) size and work origin.</p>
+                </div>
+                <div class="equipment-card" style="padding: 20px;">
+                    <h3>2. Toolpaths</h3>
+                    <p>Select operations: Facing, Adaptive Clearing, Contouring.</p>
+                </div>
+                <div class="equipment-card" style="padding: 20px;">
+                    <h3>3. Simulate</h3>
+                    <p>Virtually "cut" the part to check for crashes or errors.</p>
+                </div>
+                <div class="equipment-card" style="padding: 20px;">
+                    <h3>4. Post-Process</h3>
+                    <p>Export the code specifically for THE WinNC controller.</p>
+                </div>
+            </div>
+
+            <div class="key-takeaway">
+                <strong>Rule of Thumb:</strong> If the simulation shows a crash in Fusion 360, it WILL crash the real machine. Fix it in software first!
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Running programs →</button>
+            </div>
+        </div>
+
+        <!-- Slide 14: Running a Program -->
+        <div class="slide" id="slide14">
+            <h1>🏁 The First Run</h1>
+            <h2>Verification before production</h2>
+
+            <div class="danger-box" style="background: #eff6ff; border-color: #bfdbfe;">
+                <h3 style="color: #1e40af; margin-top: 0;">✅ The Dry Run Method</h3>
+                <p style="color: #1e3a8a;">
+                    Before cutting actual material, run the program with the spindle OFF and the tool 25mm ABOVE the part (Z-Offset). Check that move movements match your expectations.
+                </p>
+            </div>
+
+            <ul style="font-size: 1.1em; margin-left: 40px; line-height: 2;">
+                <li><strong>Verify Tooling:</strong> Ensure the right tool is in the right drum slot.</li>
+                <li><strong>Workholding:</strong> Check that the vise is tight and clamps won't be hit.</li>
+                <li><strong>Feed Override:</strong> Start with your dial at 10% or 25%.</li>
+                <li><strong>Stop & Shutdown:</strong> Clean chips and remove tools when finished.</li>
+            </ul>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Tool System →</button>
+            </div>
+        </div>
+
+        <!-- Slide 15: Tool Holders -->
+        <div class="slide" id="slide15">
+            <h1>🔨 Tooling & Holders</h1>
+            <h2>SK30 Integrated System</h2>
+
+            <div class="equipment-grid">
+                <div class="equipment-card">
+                    <h3>Collet Holders</h3>
+                    <p>Uses ESX 16 collets to grip round shank tools from 0.5-10mm.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Shell Arbors</h3>
+                    <p>Used for larger face mills (up to 40mm) for flattening surfaces.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Tap Holders</h3>
+                    <p>Special "float" holders for cutting threads without breaking taps.</p>
+                </div>
+            </div>
+
+            <div class="key-takeaway">
+                <strong>Precision Tip:</strong> Always clean the tool holder shank before inserting it into the spindle. One tiny chip can throw your tool off-center by 0.05mm!
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Final Recap →</button>
+            </div>
+        </div>
+
+        <!-- Slide 16: Summary -->
+        <div class="slide" id="slide16">
+            <h1>✅ Lab 2 Complete</h1>
+            <h2>Ready for hands-on machining</h2>
+
+            <div style="text-align: center; margin: 40px 0;">
+                <h3>Today's Key Principles:</h3>
+                <p style="font-size: 1.25em; margin: 20px 0;">
+                    1. <strong>Safety First:</strong> Eyes protected, attire correct, TA supervised.<br>
+                    2. <strong>Setup Matters:</strong> Clean tool holders and rigid workholding.<br>
+                    3. <strong>Verify Twice:</strong> Dry run your code before cutting metal.<br>
+                    4. <strong>Precision:</strong> Respect the +/- 0.005mm accuracy.
+                </p>
+            </div>
+
+            <div class="key-takeaway" style="text-align: center;">
+                <strong>Next Steps:</strong> Move to your assigned machines and begin the startup procedure with your Lab Lead.
+            </div>
+
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="restartPresentation()">Start Over 🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for details -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">×</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 16;
+        let startTime = Date.now();
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                document.getElementById(`slide${currentSlide}`).classList.remove('active');
+                currentSlide++;
+                document.getElementById(`slide${currentSlide}`).classList.add('active');
+                updateProgress();
+                updateSlideIndicator();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                document.getElementById(`slide${currentSlide}`).classList.remove('active');
+                currentSlide--;
+                document.getElementById(`slide${currentSlide}`).classList.add('active');
+                updateProgress();
+                updateSlideIndicator();
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function updateSlideIndicator() {
+            document.getElementById('slideIndicator').textContent = `Slide ${currentSlide} of ${totalSlides}`;
+        }
+
+        function restartPresentation() {
+            document.getElementById(`slide${currentSlide}`).classList.remove('active');
+            currentSlide = 1;
+            document.getElementById('slide1').classList.add('active');
+            updateProgress();
+            updateSlideIndicator();
+            startTime = Date.now();
+        }
+
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function showModal(title, content) {
+            document.getElementById('modalContent').innerHTML = `<h2>${title}</h2>${content}`;
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Initialize
+        setInterval(updateTimer, 1000);
+        updateProgress();
+        updateSlideIndicator();
+    </script>
+</body>
+</html>

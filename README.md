@@ -1,6 +1,6 @@
-# IE 4350 - CP Manufacturing Lab
+# IE 4531 - CP Manufacturing Lab
 
-This repository contains materials for the **IE 4350: Cyber-Physical Manufacturing Lab** at **Northeastern University**.
+This repository contains materials for the **IE 4531: Cyber-Physical Manufacturing Lab** at **Northeastern University**.
 
 ## Overview
 This project provides an interactive presentation designed for easier understanding of the CP Manufacturing Lab concepts, including:
