@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IE 4531 - Online Robot Programming Lab (Instructor Presentation)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            --accent-color: #fbbf24;
+            --safety-red: #f44336;
+            --neu-red: #CC0000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: var(--primary-gradient);
+            color: #333;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px 20px 80px 20px; }
+
+        .slide {
+            display: none; background: white; border-radius: 24px; padding: 60px 40px;
+            min-height: 85vh; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            position: relative; overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex; flex-direction: column;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 { font-size: 3em; color: #1e3a8a; margin-bottom: 24px; text-align: center; font-weight: 700; letter-spacing: -0.02em; }
+        h2 { font-size: 1.8em; color: #2563eb; margin-bottom: 20px; text-align: center; font-weight: 600; }
+        h3 { font-size: 1.4em; color: #1e3a8a; margin: 24px 0 12px 0; font-weight: 600; }
+
+        .progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 6px; background: rgba(255,255,255,0.2); z-index: 1000; }
+        .progress-fill { height: 100%; background: var(--accent-color); box-shadow: 0 0 10px var(--accent-color); transition: width 0.4s cubic-bezier(0.16,1,0.3,1); }
+
+        .navigation { display: flex; justify-content: space-between; margin-top: auto; padding-top: 40px; gap: 20px; }
+
+        button, .btn-link {
+            padding: 16px 32px; font-size: 1.1em; border: none; border-radius: 12px; cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1); font-weight: 600;
+            display: flex; align-items: center; justify-content: center; text-decoration: none;
+        }
+
+        .btn-primary { background: var(--primary-gradient); color: white; box-shadow: 0 4px 14px 0 rgba(30,58,138,0.4); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(30,58,138,0.5); }
+        .btn-secondary { background: #f3f4f6; color: #4b5563; }
+        .btn-secondary:hover { background: #e5e7eb; transform: translateY(-2px); }
+
+        .equipment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 32px 0; }
+
+        .equipment-card {
+            background: #fff; padding: 32px; border-radius: 20px; border: 1px solid #e5e7eb;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1); text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .equipment-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border-color: #3b82f6; }
+
+        .spec-table { width: 100%; border-collapse: collapse; margin: 20px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .spec-table th { background: #dbeafe; padding: 16px; text-align: left; font-weight: 600; color: #1e3a8a; }
+        .spec-table td { padding: 16px; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
+
+        .timer { position: fixed; top: 24px; right: 24px; background: white; padding: 12px 24px; border-radius: 9999px; font-size: 1.1em; font-weight: 700; color: #1e3a8a; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 999; border: 2px solid #bfdbfe; }
+        .slide-indicator { position: fixed; bottom: 24px; left: 24px; background: white; padding: 10px 20px; border-radius: 9999px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 999; font-weight: 600; color: #4b5563; }
+
+        .highlight { background: #dbeafe; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+
+        .key-takeaway { background: #eff6ff; border-left: 6px solid #3b82f6; padding: 24px; margin: 32px 0; border-radius: 12px; color: #1e3a8a; }
+        .danger-box { background: #fef2f2; border: 2px solid #fee2e2; border-radius: 16px; padding: 32px; margin: 24px 0; }
+        .header-section { text-align: center; margin-bottom: 40px; }
+
+        .step-list { display: flex; flex-direction: column; gap: 16px; }
+        .step-item { display: flex; align-items: flex-start; gap: 20px; background: #f8fafc; padding: 20px; border-radius: 16px; border: 1px solid #e5e7eb; }
+        .step-number { font-size: 1.8em; font-weight: 700; color: #1e3a8a; min-width: 40px; }
+
+        .waypoint-card {
+            background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 16px;
+            padding: 20px; text-align: center;
+        }
+        .waypoint-label { font-size: 2em; font-weight: 900; color: #1e3a8a; margin-bottom: 8px; }
+
+    </style>
+</head>
+<body>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="timer" id="timer">00:00</div>
+    <div class="slide-indicator" id="slideIndicator">Slide 1 of 16</div>
+
+    <div class="container">
+
+        <!-- Slide 1: Welcome -->
+        <div class="slide active" id="slide1">
+            <div class="header-section">
+                <h1>IE 4531: Online Robot Programming Lab</h1>
+                <h2>Part Transfer with the UR5e Collaborative Robot Arm</h2>
+            </div>
+            <div style="text-align:center; margin:40px 0;">
+                <div style="font-size:5em; margin-bottom:20px;">🦾</div>
+                <p style="font-size:1.5em; color:#4b5563; max-width:800px; margin:0 auto;">
+                    Program a Universal Robots UR5e to transfer cell phone cases from a part carrier to an assembly fixture — all using the PolyScope teach pendant.
+                </p>
+            </div>
+            <div class="key-takeaway">
+                <strong>Why Collaborative Robots?</strong><br>
+                The UR5e is designed to work <em>alongside</em> humans in shared workspaces. It's used in part transfer, machine tending, inspection, assembly, and lightweight tool handling — making it one of the world's best-selling robot arms.
+            </div>
+            <div class="navigation">
+                <a href="index.html" class="btn-link btn-secondary">🏠 Hub</a>
+                <button class="btn-primary" onclick="nextSlide()">Begin Lab Presentation →</button>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Outcomes -->
+        <div class="slide" id="slide2">
+            <h1>🎯 Today's Goals</h1>
+            <h2>What you will master in this session</h2>
+            <div class="equipment-grid">
+                <div class="equipment-card">
+                    <div style="font-size:3em; margin-bottom:16px;">🦴</div>
+                    <h3>Robot Anatomy</h3>
+                    <p>Identify the six joints (Base → Shoulder → Elbow → Wrist 1-3) and work envelope of the UR5e.</p>
+                </div>
+                <div class="equipment-card">
+                    <div style="font-size:3em; margin-bottom:16px;">📱</div>
+                    <h3>PolyScope Interface</h3>
+                    <p>Navigate the Program tab, Move tab, I/O tab, and Dashboard to control and monitor the robot.</p>
+                </div>
+                <div class="equipment-card">
+                    <div style="font-size:3em; margin-bottom:16px;">🔄</div>
+                    <h3>Part Transfer Program</h3>
+                    <p>Build a complete robot program with 5 waypoints (A→B→C→D→E) using MoveJ, MoveL, Set, Wait, and Direction commands.</p>
+                </div>
+            </div>
+            <div class="key-takeaway">
+                <strong>Industry Context:</strong> The skills you practice today — waypoint teaching, I/O control, and program structure — are the foundation of industrial robot programming at scale.
+            </div>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Safety Rules →</button>
+            </div>
+        </div>
+
+        <!-- Slide 3: Safety Rules -->
+        <div class="slide" id="slide3">
+            <h1>⚠️ Lab Safety Rules</h1>
+            <h2>Robots require special awareness — read carefully</h2>
+            <div class="danger-box" style="border-left:8px solid #ef4444;">
+                <h3 style="color:#b91c1c; margin-top:0;">🚨 Emergency Stop First</h3>
+                <p style="font-size:1.2em; color:#7f1d1d;">Know the location of the emergency stop button before the robot moves. Activate it immediately in any abnormal situation.</p>
+            </div>
+            <div class="equipment-grid" style="grid-template-columns:1fr 1fr;">
+                <div class="equipment-card" style="background:#eff6ff;">
+                    <h3>🚫 Never Enter the Work Envelope</h3>
+                    <p>Do not enter the robot's operating range unless the risk assessment permits it.</p>
+                </div>
+                <div class="equipment-card" style="background:#eff6ff;">
+                    <h3>👓 Safety Glasses + Closed-Toe Shoes</h3>
+                    <p>Required at all times. Closed-toe shoes with no loose clothing or jewelry.</p>
+                </div>
+                <div class="equipment-card" style="background:#eff6ff;">
+                    <h3>🧑‍💻 Use Simulation First</h3>
+                    <p>Test all programs in simulation mode before running on the real robot.</p>
+                </div>
+                <div class="equipment-card" style="background:#eff6ff;">
+                    <h3>⚠️ Heads &amp; Faces Away</h3>
+                    <p>Keep your head and face outside the robot's reach at all times while operating.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Robot Safety →</button>
+            </div>
+        </div>
+
+        <!-- Slide 4: UR Robot Safety -->
+        <div class="slide" id="slide4">
+            <h1>🔐 UR Robot Safety Requirements</h1>
+            <h2>Specific to UR5e operation</h2>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:24px 0;">
+                <div style="background:#eff6ff; padding:16px; border-radius:12px;"><strong>✅ Secure Mounting:</strong> Verify the robot arm and tool are properly and securely bolted in place before powering on.</div>
+                <div style="background:#eff6ff; padding:16px; border-radius:12px;"><strong>✅ Correct Installation:</strong> Verify robot mounting angle, TCP mass and offset, and safety configuration are all correct.</div>
+                <div style="background:#eff6ff; padding:16px; border-radius:12px;"><strong>✅ Use Safety I/O:</strong> Never connect safety equipment to standard I/O. Use dedicated safety-related I/O only.</div>
+                <div style="background:#eff6ff; padding:16px; border-radius:12px;"><strong>✅ Freedrive Awareness:</strong> In Freedrive mode, if the robot starts moving (falling) due to incorrect gravity settings, release the Freedrive button immediately.</div>
+                <div style="background:#fef2f2; padding:16px; border-radius:12px; grid-column:span 2;"><strong>🚫 Never Modify the Robot:</strong> Unauthorized modifications may create unforeseen hazards. All reassembly must follow official Stratasys (Universal Robots) service manuals.</div>
+            </div>
+            <div class="key-takeaway" style="background:#fef2f2; border-color:#fca5a5; color:#991b1b;">
+                <strong>Error Protocol:</strong> If the software shows an error → Immediately press emergency stop → Record the conditions → Find error codes in the log screen → Contact your supplier/TA.
+            </div>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Robot Anatomy →</button>
+            </div>
+        </div>
+
+        <!-- Slide 5: Robot Anatomy -->
+        <div class="slide" id="slide5">
+            <h1>🦴 UR5e Anatomy</h1>
+            <h2>Six joints, 850mm reach, 5kg payload</h2>
+            <div style="display:flex; gap:40px; align-items:center; flex-wrap:wrap; margin:24px 0;">
+                <div style="flex:1; min-width:260px;">
+                    <div style="display:flex; flex-direction:column; gap:12px;">
+                        <div style="background:#dbeafe; padding:16px; border-radius:12px; display:flex; gap:16px; align-items:center;">
+                            <span style="font-size:1.8em; font-weight:900; color:#1e3a8a; min-width:40px;">A</span>
+                            <div><strong>Base</strong> — Where the robot is mounted to the surface.</div>
+                        </div>
+                        <div style="background:#dbeafe; padding:16px; border-radius:12px; display:flex; gap:16px; align-items:center;">
+                            <span style="font-size:1.8em; font-weight:900; color:#1e3a8a; min-width:40px;">B</span>
+                            <div><strong>Shoulder</strong> — First rotary joint above the base.</div>
+                        </div>
+                        <div style="background:#dbeafe; padding:16px; border-radius:12px; display:flex; gap:16px; align-items:center;">
+                            <span style="font-size:1.8em; font-weight:900; color:#1e3a8a; min-width:40px;">C</span>
+                            <div><strong>Elbow</strong> — Middle joint providing extended reach.</div>
+                        </div>
+                        <div style="background:#eff6ff; padding:16px; border-radius:12px; display:flex; gap:16px; align-items:center;">
+                            <span style="font-size:1.8em; font-weight:900; color:#2563eb; min-width:40px;">D-F</span>
+                            <div><strong>Wrist 1, 2, 3</strong> — Three wrist joints controlling tool orientation. Wrist 3 = tool attachment point (TCP).</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="flex:1; min-width:260px; background:#f8fafc; padding:30px; border-radius:20px; text-align:center;">
+                    <div style="font-size:1.1em; margin-bottom:20px; color:#4b5563;">Work Envelope: <strong>850mm radius</strong></div>
+                    <svg viewBox="0 0 200 200" width="180" height="180">
+                        <circle cx="100" cy="150" r="80" fill="none" stroke="#bfdbfe" stroke-width="2" stroke-dasharray="6,4"/>
+                        <circle cx="100" cy="150" r="20" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+                        <line x1="100" y1="150" x2="100" y2="80" stroke="#1e3a8a" stroke-width="3"/>
+                        <line x1="100" y1="80" x2="140" y2="100" stroke="#2563eb" stroke-width="3"/>
+                        <line x1="140" y1="100" x2="155" y2="70" stroke="#3b82f6" stroke-width="3"/>
+                        <circle cx="100" cy="150" r="5" fill="#1e3a8a"/>
+                        <circle cx="100" cy="80" r="4" fill="#2563eb"/>
+                        <circle cx="140" cy="100" r="4" fill="#2563eb"/>
+                        <circle cx="155" cy="70" r="5" fill="#60a5fa"/>
+                        <text x="105" y="155" font-size="10" fill="#1e3a8a" font-weight="bold">A</text>
+                        <text x="104" y="75" font-size="10" fill="#1e3a8a" font-weight="bold">B</text>
+                        <text x="144" y="97" font-size="10" fill="#1e3a8a" font-weight="bold">C</text>
+                        <text x="159" y="67" font-size="10" fill="#1e3a8a" font-weight="bold">D-F</text>
+                    </svg>
+                </div>
+            </div>
+            <div class="key-takeaway">
+                <strong>Avoid the Cylindrical Zone:</strong> Moving the TCP close to the area directly above or below the base causes joints to move fast while the tool moves slowly. This is inefficient and difficult to risk-assess.
+            </div>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">PolyScope Interface →</button>
+            </div>
+        </div>
+
+        <!-- Slide 6: PolyScope Overview -->
+        <div class="slide" id="slide6">
+            <h1>📱 PolyScope Interface</h1>
+            <h2>The UR5e teach pendant — your command center</h2>
+            <div class="equipment-grid">
+                <div class="equipment-card" style="border-top:4px solid #1e3a8a;">
+                    <div style="font-size:2em; margin-bottom:8px;">🏗️</div>
+                    <h3>Program Tab</h3>
+                    <p>Build programs by selecting nodes (Move, Set, Wait, etc.) and placing them in the Program Tree. Cut, Copy, Paste supported.</p>
+                </div>
+                <div class="equipment-card" style="border-top:4px solid #2563eb;">
+                    <div style="font-size:2em; margin-bottom:8px;">🎮</div>
+                    <h3>Move Tab</h3>
+                    <p>Manually jog the robot using arrow keys, Freedrive mode, or direct data entry of target coordinates.</p>
+                </div>
+                <div class="equipment-card" style="border-top:4px solid #3b82f6;">
+                    <div style="font-size:2em; margin-bottom:8px;">🔌</div>
+                    <h3>I/O Tab</h3>
+                    <p>Monitor and set live digital/analog Input/Output signals to and from the robot controller.</p>
+                </div>
+                <div class="equipment-card" style="border-top:4px solid #60a5fa;">
+                    <div style="font-size:2em; margin-bottom:8px;">📊</div>
+                    <h3>Dashboard</h3>
+                    <p>Start, stop, single-step, and restart programs. Speed slider adjusts robot velocity in real time.</p>
+                </div>
+            </div>
+            <div class="key-takeaway">
+                <strong>Simulation Mode:</strong> Toggle the Simulation button to run programs without the robot moving. Use this every time you are unsure about what the robot will do.
+            </div>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Move Commands →</button>
+            </div>
+        </div>
+
+        <!-- Slide 7: Move Commands -->
+        <div class="slide" id="slide7">
+            <h1>🔄 Move Commands</h1>
+            <h2>Three ways to move the robot arm</h2>
+            <div class="equipment-grid">
+                <div class="equipment-card" style="background:#eff6ff; border:2px solid #3b82f6;">
+                    <div style="font-size:2em; margin-bottom:8px;">🔀</div>
+                    <h3>MoveJ</h3>
+                    <p>Joint-space motion. Each joint reaches the target simultaneously. Results in a <strong>curved path</strong> for the tool. Fast and efficient for large movements.</p>
+                </div>
+                <div class="equipment-card" style="background:#eff6ff; border:2px solid #3b82f6;">
+                    <div style="font-size:2em; margin-bottom:8px;">➡️</div>
+                    <h3>MoveL</h3>
+                    <p>Linear Cartesian motion. The TCP moves in a <strong>straight line</strong> between waypoints. Used when the path must be controlled — e.g., entering a fixture.</p>
+                </div>
+                <div class="equipment-card" style="background:#eff6ff; border:2px solid #3b82f6;">
+                    <div style="font-size:2em; margin-bottom:8px;">🔵</div>
+                    <h3>MoveP</h3>
+                    <p>Linear motion at <strong>constant speed</strong> with circular blends. Used for process operations like gluing or dispensing.</p>
+                </div>
+            </div>
+            <div class="key-takeaway">
+                <strong>Lab Rule:</strong> At Pick position (Point C), you MUST use <span class="highlight">MoveL</span> — NOT MoveJ — due to the tight space around the robot and the importance of a controlled TCP path.
+            </div>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Waypoints & Commands →</button>
+            </div>
+        </div>
+
+        <!-- Slide 8: Waypoints & Other Commands -->
+        <div class="slide" id="slide8">
+            <h1>📌 Waypoints & Key Commands</h1>
+            <h2>The building blocks of robot programs</h2>
+            <table class="spec-table">
+                <tr>
+                    <th>Command</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><strong>Fixed Waypoint</strong></td>
+                    <td>Waypoint</td>
+                    <td>Physically move the robot to the position and teach it. Stored as absolute Cartesian coordinates.</td>
+                </tr>
+                <tr>
+                    <td><strong>Relative Waypoint</strong></td>
+                    <td>Waypoint</td>
+                    <td>Position defined relative to the robot's previous position (e.g., "2 inches left").</td>
+                </tr>
+                <tr>
+                    <td><strong>Direction</strong></td>
+                    <td>Motion</td>
+                    <td>Defines a vector direction for linear motion with a stop criterion (e.g., move Z- until a sensor reads High).</td>
+                </tr>
+                <tr>
+                    <td><strong>Wait</strong></td>
+                    <td>Timing</td>
+                    <td>Pauses execution for a set time or until an I/O signal condition is met.</td>
+                </tr>
+                <tr>
+                    <td><strong>Set</strong></td>
+                    <td>I/O / Config</td>
+                    <td>Sets digital/analog outputs to a value or sends a single pulse. Also used to set robot payload.</td>
+                </tr>
+                <tr>
+                    <td><strong>Popup</strong></td>
+                    <td>HMI</td>
+                    <td>Displays a message on screen when the program reaches this node.</td>
+                </tr>
+            </table>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">The 5 Waypoints →</button>
+            </div>
+        </div>
+
+        <!-- Slide 9: The 5 Waypoints -->
+        <div class="slide" id="slide9">
+            <h1>📍 The 5 Waypoints</h1>
+            <h2>One complete pick-and-place cycle</h2>
+            <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:12px; margin:24px 0;">
+                <div class="waypoint-card">
+                    <div class="waypoint-label">A</div>
+                    <strong>Home</strong><br>
+                    <small>Safe resting position. Start and end of every cycle.</small>
+                </div>
+                <div class="waypoint-card">
+                    <div class="waypoint-label">B</div>
+                    <strong>Approach/Retract Pick</strong><br>
+                    <small>Above the pick location. Visited twice per cycle.</small>
+                </div>
+                <div class="waypoint-card" style="background:#dbeafe; border-color:#3b82f6;">
+                    <div class="waypoint-label" style="color:#1d4ed8;">C</div>
+                    <strong>Pick Position</strong><br>
+                    <small>Exact pick location. MoveL required. Gripper closes here.</small>
+                </div>
+                <div class="waypoint-card">
+                    <div class="waypoint-label">D</div>
+                    <strong>Approach/Retract Place</strong><br>
+                    <small>Above the place fixture. Visited twice per cycle.</small>
+                </div>
+                <div class="waypoint-card" style="background:#dbeafe; border-color:#3b82f6;">
+                    <div class="waypoint-label" style="color:#1d4ed8;">E</div>
+                    <strong>Place Position</strong><br>
+                    <small>Moves Z- until AsmWpAvail sensor reads High. Gripper opens here.</small>
+                </div>
+            </div>
+            <div class="key-takeaway">
+                <strong>Path Logic: A → B → C (pick) → B → A → D → E (place) → D → A</strong><br>
+                Returning to A (home) between B and D avoids potential collisions through a known, clear path.
+            </div>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Program Steps 1–4 →</button>
+            </div>
+        </div>
+
+        <!-- Slide 10: Program Steps 1-4 -->
+        <div class="slide" id="slide10">
+            <h1>📝 Programming: Steps 1–4</h1>
+            <h2>Building the pick sequence</h2>
+            <div class="step-list">
+                <div class="step-item">
+                    <span class="step-number">1</span>
+                    <p><strong>Point A — Home:</strong> Create a <code style="background:#dbeafe; padding:2px 6px; border-radius:4px;">MoveJ</code> command. Add a <strong>Fixed Waypoint</strong> for the home position.</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">2</span>
+                    <p><strong>Point B — Approach Pick:</strong> Add another Fixed Waypoint to the same MoveJ command. This is the approach position above the part carrier.</p>
+                </div>
+                <div class="step-item" style="border:2px solid #3b82f6; background:#eff6ff;">
+                    <span class="step-number">3</span>
+                    <p><strong>Point C — Pick Position:</strong> Create a NEW <code style="background:#bfdbfe; padding:2px 6px; border-radius:4px;">MoveL</code> command (not MoveJ). Add a Fixed Waypoint. <strong>Verify Tool Position values match the tutorial before proceeding.</strong></p>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">4</span>
+                    <p><strong>Close Gripper:</strong> Create a <code style="background:#dbeafe; padding:2px 6px; border-radius:4px;">Set</code> command → Set Digital Output → <strong>CloseGripper → High</strong>.</p>
+                </div>
+            </div>
+            <div class="key-takeaway" style="background:#fef2f2; border-color:#fca5a5; color:#991b1b;">
+                <strong>⚠️ Critical:</strong> Verify your Tool Position values match the values in the lab handout for Points C and D. Any inconsistency may lead to a collision.
+            </div>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Program Steps 5–9 →</button>
+            </div>
+        </div>
+
+        <!-- Slide 11: Program Steps 5-9 -->
+        <div class="slide" id="slide11">
+            <h1>📝 Programming: Steps 5–9</h1>
+            <h2>Payload, delay, and the place approach</h2>
+            <div class="step-list">
+                <div class="step-item">
+                    <span class="step-number">5</span>
+                    <p><strong>Set Payload:</strong> Create a <code style="background:#dbeafe; padding:2px 6px; border-radius:4px;">Set Payload</code> command → Custom Payload → Mass → <strong>0.05 kg</strong>. This prevents a protective stop when carrying the part.</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">6</span>
+                    <p><strong>Wait (Grip):</strong> Create a <code style="background:#dbeafe; padding:2px 6px; border-radius:4px;">Wait</code> command → <strong>1.0 seconds</strong>. Gives the gripper time to fully close on the part.</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">7</span>
+                    <p><strong>B → A → D (Retract, Home, Approach Place):</strong> Copy Point B and Point A. Paste them after the Wait in that order. Then create a new Fixed Waypoint for <strong>Point D</strong>. Verify Tool Position values for D.</p>
+                </div>
+                <div class="step-item" style="border:2px solid #3b82f6; background:#eff6ff;">
+                    <span class="step-number">8</span>
+                    <p><strong>Point E — Place Position:</strong> Create a <code style="background:#bfdbfe; padding:2px 6px; border-radius:4px;">Direction</code> command → Direction: <strong>Z-</strong> → Add Until → Until Digital Input → <strong>AsmWpAvail → High</strong>. The robot moves down until the assembly sensor detects the part.</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">9</span>
+                    <p><strong>Open Gripper:</strong> Create a <code style="background:#dbeafe; padding:2px 6px; border-radius:4px;">Set</code> command → Set Digital Output → <strong>OpenGripper → High</strong>.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Program Steps 10–14 →</button>
+            </div>
+        </div>
+
+        <!-- Slide 12: Program Steps 10-14 -->
+        <div class="slide" id="slide12">
+            <h1>📝 Programming: Steps 10–14</h1>
+            <h2>Return home and complete the cycle</h2>
+            <div class="step-list">
+                <div class="step-item">
+                    <span class="step-number">10</span>
+                    <p><strong>Reset Payload:</strong> Create a <code style="background:#dbeafe; padding:2px 6px; border-radius:4px;">Set Payload</code> command → Select <strong>Payload</strong> (resets to empty gripper weight).</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">11</span>
+                    <p><strong>Wait (Release):</strong> Create a <code style="background:#dbeafe; padding:2px 6px; border-radius:4px;">Wait</code> command → <strong>1.0 seconds</strong>. Gives the gripper time to fully open and release the part.</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">12</span>
+                    <p><strong>D → A (Retract and Return Home):</strong> Copy Point D and Point A. Paste after the Wait to retract from the fixture and return to home.</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">13</span>
+                    <p><strong>Reset Gripper:</strong> Create TWO <code style="background:#dbeafe; padding:2px 6px; border-radius:4px;">Set</code> commands:<br>
+                    → CloseGripper → <strong>Low</strong><br>
+                    → OpenGripper → <strong>Low</strong><br>
+                    (Order does not matter. This deactivates both gripper signals.)</p>
+                </div>
+                <div class="step-item" style="border:2px solid #3b82f6; background:#eff6ff;">
+                    <span class="step-number">14</span>
+                    <p><strong>Popup Message:</strong> Create a <code style="background:#bfdbfe; padding:2px 6px; border-radius:4px;">Popup</code> command. Add a message for the worker confirming the cycle has completed successfully.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Complete Program →</button>
+            </div>
+        </div>
+
+        <!-- Slide 13: Full Program Overview -->
+        <div class="slide" id="slide13">
+            <h1>🗂️ Complete Program Structure</h1>
+            <h2>One full pick-and-place cycle at a glance</h2>
+            <div style="background:#f8fafc; border:2px solid #e5e7eb; border-radius:16px; padding:24px; font-family:monospace; font-size:1em; line-height:2.2;">
+                <div style="color:#6b7280;">▼ <strong>MoveJ</strong></div>
+                <div style="padding-left:24px; color:#1e3a8a;">• Waypoint: Point A (Home)</div>
+                <div style="padding-left:24px; color:#1e3a8a;">• Waypoint: Point B (Approach Pick)</div>
+                <div style="color:#6b7280; margin-top:4px;">▼ <strong>MoveL</strong></div>
+                <div style="padding-left:24px; color:#1e3a8a;">• Waypoint: Point C (Pick)</div>
+                <div style="padding-left:24px; color:#059669;">• Set: CloseGripper → High</div>
+                <div style="padding-left:24px; color:#059669;">• Set Payload: 0.05 kg</div>
+                <div style="padding-left:24px; color:#d97706;">• Wait: 1.0 s</div>
+                <div style="padding-left:24px; color:#1e3a8a;">• Waypoint: Point B (copy)</div>
+                <div style="padding-left:24px; color:#1e3a8a;">• Waypoint: Point A (copy)</div>
+                <div style="padding-left:24px; color:#1e3a8a;">• Waypoint: Point D (Approach Place)</div>
+                <div style="padding-left:24px; color:#2563eb;">• Direction: Z- Until AsmWpAvail High (Point E)</div>
+                <div style="padding-left:24px; color:#059669;">• Set: OpenGripper → High</div>
+                <div style="padding-left:24px; color:#059669;">• Set Payload: reset</div>
+                <div style="padding-left:24px; color:#d97706;">• Wait: 1.0 s</div>
+                <div style="padding-left:24px; color:#1e3a8a;">• Waypoint: Point D (copy)</div>
+                <div style="padding-left:24px; color:#1e3a8a;">• Waypoint: Point A (copy)</div>
+                <div style="padding-left:24px; color:#059669;">• Set: CloseGripper + OpenGripper → Low</div>
+                <div style="padding-left:24px; color:#7c3aed;">• Popup: "Cycle Complete!"</div>
+            </div>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Key Definitions →</button>
+            </div>
+        </div>
+
+        <!-- Slide 14: Key Definitions -->
+        <div class="slide" id="slide14">
+            <h1>📖 Key Definitions</h1>
+            <h2>UR5e programming vocabulary</h2>
+            <table class="spec-table">
+                <tr>
+                    <th>Term</th>
+                    <th>Definition</th>
+                </tr>
+                <tr>
+                    <td><strong>Program Tree</strong></td>
+                    <td>The left-side panel showing the program as an ordered list of commands. Click any node to view/edit its parameters.</td>
+                </tr>
+                <tr>
+                    <td><strong>TCP</strong></td>
+                    <td>Tool Center Point — the characteristic point at the end of the robot arm, shown as a small blue ball in the interface.</td>
+                </tr>
+                <tr>
+                    <td><strong>Dashboard</strong></td>
+                    <td>Bottom panel with Start/Stop/Step controls and a real-time speed slider that respects safety limits.</td>
+                </tr>
+                <tr>
+                    <td><strong>Variables</strong></td>
+                    <td>Store values during runtime: bool, int, float, string, pose (X,Y,Z,RX,RY,RZ).</td>
+                </tr>
+                <tr>
+                    <td><strong>Freedrive</strong></td>
+                    <td>Physical teaching mode — hold the button and manually move the robot arm to the desired position.</td>
+                </tr>
+                <tr>
+                    <td><strong>Installation Variables</strong></td>
+                    <td>Variables that persist across programs and are saved with the robot installation file.</td>
+                </tr>
+            </table>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">I/O & Simulation →</button>
+            </div>
+        </div>
+
+        <!-- Slide 15: I/O and Simulation -->
+        <div class="slide" id="slide15">
+            <h1>🔌 I/O & Simulation Tips</h1>
+            <h2>Signals and safe testing practices</h2>
+            <div class="equipment-grid" style="grid-template-columns:1fr 1fr; margin-bottom:24px;">
+                <div class="equipment-card" style="background:#eff6ff;">
+                    <div style="font-size:2em; margin-bottom:8px;">🔌</div>
+                    <h3>I/O Tab</h3>
+                    <p>Displays live digital and analog I/O signals in real time (updated at 10 Hz). Changes during program execution will <strong>stop the program</strong>.</p>
+                </div>
+                <div class="equipment-card" style="background:#eff6ff;">
+                    <div style="font-size:2em; margin-bottom:8px;">🎮</div>
+                    <h3>Simulation Mode</h3>
+                    <p>Toggle from the Dashboard. Robot arm does not move physically. Use this every time you are unsure about the next movement.</p>
+                </div>
+            </div>
+            <h3>I/O Signals Used in This Lab</h3>
+            <table class="spec-table" style="margin-top:12px;">
+                <tr>
+                    <th>Signal</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td><strong>CloseGripper</strong></td>
+                    <td>Digital Output</td>
+                    <td>Set High → gripper closes and grips the part</td>
+                </tr>
+                <tr>
+                    <td><strong>OpenGripper</strong></td>
+                    <td>Digital Output</td>
+                    <td>Set High → gripper opens and releases the part</td>
+                </tr>
+                <tr>
+                    <td><strong>AsmWpAvail</strong></td>
+                    <td>Digital Input</td>
+                    <td>Goes High when assembly fixture detects a part is in position</td>
+                </tr>
+            </table>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="nextSlide()">Lab Complete →</button>
+            </div>
+        </div>
+
+        <!-- Slide 16: Summary -->
+        <div class="slide" id="slide16">
+            <h1>✅ Lab 4 Complete</h1>
+            <h2>Your robot program is ready to run!</h2>
+            <div style="text-align:center; margin:40px 0;">
+                <h3>Today's Key Principles:</h3>
+                <p style="font-size:1.25em; margin:20px 0;">
+                    1. <strong>Safety Always:</strong> Emergency stop first — know its location before moving the robot.<br>
+                    2. <strong>Simulate Before Running:</strong> Always test in simulation before running on the real arm.<br>
+                    3. <strong>MoveL at the Pick:</strong> MoveJ at Point C risks collision — always use MoveL for tight spaces.<br>
+                    4. <strong>Verify Tool Position:</strong> Check TCP values at Points C and D match the tutorial exactly.
+                </p>
+            </div>
+            <div class="key-takeaway" style="text-align:center;">
+                <strong>Next Steps:</strong> Verify your program in simulation with your TA. Confirm waypoint Tool Positions. Run the program at reduced speed (25%) for the first cycle, then observe full operation.
+            </div>
+            <div class="navigation">
+                <button class="btn-secondary" onclick="prevSlide()">← Back</button>
+                <button class="btn-primary" onclick="restartPresentation()">Start Over 🔄</button>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 16;
+        let startTime = Date.now();
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                document.getElementById(`slide${currentSlide}`).classList.remove('active');
+                currentSlide++;
+                document.getElementById(`slide${currentSlide}`).classList.add('active');
+                updateProgress(); updateSlideIndicator();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                document.getElementById(`slide${currentSlide}`).classList.remove('active');
+                currentSlide--;
+                document.getElementById(`slide${currentSlide}`).classList.add('active');
+                updateProgress(); updateSlideIndicator();
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('progressFill').style.width = (currentSlide / totalSlides * 100) + '%';
+        }
+
+        function updateSlideIndicator() {
+            document.getElementById('slideIndicator').textContent = `Slide ${currentSlide} of ${totalSlides}`;
+        }
+
+        function restartPresentation() {
+            document.getElementById(`slide${currentSlide}`).classList.remove('active');
+            currentSlide = 1;
+            document.getElementById('slide1').classList.add('active');
+            updateProgress(); updateSlideIndicator();
+            startTime = Date.now();
+        }
+
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const m = Math.floor(elapsed / 60), s = elapsed % 60;
+            document.getElementById('timer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        setInterval(updateTimer, 1000);
+        updateProgress(); updateSlideIndicator();
+    </script>
+</body>
+</html>
