@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,41 +12,268 @@
             --accent-color: #ffc107;
             --neu-red: #CC0000;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--primary-gradient); color: #333; overflow-x: hidden; line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px 20px 80px 20px; }
-        .slide { display: none; background: white; border-radius: 24px; padding: 60px 40px; min-height: 85vh; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
-        .slide.active { display: flex; flex-direction: column; animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        h1 { font-size: 3em; color: #059669; margin-bottom: 24px; text-align: center; font-weight: 700; letter-spacing: -0.02em; }
-        h2 { font-size: 1.8em; color: #065f46; margin-bottom: 20px; text-align: center; font-weight: 600; }
-        h3 { font-size: 1.4em; color: #059669; margin: 24px 0 12px 0; font-weight: 600; }
-        .progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 6px; background: rgba(255,255,255,0.2); z-index: 1000; }
-        .progress-fill { height: 100%; background: var(--accent-color); box-shadow: 0 0 10px var(--accent-color); transition: width 0.4s cubic-bezier(0.16,1,0.3,1); }
-        .navigation { display: flex; justify-content: space-between; margin-top: auto; padding-top: 40px; gap: 20px; }
-        button, .btn-link { padding: 16px 32px; font-size: 1.1em; border: none; border-radius: 12px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); font-weight: 600; display: flex; align-items: center; justify-content: center; text-decoration: none; }
-        .btn-primary { background: var(--primary-gradient); color: white; box-shadow: 0 4px 14px 0 rgba(17,153,142,0.39); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(17,153,142,0.5); }
-        .btn-secondary { background: #f3f4f6; color: #4b5563; }
-        .btn-secondary:hover { background: #e5e7eb; transform: translateY(-2px); }
-        .equipment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin: 32px 0; }
-        .equipment-card { background: #fff; padding: 32px; border-radius: 20px; border: 1px solid #e5e7eb; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); text-align: center; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .equipment-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border-color: #11998e; }
-        .spec-table { width: 100%; border-collapse: collapse; margin: 20px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .spec-table th { background: #f3f4f6; padding: 16px; text-align: left; font-weight: 600; color: #4b5563; }
-        .spec-table td { padding: 16px; border-bottom: 1px solid #f3f4f6; }
-        .timer { position: fixed; top: 24px; right: 24px; background: white; padding: 12px 24px; border-radius: 9999px; font-size: 1.1em; font-weight: 700; color: #059669; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 999; border: 2px solid #d1fae5; }
-        .slide-indicator { position: fixed; bottom: 24px; left: 24px; background: white; padding: 10px 20px; border-radius: 9999px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 999; font-weight: 600; color: #4b5563; }
-        .highlight { background: #d1fae5; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
-        .key-takeaway { background: #f0fdf4; border-left: 6px solid #22c55e; padding: 24px; margin: 32px 0; border-radius: 12px; color: #14532d; }
-        .danger-box { background: #fef2f2; border: 2px solid #fee2e2; border-radius: 16px; padding: 32px; margin: 24px 0; }
-        .warning-box { background: #fffbeb; border: 2px solid #fde68a; border-radius: 16px; padding: 24px; margin: 24px 0; }
-        .info-box { background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 16px; padding: 24px; margin: 24px 0; }
-        .header-section { text-align: center; margin-bottom: 40px; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: var(--primary-gradient);
+            color: #333;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 80px 20px;
+        }
+
+        .slide {
+            display: none;
+            background: white;
+            border-radius: 24px;
+            padding: 60px 40px;
+            min-height: 85vh;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #059669;
+            margin-bottom: 24px;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #065f46;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: #059669;
+            margin: 24px 0 12px 0;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-color);
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 40px;
+            gap: 20px;
+        }
+
+        button,
+        .btn-link {
+            padding: 16px 32px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(17, 153, 142, 0.39);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.5);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+        }
+
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .equipment-card {
+            background: #fff;
+            padding: 32px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .equipment-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #11998e;
+        }
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .spec-table th {
+            background: #f3f4f6;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .spec-table td {
+            padding: 16px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .timer {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #059669;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            border: 2px solid #d1fae5;
+        }
+
+        .slide-indicator {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 9999px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .highlight {
+            background: #d1fae5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .key-takeaway {
+            background: #f0fdf4;
+            border-left: 6px solid #22c55e;
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 12px;
+            color: #14532d;
+        }
+
+        .danger-box {
+            background: #fef2f2;
+            border: 2px solid #fee2e2;
+            border-radius: 16px;
+            padding: 32px;
+            margin: 24px 0;
+        }
+
+        .warning-box {
+            background: #fffbeb;
+            border: 2px solid #fde68a;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border: 2px solid #bfdbfe;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
     </style>
 </head>
+
 <body>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
     <div class="timer" id="timer">00:00</div>
     <div class="slide-indicator" id="slideIndicator">Slide 1 of 16</div>
     <div class="container">
@@ -59,12 +287,26 @@
             <div style="text-align:center; margin:40px 0;">
                 <div style="font-size:5em; margin-bottom:20px;">🖨️</div>
                 <p style="font-size:1.5em; color:#4b5563; max-width:800px; margin:0 auto;">
-                    Master the fundamentals of Fused Deposition Modeling (FDM) — from CAD model to finished 3D-printed part.
+                    Master the fundamentals of Fused Deposition Modeling (FDM) — from CAD model to finished 3D-printed
+                    part.
                 </p>
             </div>
             <div class="key-takeaway">
                 <strong>What is Additive Manufacturing?</strong><br>
-                Unlike subtractive processes that remove material, FDM <em>adds</em> material layer by layer to build up a three-dimensional object — enabling complex geometries that would be impossible to machine conventionally.
+                Unlike subtractive processes that remove material, FDM <em>adds</em> material layer by layer to build up
+                a three-dimensional object — enabling complex geometries that would be impossible to machine
+                conventionally.
+                <br><br>
+                <strong>&#x1F4A1; Quiz Hint (3D Print vs CNC):</strong> Additive manufacturing excels at complex
+                internal features, organic shapes, and undercuts that subtractive tools cannot reach. It is also
+                preferred for quick prototyping/low-volume where speed, cost, and flexibility outweigh machining-level
+                precision.
+            </div>
+            <div class="warning-box" style="margin-top:16px;">
+                <strong>&#x1F4A1; Quiz Hint (How FDM works):</strong> Extrusion-based FDM printers (like the F170) use a
+                thermal process: they heat solid thermoplastic filament above its melting temperature, extrude it
+                through a nozzle, and deposit it layer by layer to build geometry. (It does <em>not</em> use chemical
+                resins, mechanical compression, or vaporization).
             </div>
             <div class="navigation">
                 <a href="index.html" class="btn-link btn-secondary">🏠 Hub</a>
@@ -77,10 +319,26 @@
             <h1>🎯 Today's Goals</h1>
             <h2>What you will master in this session</h2>
             <div class="equipment-grid">
-                <div class="equipment-card"><div style="font-size:3em; margin-bottom:16px;">🔄</div><h3>3D Printing Workflow</h3><p>Explain the end-to-end workflow from CAD model to finished part.</p></div>
-                <div class="equipment-card"><div style="font-size:3em; margin-bottom:16px;">📐</div><h3>Print Settings</h3><p>Understand resolution, layer thickness, fill structures, and support types.</p></div>
-                <div class="equipment-card"><div style="font-size:3em; margin-bottom:16px;">🖥️</div><h3>GrabCAD Print</h3><p>Configure and send print jobs using GrabCAD Print software.</p></div>
-                <div class="equipment-card"><div style="font-size:3em; margin-bottom:16px;">🐾</div><h3>Operate the F170</h3><p>Power on, build, monitor, and post-process a 3D-printed husky model.</p></div>
+                <div class="equipment-card">
+                    <div style="font-size:3em; margin-bottom:16px;">🔄</div>
+                    <h3>3D Printing Workflow</h3>
+                    <p>Explain the end-to-end workflow from CAD model to finished part.</p>
+                </div>
+                <div class="equipment-card">
+                    <div style="font-size:3em; margin-bottom:16px;">📐</div>
+                    <h3>Print Settings</h3>
+                    <p>Understand resolution, layer thickness, fill structures, and support types.</p>
+                </div>
+                <div class="equipment-card">
+                    <div style="font-size:3em; margin-bottom:16px;">🖥️</div>
+                    <h3>GrabCAD Print</h3>
+                    <p>Configure and send print jobs using GrabCAD Print software.</p>
+                </div>
+                <div class="equipment-card">
+                    <div style="font-size:3em; margin-bottom:16px;">🐾</div>
+                    <h3>Operate the F170</h3>
+                    <p>Power on, build, monitor, and post-process a 3D-printed husky model.</p>
+                </div>
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
@@ -94,13 +352,26 @@
             <h2>Non-negotiable requirements</h2>
             <div class="danger-box" style="border-left:8px solid #ef4444;">
                 <h3 style="color:#b91c1c; margin-top:0;">🚨 Rule #1: Never Operate Alone</h3>
-                <p style="font-size:1.2em; color:#7f1d1d;">Do NOT touch or operate any machine without a lab technician or TA present. Unauthorized operation can cause serious injury.</p>
+                <p style="font-size:1.2em; color:#7f1d1d;">Do NOT touch or operate any machine without a lab technician
+                    or TA present. Unauthorized operation can cause serious injury.</p>
             </div>
             <div class="equipment-grid" style="grid-template-columns:1fr 1fr;">
-                <div class="equipment-card" style="background:#f0fdf4;"><h3>🥽 Safety Glasses</h3><p>Must be worn at ALL times in the lab environment.</p></div>
-                <div class="equipment-card" style="background:#f0fdf4;"><h3>👟 Closed-Toe Shoes</h3><p>Leather shoes required. No sandals or open-toe footwear.</p></div>
-                <div class="equipment-card" style="background:#f0fdf4;"><h3>👔 No Loose Clothing</h3><p>Tuck in shirt. No jewelry, rings, or dangling accessories near equipment.</p></div>
-                <div class="equipment-card" style="background:#f0fdf4;"><h3>💈 Tie Long Hair</h3><p>Cover and protect long hair from all moving machine parts.</p></div>
+                <div class="equipment-card" style="background:#f0fdf4;">
+                    <h3>🥽 Safety Glasses</h3>
+                    <p>Must be worn at ALL times in the lab environment.</p>
+                </div>
+                <div class="equipment-card" style="background:#f0fdf4;">
+                    <h3>👟 Closed-Toe Shoes</h3>
+                    <p>Leather shoes required. No sandals or open-toe footwear.</p>
+                </div>
+                <div class="equipment-card" style="background:#f0fdf4;">
+                    <h3>👔 No Loose Clothing</h3>
+                    <p>Tuck in shirt. No jewelry, rings, or dangling accessories near equipment.</p>
+                </div>
+                <div class="equipment-card" style="background:#f0fdf4;">
+                    <h3>💈 Tie Long Hair</h3>
+                    <p>Cover and protect long hair from all moving machine parts.</p>
+                </div>
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
@@ -113,14 +384,35 @@
             <h1>🔥 Printer Safety Hazards</h1>
             <h2>Know the hazard zones before operating</h2>
             <table class="spec-table">
-                <tr><th>Hazard</th><th>Location</th><th>Precaution</th></tr>
-                <tr><td>🔥 <strong>Hot Surface</strong></td><td>Oven entrance / platen</td><td>Wear high-temp safety gloves and long sleeves when working inside the oven.</td></tr>
-                <tr><td>⚡ <strong>High Voltage</strong></td><td>Electrical panel / power supply enclosures</td><td>Risk of electric shock — do not access panel.</td></tr>
-                <tr><td>⚙️ <strong>Moving Parts — Gantry</strong></td><td>Under top cover (X &amp; Y axes)</td><td>Never wear loose clothing or jewelry near timing belts and pulleys.</td></tr>
-                <tr><td>⬇️ <strong>Moving Parts — Z Stage</strong></td><td>Oven interior (drive belt &amp; pulley)</td><td>Z motor disables automatically when oven door is open.</td></tr>
+                <tr>
+                    <th>Hazard</th>
+                    <th>Location</th>
+                    <th>Precaution</th>
+                </tr>
+                <tr>
+                    <td>🔥 <strong>Hot Surface</strong></td>
+                    <td>Oven entrance / platen</td>
+                    <td>Wear high-temp safety gloves and long sleeves when working inside the oven.</td>
+                </tr>
+                <tr>
+                    <td>⚡ <strong>High Voltage</strong></td>
+                    <td>Electrical panel / power supply enclosures</td>
+                    <td>Risk of electric shock — do not access panel.</td>
+                </tr>
+                <tr>
+                    <td>⚙️ <strong>Moving Parts — Gantry</strong></td>
+                    <td>Under top cover (X &amp; Y axes)</td>
+                    <td>Never wear loose clothing or jewelry near timing belts and pulleys.</td>
+                </tr>
+                <tr>
+                    <td>⬇️ <strong>Moving Parts — Z Stage</strong></td>
+                    <td>Oven interior (drive belt &amp; pulley)</td>
+                    <td>Z motor disables automatically when oven door is open.</td>
+                </tr>
             </table>
             <div class="warning-box">
-                <strong>ℹ️ Built-in Interlocks:</strong> The oven door locks while printing. Servo motors are disabled when the oven door or top cover is open. You cannot start a build with these open.
+                <strong>ℹ️ Built-in Interlocks:</strong> The oven door locks while printing. Servo motors are disabled
+                when the oven door or top cover is open. You cannot start a build with these open.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
@@ -132,14 +424,29 @@
         <div class="slide" id="slide5">
             <h1>🧪 Material Selection</h1>
             <h2>Choosing the right material for the job</h2>
-            <p style="font-size:1.15em; color:#4b5563; margin-bottom:24px;">Three factors drive material selection for 3D printing:</p>
+            <p style="font-size:1.15em; color:#4b5563; margin-bottom:24px;">Three factors drive material selection for
+                3D printing:</p>
             <div class="equipment-grid" style="grid-template-columns:1fr 1fr 1fr;">
-                <div class="equipment-card" style="border-top:4px solid #11998e;"><div style="font-size:2.5em;">🎯</div><h3>Application</h3><p>What will the part be used for in real-world conditions?</p></div>
-                <div class="equipment-card" style="border-top:4px solid #11998e;"><div style="font-size:2.5em;">🎨</div><h3>Aesthetics</h3><p>Surface finish, color, and visual appearance requirements.</p></div>
-                <div class="equipment-card" style="border-top:4px solid #11998e;"><div style="font-size:2.5em;">🔩</div><h3>Functionality</h3><p>Strength, flexibility, temperature, and chemical resistance.</p></div>
+                <div class="equipment-card" style="border-top:4px solid #11998e;">
+                    <div style="font-size:2.5em;">🎯</div>
+                    <h3>Application</h3>
+                    <p>What will the part be used for in real-world conditions?</p>
+                </div>
+                <div class="equipment-card" style="border-top:4px solid #11998e;">
+                    <div style="font-size:2.5em;">🎨</div>
+                    <h3>Aesthetics</h3>
+                    <p>Surface finish, color, and visual appearance requirements.</p>
+                </div>
+                <div class="equipment-card" style="border-top:4px solid #11998e;">
+                    <div style="font-size:2.5em;">🔩</div>
+                    <h3>Functionality</h3>
+                    <p>Strength, flexibility, temperature, and chemical resistance.</p>
+                </div>
             </div>
             <div class="key-takeaway">
-                <strong>Lab Material — ABS (Acrylonitrile Butadiene Styrene):</strong> Lightweight, good impact strength, abrasion-resistant, affordable, and widely used in household 3D printing. Melting temperature: <span class="highlight">200°C (392°F)</span>. Ideal for the Stratasys F170.
+                <strong>Lab Material — ABS (Acrylonitrile Butadiene Styrene):</strong> Lightweight, good impact
+                strength, abrasion-resistant, affordable, and widely used in household 3D printing. Melting temperature:
+                <span class="highlight">200°C (392°F)</span>. Ideal for the Stratasys F170.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
@@ -151,7 +458,8 @@
         <div class="slide" id="slide6">
             <h1>📏 Print Resolution & Layer Thickness</h1>
             <h2>The key parameter for quality vs. speed</h2>
-            <p style="font-size:1.15em; color:#4b5563; margin-bottom:16px;">Layer thickness is the vertical height of each deposited layer — essentially the Z-axis resolution of your print.</p>
+            <p style="font-size:1.15em; color:#4b5563; margin-bottom:16px;">Layer thickness is the vertical height of
+                each deposited layer — essentially the Z-axis resolution of your print.</p>
             <div class="equipment-grid" style="grid-template-columns:1fr 1fr;">
                 <div class="equipment-card">
                     <h3>Thin Layers → High Resolution</h3>
@@ -163,7 +471,8 @@
                 </div>
             </div>
             <div class="key-takeaway">
-                <strong>Recommended layer thickness for the Husky model:</strong> <span class="highlight">0.01 in</span><br>
+                <strong>Recommended layer thickness for the Husky model:</strong> <span class="highlight">0.01
+                    in</span><br>
                 <em>Note: The actual value may be adjusted by the lab technician or TA on the day of the lab.</em>
             </div>
             <div class="navigation">
@@ -178,20 +487,59 @@
             <h2>Control interior density and support strategy</h2>
             <h3>Model Interior Options</h3>
             <table class="spec-table">
-                <tr><th>Type</th><th>Description</th><th>Best For</th></tr>
-                <tr><td><strong>Solid</strong></td><td>Fully filled interior</td><td>Maximum strength; longer build time and more material</td></tr>
-                <tr><td><strong>High Density Sparse</strong></td><td>Default — highly recommended</td><td>Best balance of strength, speed, and reduced part curl</td></tr>
-                <tr><td><strong>Low Density Sparse</strong></td><td>Honeycombed/hatched interior</td><td>Shortest build time and minimum material; reduced strength</td></tr>
+                <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Best For</th>
+                </tr>
+                <tr>
+                    <td><strong>Solid</strong></td>
+                    <td>Fully filled interior</td>
+                    <td>Maximum strength; longer build time and more material</td>
+                </tr>
+                <tr>
+                    <td><strong>High Density Sparse</strong></td>
+                    <td>Default — highly recommended</td>
+                    <td>Best balance of strength, speed, and reduced part curl</td>
+                </tr>
+                <tr>
+                    <td><strong>Low Density Sparse</strong></td>
+                    <td>Honeycombed/hatched interior</td>
+                    <td>Shortest build time and minimum material; reduced strength</td>
+                </tr>
             </table>
             <h3>Support Fill Options</h3>
             <table class="spec-table">
-                <tr><th>Type</th><th>When to Use</th></tr>
-                <tr><td><strong>Basic</strong></td><td>Most parts — consistent raster spacing</td></tr>
-                <tr><td><strong>Sparse</strong></td><td>Minimizes support material; larger spacing between rasters</td></tr>
-                <tr><td><strong>Minimal</strong></td><td>Small parts with small features; do NOT use for tall columns or large parts</td></tr>
-                <tr><td><strong>Surround</strong></td><td>Tall, thin models — entire model surrounded by support</td></tr>
+                <tr>
+                    <th>Type</th>
+                    <th>When to Use</th>
+                </tr>
+                <tr>
+                    <td><strong>Basic</strong></td>
+                    <td>Most parts — consistent raster spacing</td>
+                </tr>
+                <tr>
+                    <td><strong>Sparse</strong></td>
+                    <td>Minimizes support material; larger spacing between rasters</td>
+                </tr>
+                <tr>
+                    <td><strong>Minimal</strong></td>
+                    <td>Small parts with small features; do NOT use for tall columns or large parts</td>
+                </tr>
+                <tr>
+                    <td><strong>Surround</strong></td>
+                    <td>Tall, thin models — entire model surrounded by support</td>
+                </tr>
             </table>
-            <div class="key-takeaway"><strong>Lab Setting:</strong> Recommended support structure is <span class="highlight">breakaway</span> — subject to change by lab technicians.</div>
+            <div class="key-takeaway">
+                <strong>Lab Setting:</strong> Recommended support structure is <span class="highlight">breakaway</span>
+                — subject to change by lab technicians.
+                <br><br>
+                <strong>&#x1F4A1; Quiz Hint (Support Materials):</strong> Support structures are temporary. They combat
+                gravity by providing structural backing for overhangs, bridges, and stabilizing complex unsupported
+                features during printing. They do <em>not</em> increase final permanent mechanical strength or reduce
+                overall material consumption.
+            </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
                 <button class="btn-primary" onclick="nextSlide()">Machine Components →</button>
@@ -203,12 +551,31 @@
             <h1>🛠️ Stratasys F170 Components</h1>
             <h2>Know your machine before you operate it</h2>
             <div class="equipment-grid">
-                <div class="equipment-card"><h3>Top Cover</h3><p>Access to the gantry and head assemblies. Unlocks in conjunction with the oven door.</p></div>
-                <div class="equipment-card"><h3>Oven Door</h3><p>Access to platen, tip wipe assemblies, and purge area. Electromagnetic lock + optical sensors.</p></div>
-                <div class="equipment-card"><h3>Material Bay Drawer</h3><p>Left bay = model material. Right bay = support material. Can be opened while printing.</p></div>
-                <div class="equipment-card"><h3>Gantry</h3><p>Moves the print head in X and Y. One X servo motor + two Y servo motors on timing belts.</p></div>
-                <div class="equipment-card"><h3>Interface Panel</h3><p>Touchscreen UI, power button, and USB ports on the front right face of the printer.</p></div>
-                <div class="equipment-card"><h3>Y Blocks</h3><p>Junction allowing two material bays to alternately drive filament to each print head.</p></div>
+                <div class="equipment-card">
+                    <h3>Top Cover</h3>
+                    <p>Access to the gantry and head assemblies. Unlocks in conjunction with the oven door.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Oven Door</h3>
+                    <p>Access to platen, tip wipe assemblies, and purge area. Electromagnetic lock + optical sensors.
+                    </p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Material Bay Drawer</h3>
+                    <p>Left bay = model material. Right bay = support material. Can be opened while printing.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Gantry</h3>
+                    <p>Moves the print head in X and Y. One X servo motor + two Y servo motors on timing belts.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Interface Panel</h3>
+                    <p>Touchscreen UI, power button, and USB ports on the front right face of the printer.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Y Blocks</h3>
+                    <p>Junction allowing two material bays to alternately drive filament to each print head.</p>
+                </div>
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
@@ -221,12 +588,34 @@
             <h1>🔆 Inside the Oven</h1>
             <h2>Key components in the F170 oven chamber</h2>
             <div class="equipment-grid">
-                <div class="equipment-card"><h3>Platen</h3><p>Steel surface on which parts are built. Substrate is locked using the ejection handle — lift to lock, press to release.</p></div>
-                <div class="equipment-card"><h3>Tip Wipe Assemblies</h3><p>One for model, one for support. A flicker cuts purged material from the tip; a brush cleans the tip shield.</p></div>
-                <div class="equipment-card"><h3>Purge Chute</h3><p>Routes purged material debris from tip wipe assemblies down to the bottom of the oven chamber.</p></div>
-                <div class="equipment-card"><h3>Camera</h3><p>Housed in the oven door frame. Enables remote build quality monitoring through GrabCAD Print — auto-captures photos at set intervals.</p></div>
-                <div class="equipment-card"><h3>Oven Light</h3><p>Single light pipe at the front upper edge of the oven. Toggled via the Tools page on the UI.</p></div>
-                <div class="equipment-card"><h3>Oven Door Gasket</h3><p>Perimeter seal that provides an airtight closure when the door is shut.</p></div>
+                <div class="equipment-card">
+                    <h3>Platen</h3>
+                    <p>Steel surface on which parts are built. Substrate is locked using the ejection handle — lift to
+                        lock, press to release.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Tip Wipe Assemblies</h3>
+                    <p>One for model, one for support. A flicker cuts purged material from the tip; a brush cleans the
+                        tip shield.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Purge Chute</h3>
+                    <p>Routes purged material debris from tip wipe assemblies down to the bottom of the oven chamber.
+                    </p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Camera</h3>
+                    <p>Housed in the oven door frame. Enables remote build quality monitoring through GrabCAD Print —
+                        auto-captures photos at set intervals.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Oven Light</h3>
+                    <p>Single light pipe at the front upper edge of the oven. Toggled via the Tools page on the UI.</p>
+                </div>
+                <div class="equipment-card">
+                    <h3>Oven Door Gasket</h3>
+                    <p>Perimeter seal that provides an airtight closure when the door is shut.</p>
+                </div>
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
@@ -238,15 +627,29 @@
         <div class="slide" id="slide10">
             <h1>🖥️ User Interface</h1>
             <h2>Touchscreen navigation on the Stratasys F170</h2>
-            <p style="font-size:1.1em; color:#4b5563; margin-bottom:16px;">The Navigation Menu provides one-touch access to four functional areas:</p>
+            <p style="font-size:1.1em; color:#4b5563; margin-bottom:16px;">The Navigation Menu provides one-touch access
+                to four functional areas:</p>
             <div class="equipment-grid" style="grid-template-columns:1fr 1fr;">
-                <div class="equipment-card" style="border-top:4px solid #11998e;"><h3>🏗️ Build</h3><p>Start, pause, or abort a job. View build time estimate, status, and progress ring.</p></div>
-                <div class="equipment-card" style="border-top:4px solid #11998e;"><h3>📋 Queue</h3><p>Access job files sent from GrabCAD Print or loaded via USB. Select the job to build next.</p></div>
-                <div class="equipment-card" style="border-top:4px solid #11998e;"><h3>🧰 Materials</h3><p>Monitor spool volumes, head statuses, and change materials or heads as needed.</p></div>
-                <div class="equipment-card" style="border-top:4px solid #11998e;"><h3>🔧 Tools</h3><p>Calibrations, network config, oven light, and printer maintenance settings.</p></div>
+                <div class="equipment-card" style="border-top:4px solid #11998e;">
+                    <h3>🏗️ Build</h3>
+                    <p>Start, pause, or abort a job. View build time estimate, status, and progress ring.</p>
+                </div>
+                <div class="equipment-card" style="border-top:4px solid #11998e;">
+                    <h3>📋 Queue</h3>
+                    <p>Access job files sent from GrabCAD Print or loaded via USB. Select the job to build next.</p>
+                </div>
+                <div class="equipment-card" style="border-top:4px solid #11998e;">
+                    <h3>🧰 Materials</h3>
+                    <p>Monitor spool volumes, head statuses, and change materials or heads as needed.</p>
+                </div>
+                <div class="equipment-card" style="border-top:4px solid #11998e;">
+                    <h3>🔧 Tools</h3>
+                    <p>Calibrations, network config, oven light, and printer maintenance settings.</p>
+                </div>
             </div>
             <div class="key-takeaway">
-                <strong>Build Status:</strong> IDLE → PREPARING (gray ring) → BUILDING (blue ring fills clockwise) → DONE (green checkmark). Job details show Duration, Author, Materials, Layers, Slice Height, and Version.
+                <strong>Build Status:</strong> IDLE → PREPARING (gray ring) → BUILDING (blue ring fills clockwise) →
+                DONE (green checkmark). Job details show Duration, Author, Materials, Layers, Slice Height, and Version.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
@@ -259,21 +662,30 @@
             <h1>🚀 Startup & Loading a Job</h1>
             <h2>Powering on and sending files to the printer</h2>
             <div style="display:flex; flex-direction:column; gap:16px;">
-                <div class="equipment-card" style="flex-direction:row; text-align:left; padding:20px; align-items:flex-start;">
+                <div class="equipment-card"
+                    style="flex-direction:row; text-align:left; padding:20px; align-items:flex-start;">
                     <div style="font-size:2em; margin-right:20px; min-width:40px;">1</div>
-                    <p><strong>Power ON:</strong> Verify power cord connections at both ends. Press the power button on the front. Wait for the touchscreen to initialize and the automatic XY Gantry Calibration to complete.</p>
+                    <p><strong>Power ON:</strong> Verify power cord connections at both ends. Press the power button on
+                        the front. Wait for the touchscreen to initialize and the automatic XY Gantry Calibration to
+                        complete.</p>
                 </div>
-                <div class="equipment-card" style="flex-direction:row; text-align:left; padding:20px; align-items:flex-start;">
+                <div class="equipment-card"
+                    style="flex-direction:row; text-align:left; padding:20px; align-items:flex-start;">
                     <div style="font-size:2em; margin-right:20px; min-width:40px;">2</div>
-                    <p><strong>GrabCAD Print (Preferred):</strong> Download <strong>Husky.stl</strong> from Canvas. Configure print settings in GrabCAD Print. Send job via Ethernet or Wi-Fi. Jobs appear in the Queue page automatically.</p>
+                    <p><strong>GrabCAD Print (Preferred):</strong> Download <strong>Husky.stl</strong> from Canvas.
+                        Configure print settings in GrabCAD Print. Send job via Ethernet or Wi-Fi. Jobs appear in the
+                        Queue page automatically.</p>
                 </div>
-                <div class="equipment-card" style="flex-direction:row; text-align:left; padding:20px; align-items:flex-start;">
+                <div class="equipment-card"
+                    style="flex-direction:row; text-align:left; padding:20px; align-items:flex-start;">
                     <div style="font-size:2em; margin-right:20px; min-width:40px;">3</div>
-                    <p><strong>USB Method (Alternative):</strong> Plug flash drive into any USB port → Queue page → Load File → USB → Select job → Job Details → Press Print.</p>
+                    <p><strong>USB Method (Alternative):</strong> Plug flash drive into any USB port → Queue page → Load
+                        File → USB → Select job → Job Details → Press Print.</p>
                 </div>
             </div>
             <div class="key-takeaway" style="background:#fff7ed; border-color:#fbbf24;">
-                <strong>Power OFF:</strong> Ensure the printer is idle (not building). Press the power button or use Shutdown in the Tools page Power menu. Confirm with Yes in the dialog.
+                <strong>Power OFF:</strong> Ensure the printer is idle (not building). Press the power button or use
+                Shutdown in the Tools page Power menu. Confirm with Yes in the dialog.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
@@ -285,16 +697,27 @@
         <div class="slide" id="slide12">
             <h1>📊 Build Monitoring & Warnings</h1>
             <h2>Tracking the print job in real time</h2>
-            <p style="font-size:1.1em; color:#4b5563; margin-bottom:16px;">The <strong>Job Details</strong> page displays: Duration, Author, Materials, Number of Layers, Slice Height, and Software Version.</p>
+            <p style="font-size:1.1em; color:#4b5563; margin-bottom:16px;">The <strong>Job Details</strong> page
+                displays: Duration, Author, Materials, Number of Layers, Slice Height, and Software Version.</p>
             <div class="equipment-grid" style="grid-template-columns:1fr 1fr;">
-                <div class="equipment-card"><div style="font-size:2.5em;">🟡</div><h3>Yellow Badge</h3><p>Warning — may affect build quality. Can often be bypassed (except material mismatch).</p></div>
-                <div class="equipment-card"><div style="font-size:2.5em;">🔴</div><h3>Red Badge</h3><p>Error — serious issue requiring resolution. Touching the text shows steps to correct it.</p></div>
+                <div class="equipment-card">
+                    <div style="font-size:2.5em;">🟡</div>
+                    <h3>Yellow Badge</h3>
+                    <p>Warning — may affect build quality. Can often be bypassed (except material mismatch).</p>
+                </div>
+                <div class="equipment-card">
+                    <div style="font-size:2.5em;">🔴</div>
+                    <h3>Red Badge</h3>
+                    <p>Error — serious issue requiring resolution. Touching the text shows steps to correct it.</p>
+                </div>
             </div>
             <div class="warning-box">
-                <strong>⚠️ Critical:</strong> A warning generated from a <strong>mismatch of model/support material cannot be bypassed</strong>. Resolve the material issue before attempting to print.
+                <strong>⚠️ Critical:</strong> A warning generated from a <strong>mismatch of model/support material
+                    cannot be bypassed</strong>. Resolve the material issue before attempting to print.
             </div>
             <div class="info-box">
-                <strong>ℹ️ Remote Monitoring:</strong> Use GrabCAD Print's camera view to monitor print quality remotely. Photos are automatically captured at set intervals during the build.
+                <strong>ℹ️ Remote Monitoring:</strong> Use GrabCAD Print's camera view to monitor print quality
+                remotely. Photos are automatically captured at set intervals during the build.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
@@ -308,24 +731,33 @@
             <h2>After the build is complete — safety first</h2>
             <div class="danger-box">
                 <h3 style="color:#b91c1c; margin-top:0;">🔥 Warning: Hot Surface Hazard</h3>
-                <p>Always wear <strong>heat-protective gloves and long sleeves</strong> when handling items inside the oven. Surfaces can be very hot after printing.</p>
+                <p>Always wear <strong>heat-protective gloves and long sleeves</strong> when handling items inside the
+                    oven. Surfaces can be very hot after printing.</p>
             </div>
             <div style="display:flex; flex-direction:column; gap:14px; margin-top:20px;">
-                <div class="equipment-card" style="flex-direction:row; text-align:left; padding:16px; align-items:flex-start;">
+                <div class="equipment-card"
+                    style="flex-direction:row; text-align:left; padding:16px; align-items:flex-start;">
                     <div style="font-size:1.8em; margin-right:16px; min-width:36px;">1</div>
-                    <p>Open the oven door. Push down on the <strong>substrate ejection handle</strong> to release the substrate from the platen.</p>
+                    <p>Open the oven door. Push down on the <strong>substrate ejection handle</strong> to release the
+                        substrate from the platen.</p>
                 </div>
-                <div class="equipment-card" style="flex-direction:row; text-align:left; padding:16px; align-items:flex-start;">
+                <div class="equipment-card"
+                    style="flex-direction:row; text-align:left; padding:16px; align-items:flex-start;">
                     <div style="font-size:1.8em; margin-right:16px; min-width:36px;">2</div>
-                    <p>Remove the substrate. <strong>Do NOT remove the part while the substrate is still on the platen</strong> — this can damage the platen.</p>
+                    <p>Remove the substrate. <strong>Do NOT remove the part while the substrate is still on the
+                            platen</strong> — this can damage the platen.</p>
                 </div>
-                <div class="equipment-card" style="flex-direction:row; text-align:left; padding:16px; align-items:flex-start;">
+                <div class="equipment-card"
+                    style="flex-direction:row; text-align:left; padding:16px; align-items:flex-start;">
                     <div style="font-size:1.8em; margin-right:16px; min-width:36px;">3</div>
-                    <p>Firmly flex the modelling base back and forth to loosen the part. Use a putty knife if needed. <strong>Parts are easier to remove when still warm.</strong></p>
+                    <p>Firmly flex the modelling base back and forth to loosen the part. Use a putty knife if needed.
+                        <strong>Parts are easier to remove when still warm.</strong></p>
                 </div>
-                <div class="equipment-card" style="flex-direction:row; text-align:left; padding:16px; align-items:flex-start;">
+                <div class="equipment-card"
+                    style="flex-direction:row; text-align:left; padding:16px; align-items:flex-start;">
                     <div style="font-size:1.8em; margin-right:16px; min-width:36px;">4</div>
-                    <p>Insert a new modelling base. Close the chamber door. Only then press <strong>Yes</strong> on the display. Pressing Yes before replacing the base can damage the printer.</p>
+                    <p>Insert a new modelling base. Close the chamber door. Only then press <strong>Yes</strong> on the
+                        display. Pressing Yes before replacing the base can damage the printer.</p>
                 </div>
             </div>
             <div class="navigation">
@@ -338,14 +770,38 @@
         <div class="slide" id="slide14">
             <h1>🧴 Post-Processing</h1>
             <h2>Removing support material with Clean Station DT3</h2>
-            <p style="font-size:1.1em; color:#4b5563; margin-bottom:16px;">The <strong>Clean Station DT3</strong> uses heat, agitation, and flow technology to dissolve soluble SUP706 support material using an alkaline cleaning solution.</p>
+            <p style="font-size:1.1em; color:#4b5563; margin-bottom:16px;">The <strong>Clean Station DT3</strong> uses
+                heat, agitation, and flow technology to dissolve soluble SUP706 support material using an alkaline
+                cleaning solution.</p>
             <table class="spec-table">
-                <tr><th>Step</th><th>Action</th></tr>
-                <tr><td><strong>1. Fill Tank</strong></td><td>Close drain valve. Connect drainage hose. Fill tank to ~1 inch below top (approx. 23 L / 6 gallons).</td></tr>
-                <tr><td><strong>2. Add Solution</strong></td><td>Add NaOH (sodium hydroxide) and Na₂SiO₃ (sodium metasilicate) to the water in the tank.</td></tr>
-                <tr><td><strong>3. Power On</strong></td><td>Confirm power switch is in the OFF position first. Verify water level. Then press power switch to turn on.</td></tr>
-                <tr><td><strong>4. Control Panel</strong></td><td>Use Set, Infinity, and Arrow buttons to configure and monitor cleaning time and water temperature.</td></tr>
-                <tr><td><strong>5. Remove &amp; Drain</strong></td><td>Remove the printed model from the station. Drain the tank after the cleaning cycle is complete.</td></tr>
+                <tr>
+                    <th>Step</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td><strong>1. Fill Tank</strong></td>
+                    <td>Close drain valve. Connect drainage hose. Fill tank to ~1 inch below top (approx. 23 L / 6
+                        gallons).</td>
+                </tr>
+                <tr>
+                    <td><strong>2. Add Solution</strong></td>
+                    <td>Add NaOH (sodium hydroxide) and Na₂SiO₃ (sodium metasilicate) to the water in the tank.</td>
+                </tr>
+                <tr>
+                    <td><strong>3. Power On</strong></td>
+                    <td>Confirm power switch is in the OFF position first. Verify water level. Then press power switch
+                        to turn on.</td>
+                </tr>
+                <tr>
+                    <td><strong>4. Control Panel</strong></td>
+                    <td>Use Set, Infinity, and Arrow buttons to configure and monitor cleaning time and water
+                        temperature.</td>
+                </tr>
+                <tr>
+                    <td><strong>5. Remove &amp; Drain</strong></td>
+                    <td>Remove the printed model from the station. Drain the tank after the cleaning cycle is complete.
+                    </td>
+                </tr>
             </table>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
@@ -358,12 +814,32 @@
             <h1>🐾 Your Task: Print the Husky</h1>
             <h2>Putting it all together — step by step</h2>
             <div class="equipment-grid">
-                <div class="equipment-card" style="padding:20px;"><h3>Step 1 — Download</h3><p>Get <strong>Husky.stl</strong> from Canvas.</p></div>
-                <div class="equipment-card" style="padding:20px;"><h3>Step 2 — Configure</h3><p>Open in GrabCAD Print. Set layer thickness (0.01 in), support (breakaway), model fill (high density sparse).</p></div>
-                <div class="equipment-card" style="padding:20px;"><h3>Step 3 — Send Job</h3><p>Send to the F170 via GrabCAD Print or USB. Verify it appears in the Job Queue on the printer display.</p></div>
-                <div class="equipment-card" style="padding:20px;"><h3>Step 4 — Print &amp; Monitor</h3><p>Select job in Queue, press Print. Monitor build status and use camera through GrabCAD Print.</p></div>
-                <div class="equipment-card" style="padding:20px;"><h3>Step 5 — Remove Part</h3><p>Wear gloves. Eject substrate, flex to remove part, insert new base, confirm "Yes" on display.</p></div>
-                <div class="equipment-card" style="padding:20px;"><h3>Step 6 — Post-Process</h3><p>Place in Clean Station DT3 to dissolve breakaway support material with alkaline solution.</p></div>
+                <div class="equipment-card" style="padding:20px;">
+                    <h3>Step 1 — Download</h3>
+                    <p>Get <strong>Husky.stl</strong> from Canvas.</p>
+                </div>
+                <div class="equipment-card" style="padding:20px;">
+                    <h3>Step 2 — Configure</h3>
+                    <p>Open in GrabCAD Print. Set layer thickness (0.01 in), support (breakaway), model fill (high
+                        density sparse).</p>
+                </div>
+                <div class="equipment-card" style="padding:20px;">
+                    <h3>Step 3 — Send Job</h3>
+                    <p>Send to the F170 via GrabCAD Print or USB. Verify it appears in the Job Queue on the printer
+                        display.</p>
+                </div>
+                <div class="equipment-card" style="padding:20px;">
+                    <h3>Step 4 — Print &amp; Monitor</h3>
+                    <p>Select job in Queue, press Print. Monitor build status and use camera through GrabCAD Print.</p>
+                </div>
+                <div class="equipment-card" style="padding:20px;">
+                    <h3>Step 5 — Remove Part</h3>
+                    <p>Wear gloves. Eject substrate, flex to remove part, insert new base, confirm "Yes" on display.</p>
+                </div>
+                <div class="equipment-card" style="padding:20px;">
+                    <h3>Step 6 — Post-Process</h3>
+                    <p>Place in Clean Station DT3 to dissolve breakaway support material with alkaline solution.</p>
+                </div>
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
@@ -380,12 +856,14 @@
                 <p style="font-size:1.25em; margin:20px 0;">
                     1. <strong>Safety First:</strong> Gloves, glasses, proper attire — TA supervised at all times.<br>
                     2. <strong>Settings Matter:</strong> Layer thickness drives the quality vs. speed tradeoff.<br>
-                    3. <strong>Fill &amp; Support:</strong> Choose the right interior and support type for each part.<br>
+                    3. <strong>Fill &amp; Support:</strong> Choose the right interior and support type for each
+                    part.<br>
                     4. <strong>Post-Process:</strong> The Clean Station DT3 dissolves soluble support material.
                 </p>
             </div>
             <div class="key-takeaway" style="text-align:center;">
-                <strong>Next Steps:</strong> Download <em>Husky.stl</em> from Canvas, configure your print in GrabCAD Print, and work with your TA to start the build on the Stratasys F170.
+                <strong>Next Steps:</strong> Download <em>Husky.stl</em> from Canvas, configure your print in GrabCAD
+                Print, and work with your TA to start the build on the Stratasys F170.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">← Back</button>
@@ -432,11 +910,12 @@
         function updateTimer() {
             const elapsed = Math.floor((Date.now() - startTime) / 1000);
             const m = Math.floor(elapsed / 60), s = elapsed % 60;
-            document.getElementById('timer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            document.getElementById('timer').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
         }
-        document.addEventListener('keydown', e => { if (e.key==='ArrowRight') nextSlide(); if (e.key==='ArrowLeft') prevSlide(); });
+        document.addEventListener('keydown', e => { if (e.key === 'ArrowRight') nextSlide(); if (e.key === 'ArrowLeft') prevSlide(); });
         setInterval(updateTimer, 1000);
         updateProgress(); updateSlideIndicator();
     </script>
 </body>
+
 </html>

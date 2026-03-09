@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,11 @@
             --neu-red: #CC0000;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Inter', 'Segoe UI', sans-serif;
@@ -22,7 +27,11 @@
             line-height: 1.6;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px 20px 80px 20px; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 80px 20px;
+        }
 
         .slide {
             display: none;
@@ -30,7 +39,7 @@
             border-radius: 24px;
             padding: 60px 40px;
             min-height: 85vh;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
         }
@@ -42,61 +51,234 @@
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        h1 { font-size: 3em; color: #92400e; margin-bottom: 24px; text-align: center; font-weight: 700; letter-spacing: -0.02em; }
-        h2 { font-size: 1.8em; color: #b45309; margin-bottom: 20px; text-align: center; font-weight: 600; }
-        h3 { font-size: 1.4em; color: #92400e; margin: 24px 0 12px 0; font-weight: 600; }
-
-        .progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 6px; background: rgba(255,255,255,0.3); z-index: 1000; }
-        .progress-fill { height: 100%; background: #ef4444; box-shadow: 0 0 10px #ef4444; transition: width 0.4s cubic-bezier(0.16,1,0.3,1); }
-
-        .navigation { display: flex; justify-content: space-between; margin-top: auto; padding-top: 40px; gap: 20px; }
-
-        button, .btn-link {
-            padding: 16px 32px; font-size: 1.1em; border: none; border-radius: 12px; cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4,0,0.2,1); font-weight: 600;
-            display: flex; align-items: center; justify-content: center; text-decoration: none;
+        h1 {
+            font-size: 3em;
+            color: #92400e;
+            margin-bottom: 24px;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
-        .btn-primary { background: var(--primary-gradient); color: white; box-shadow: 0 4px 14px 0 rgba(247,151,30,0.5); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(247,151,30,0.6); }
-        .btn-secondary { background: #f3f4f6; color: #4b5563; }
-        .btn-secondary:hover { background: #e5e7eb; transform: translateY(-2px); }
+        h2 {
+            font-size: 1.8em;
+            color: #b45309;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
 
-        .equipment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin: 32px 0; }
+        h3 {
+            font-size: 1.4em;
+            color: #92400e;
+            margin: 24px 0 12px 0;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #ef4444;
+            box-shadow: 0 0 10px #ef4444;
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 40px;
+            gap: 20px;
+        }
+
+        button,
+        .btn-link {
+            padding: 16px 32px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(247, 151, 30, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(247, 151, 30, 0.6);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+        }
+
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
 
         .equipment-card {
-            background: #fff; padding: 28px; border-radius: 20px; border: 1px solid #e5e7eb;
-            transition: all 0.3s cubic-bezier(0.4,0,0.2,1); text-align: center;
-            display: flex; flex-direction: column; align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            background: #fff;
+            padding: 28px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        .equipment-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border-color: #f7971e; }
 
-        .spec-table { width: 100%; border-collapse: collapse; margin: 20px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .spec-table th { background: #fef3c7; padding: 14px 16px; text-align: left; font-weight: 600; color: #92400e; }
-        .spec-table td { padding: 14px 16px; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
+        .equipment-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #f7971e;
+        }
 
-        .timer { position: fixed; top: 24px; right: 24px; background: white; padding: 12px 24px; border-radius: 9999px; font-size: 1.1em; font-weight: 700; color: #92400e; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 999; border: 2px solid #fde68a; }
-        .slide-indicator { position: fixed; bottom: 24px; left: 24px; background: white; padding: 10px 20px; border-radius: 9999px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 999; font-weight: 600; color: #4b5563; }
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
 
-        .highlight { background: #fef3c7; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+        .spec-table th {
+            background: #fef3c7;
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #92400e;
+        }
 
-        .key-takeaway { background: #fffbeb; border-left: 6px solid #f59e0b; padding: 24px; margin: 32px 0; border-radius: 12px; color: #78350f; }
-        .danger-box { background: #fef2f2; border: 2px solid #fee2e2; border-radius: 16px; padding: 28px; margin: 20px 0; }
+        .spec-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: top;
+        }
 
-        .step-list { display: flex; flex-direction: column; gap: 14px; }
-        .step-item { display: flex; align-items: flex-start; gap: 18px; background: #f9fafb; padding: 18px; border-radius: 14px; border: 1px solid #e5e7eb; }
-        .step-number { font-size: 1.7em; font-weight: 700; color: #92400e; min-width: 38px; line-height: 1.2; }
+        .timer {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #92400e;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            border: 2px solid #fde68a;
+        }
 
+        .slide-indicator {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 9999px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .key-takeaway {
+            background: #fffbeb;
+            border-left: 6px solid #f59e0b;
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 12px;
+            color: #78350f;
+        }
+
+        .danger-box {
+            background: #fef2f2;
+            border: 2px solid #fee2e2;
+            border-radius: 16px;
+            padding: 28px;
+            margin: 20px 0;
+        }
+
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            background: #f9fafb;
+            padding: 18px;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .step-number {
+            font-size: 1.7em;
+            font-weight: 700;
+            color: #92400e;
+            min-width: 38px;
+            line-height: 1.2;
+        }
     </style>
 </head>
+
 <body>
 
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
     <div class="timer" id="timer">00:00</div>
     <div class="slide-indicator" id="slideIndicator">Slide 1 of 14</div>
 
@@ -111,12 +293,15 @@
             <div style="text-align:center; margin:30px 0;">
                 <div style="font-size:5em; margin-bottom:20px;">&#x1F506;</div>
                 <p style="font-size:1.4em; color:#4b5563; max-width:800px; margin:0 auto;">
-                    Learn to engrave the Northeastern University logo and your name onto a leather coaster using industrial laser manufacturing technology.
+                    Learn to engrave the Northeastern University logo and your name onto a leather coaster using
+                    industrial laser manufacturing technology.
                 </p>
             </div>
             <div class="key-takeaway">
                 <strong>What is Laser Engraving?</strong><br>
-                A high-power laser beam removes material through melting, burning, and vaporization — leaving a permanent, high-quality mark. This process is heavily used for <span class="highlight">part traceability</span> in industry.
+                A high-power laser beam removes material through melting, burning, and vaporization — leaving a
+                permanent, high-quality mark. This process is heavily used for <span class="highlight">part
+                    traceability</span> in industry.
             </div>
             <div class="navigation">
                 <a href="index.html" class="btn-link btn-secondary">&#x1F3E0; Hub</a>
@@ -146,7 +331,8 @@
                 </div>
             </div>
             <div class="key-takeaway">
-                <strong>Industry Application:</strong> Laser engraving is used for serial numbers on aircraft parts, branding on consumer products, and permanent traceability markings on medical devices.
+                <strong>Industry Application:</strong> Laser engraving is used for serial numbers on aircraft parts,
+                branding on consumer products, and permanent traceability markings on medical devices.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">&#x2190; Back</button>
@@ -160,7 +346,8 @@
             <h2>Required before entering the lab</h2>
             <div class="danger-box" style="border-left:8px solid #ef4444;">
                 <h3 style="color:#b91c1c; margin-top:0;">&#x1F6A8; Never Operate Alone</h3>
-                <p style="font-size:1.2em; color:#7f1d1d;">Do NOT touch or operate any machine without a lab technician or TA present. Laser radiation is invisible and potentially hazardous to skin and eyes.</p>
+                <p style="font-size:1.2em; color:#7f1d1d;">Do NOT touch or operate any machine without a lab technician
+                    or TA present. Laser radiation is invisible and potentially hazardous to skin and eyes.</p>
             </div>
             <div class="equipment-grid" style="grid-template-columns:1fr 1fr;">
                 <div class="equipment-card" style="background:#fffbeb;">
@@ -193,14 +380,19 @@
             <div class="danger-box">
                 <h3 style="color:#b91c1c; margin-top:0;">&#x26D4; Critical Laser Hazards</h3>
                 <ul style="font-size:1.1em; color:#7f1d1d; margin-left:24px; line-height:2.4;">
-                    <li>Laser radiation is <strong>invisible</strong> &#x2014; direct or scattered exposure is hazardous to skin and eyes.</li>
-                    <li>This laser can produce <strong>dangerous diffuse reflections</strong>, risking eye injury and fire.</li>
-                    <li>Do <strong>NOT look at the laser beam continuously</strong>, not even through protective glass.</li>
-                    <li>Only <strong>trained personnel</strong> aware of the risks are authorized to use the machine.</li>
+                    <li>Laser radiation is <strong>invisible</strong> &#x2014; direct or scattered exposure is hazardous
+                        to skin and eyes.</li>
+                    <li>This laser can produce <strong>dangerous diffuse reflections</strong>, risking eye injury and
+                        fire.</li>
+                    <li>Do <strong>NOT look at the laser beam continuously</strong>, not even through protective glass.
+                    </li>
+                    <li>Only <strong>trained personnel</strong> aware of the risks are authorized to use the machine.
+                    </li>
                 </ul>
             </div>
             <div class="key-takeaway" style="background:#fef2f2; border-color:#fca5a5; color:#991b1b;">
-                <strong>Broken Lens Emergency:</strong> Switch off the machine &#x2192; Hold your breath &#x2192; Leave the area &#x2192; Wait 30 minutes &#x2192; Ventilate the room. Report immediately to the TA.
+                <strong>Broken Lens Emergency:</strong> Switch off the machine &#x2192; Hold your breath &#x2192; Leave
+                the area &#x2192; Wait 30 minutes &#x2192; Ventilate the room. Report immediately to the TA.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">&#x2190; Back</button>
@@ -235,7 +427,8 @@
                 </div>
             </div>
             <div class="key-takeaway">
-                <strong>Extraction is Non-Negotiable:</strong> All gases and fumes from the marking process must be extracted and discharged outside the building before and during every operation.
+                <strong>Extraction is Non-Negotiable:</strong> All gases and fumes from the marking process must be
+                extracted and discharged outside the building before and during every operation.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">&#x2190; Back</button>
@@ -248,14 +441,22 @@
             <h1>&#x1F5A5;&#xFE0F; LS900 Front Components</h1>
             <h2>Know your machine before operating it</h2>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:24px 0;">
-                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>1. LCD Screen</strong> &#x2014; Displays machine status and menu navigation.</div>
-                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>2. Keyboard</strong> &#x2014; Control panel with all function keys for operation.</div>
-                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>3. Green/Red Lights</strong> &#x2014; Status indicator lights visible from a distance.</div>
-                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>4. Control Panel</strong> &#x2014; Primary interface for operating the engraver.</div>
-                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>5. Head</strong> &#x2014; LS900 Fibre (red) or LS900 Edge (gold) laser head assembly.</div>
-                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>6&#x2013;7. Guide Rails and Ruler (Y)</strong> &#x2014; Y-axis linear movement and measurement.</div>
-                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>11&#x2013;13. Guide Rails and Ruler (X)</strong> &#x2014; X-axis linear movement and measurement.</div>
-                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>14&#x2013;16. Engraving Table / On-Off / Z Screw</strong> &#x2014; Work surface and Z height adjustment.</div>
+                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>1. LCD Screen</strong>
+                    &#x2014; Displays machine status and menu navigation.</div>
+                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>2. Keyboard</strong> &#x2014;
+                    Control panel with all function keys for operation.</div>
+                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>3. Green/Red Lights</strong>
+                    &#x2014; Status indicator lights visible from a distance.</div>
+                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>4. Control Panel</strong>
+                    &#x2014; Primary interface for operating the engraver.</div>
+                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>5. Head</strong> &#x2014;
+                    LS900 Fibre (red) or LS900 Edge (gold) laser head assembly.</div>
+                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>6&#x2013;7. Guide Rails and
+                        Ruler (Y)</strong> &#x2014; Y-axis linear movement and measurement.</div>
+                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>11&#x2013;13. Guide Rails and
+                        Ruler (X)</strong> &#x2014; X-axis linear movement and measurement.</div>
+                <div style="background:#fffbeb; padding:16px; border-radius:12px;"><strong>14&#x2013;16. Engraving Table
+                        / On-Off / Z Screw</strong> &#x2014; Work surface and Z height adjustment.</div>
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">&#x2190; Back</button>
@@ -273,16 +474,56 @@
                     <th>Button</th>
                     <th>Function</th>
                 </tr>
-                <tr><td>1</td><td><strong>Check</strong></td><td>Access menus, move to next screen, validate entered data.</td></tr>
-                <tr><td>2</td><td><strong>Air Assist</strong></td><td>Activates air assist during marking to remove debris.</td></tr>
-                <tr><td>3</td><td><strong>Select File</strong></td><td>Displays next file in machine memory (becomes current file).</td></tr>
-                <tr><td>4</td><td><strong>Start</strong></td><td>Begins the engraving process on the current file.</td></tr>
-                <tr><td>5</td><td><strong>Joystick</strong></td><td>Moves the head in X, Y, Z directions; navigates menus.</td></tr>
-                <tr><td>7</td><td><strong>Cancel</strong></td><td>Exit menu without saving; return to main screen during pause.</td></tr>
-                <tr><td>8</td><td><strong>Autofocus</strong></td><td>Automatically adjusts focus along the Z axis.</td></tr>
-                <tr><td>9</td><td><strong>Positioning Pointer</strong></td><td>Activates a low-power laser beam to show the marking position.</td></tr>
-                <tr><td>10</td><td><strong>Pause</strong></td><td>Suspends the engraving process mid-job.</td></tr>
-                <tr><td>11</td><td><strong>Focus Adjustment</strong></td><td>Manually adjusts focus in the Z axis direction.</td></tr>
+                <tr>
+                    <td>1</td>
+                    <td><strong>Check</strong></td>
+                    <td>Access menus, move to next screen, validate entered data.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><strong>Air Assist</strong></td>
+                    <td>Activates air assist during marking to remove debris.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><strong>Select File</strong></td>
+                    <td>Displays next file in machine memory (becomes current file).</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><strong>Start</strong></td>
+                    <td>Begins the engraving process on the current file.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><strong>Joystick</strong></td>
+                    <td>Moves the head in X, Y, Z directions; navigates menus.</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td><strong>Cancel</strong></td>
+                    <td>Exit menu without saving; return to main screen during pause.</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td><strong>Autofocus</strong></td>
+                    <td>Automatically adjusts focus along the Z axis.</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td><strong>Positioning Pointer</strong></td>
+                    <td>Activates a low-power laser beam to show the marking position.</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td><strong>Pause</strong></td>
+                    <td>Suspends the engraving process mid-job.</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td><strong>Focus Adjustment</strong></td>
+                    <td>Manually adjusts focus in the Z axis direction.</td>
+                </tr>
             </table>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">&#x2190; Back</button>
@@ -297,11 +538,13 @@
             <div class="equipment-grid" style="grid-template-columns:1fr 1fr; margin-bottom:16px;">
                 <div class="equipment-card" style="background:#f0fdf4; border:2px solid #10b981;">
                     <h3 style="color:#065f46;">Green Light</h3>
-                    <p><strong>ON:</strong> Machine is initializing.<br><strong>OFF:</strong> File processing complete, ready to receive a file, or paused.</p>
+                    <p><strong>ON:</strong> Machine is initializing.<br><strong>OFF:</strong> File processing complete,
+                        ready to receive a file, or paused.</p>
                 </div>
                 <div class="equipment-card" style="background:#fef2f2; border:2px solid #ef4444;">
                     <h3 style="color:#b91c1c;">Red Light</h3>
-                    <p><strong>ON:</strong> Machine is initializing.<br><strong>OFF:</strong> Ready to receive a file or paused.<br><strong>FLASHING:</strong> Machine is actively engraving.</p>
+                    <p><strong>ON:</strong> Machine is initializing.<br><strong>OFF:</strong> Ready to receive a file or
+                        paused.<br><strong>FLASHING:</strong> Machine is actively engraving.</p>
                 </div>
             </div>
             <h3>Joystick Movement</h3>
@@ -317,7 +560,8 @@
                 </div>
             </div>
             <div class="key-takeaway" style="margin-top:24px;">
-                <strong>Incremental vs. Continuous:</strong> Press and immediately release for small, precise movements. Hold the key for continuous movement that accelerates over time.
+                <strong>Incremental vs. Continuous:</strong> Press and immediately release for small, precise movements.
+                Hold the key for continuous movement that accelerates over time.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">&#x2190; Back</button>
@@ -332,23 +576,29 @@
             <div class="step-list">
                 <div class="step-item">
                     <span class="step-number">1</span>
-                    <p><strong>Power On:</strong> Switch on the PC connected to the machine, then switch on the machine. Wait for start-up to complete.</p>
+                    <p><strong>Power On:</strong> Switch on the PC connected to the machine, then switch on the machine.
+                        Wait for start-up to complete.</p>
                 </div>
                 <div class="step-item">
                     <span class="step-number">2</span>
-                    <p><strong>Set Page Size:</strong> Adjust the page size in Gravostyle to match the maximum size of the engraving area on the machine.</p>
+                    <p><strong>Set Page Size:</strong> Adjust the page size in Gravostyle to match the maximum size of
+                        the engraving area on the machine.</p>
                 </div>
                 <div class="step-item">
                     <span class="step-number">3</span>
-                    <p><strong>Import the NU Logo:</strong> Import the Northeastern University logo file. Set fill to <strong>black</strong>, contour to <strong>none</strong>.</p>
+                    <p><strong>Import the NU Logo:</strong> Import the Northeastern University logo file. Set fill to
+                        <strong>black</strong>, contour to <strong>none</strong>.</p>
                 </div>
                 <div class="step-item">
                     <span class="step-number">4</span>
-                    <p><strong>Add Your Name:</strong> Enter your name as a text element. Set to <strong>black fill, no contour</strong> as well.</p>
+                    <p><strong>Add Your Name:</strong> Enter your name as a text element. Set to <strong>black fill, no
+                            contour</strong> as well.</p>
                 </div>
                 <div class="step-item">
                     <span class="step-number">5</span>
-                    <p><strong>Position Using Circle Guide:</strong> Create a circle the same diameter as the coaster. Position it to match the coaster's location on the table. Place the logo and text inside it. <em>Remove the circle before printing.</em></p>
+                    <p><strong>Position Using Circle Guide:</strong> Create a circle the same diameter as the coaster.
+                        Position it to match the coaster's location on the table. Place the logo and text inside it.
+                        <em>Remove the circle before printing.</em></p>
                 </div>
             </div>
             <div class="navigation">
@@ -363,17 +613,21 @@
             <h2>How to position logo and name on the coaster</h2>
             <div style="display:flex; gap:40px; align-items:center; margin:30px 0; flex-wrap:wrap;">
                 <div style="flex:1; min-width:260px;">
-                    <div style="background:#f9fafb; border:2px solid #e5e7eb; border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:200px;">
-                        <div style="width:160px; height:160px; border:3px dashed #d1d5db; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;">
+                    <div
+                        style="background:#f9fafb; border:2px solid #e5e7eb; border-radius:16px; padding:30px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:200px;">
+                        <div
+                            style="width:160px; height:160px; border:3px dashed #d1d5db; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;">
                             <div style="font-size:2.8em; font-weight:900; font-family:'Times New Roman',serif;">N</div>
                             <div style="font-size:0.85em; font-style:italic; color:#6b7280;">Your Name</div>
                         </div>
-                        <p style="margin-top:14px; color:#9ca3af; font-size:0.85em; text-align:center;">Dashed circle = coaster boundary (remove before printing)</p>
+                        <p style="margin-top:14px; color:#9ca3af; font-size:0.85em; text-align:center;">Dashed circle =
+                            coaster boundary (remove before printing)</p>
                     </div>
                 </div>
                 <div style="flex:1; min-width:260px;">
                     <ul style="font-size:1.05em; line-height:2.5; list-style:none;">
-                        <li>&#x2705; Place composition in the <strong>top-left corner</strong> of the Gravostyle page</li>
+                        <li>&#x2705; Place composition in the <strong>top-left corner</strong> of the Gravostyle page
+                        </li>
                         <li>&#x2705; Logo and text must have <strong>black fill, no contour</strong></li>
                         <li>&#x2705; Measure the coaster and scale the circle to match exactly</li>
                         <li>&#x2705; Position the circle to match the coaster location on the table</li>
@@ -382,7 +636,8 @@
                 </div>
             </div>
             <div class="key-takeaway">
-                <strong>Precision Matters:</strong> The top-left corner of the Gravostyle page corresponds to position (0,0) on the physical engraving table. Any offset in software = misplaced engraving on the coaster.
+                <strong>Precision Matters:</strong> The top-left corner of the Gravostyle page corresponds to position
+                (0,0) on the physical engraving table. Any offset in software = misplaced engraving on the coaster.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">&#x2190; Back</button>
@@ -397,23 +652,30 @@
             <div class="step-list">
                 <div class="step-item">
                     <span class="step-number">1</span>
-                    <p><strong>Check USB Connection:</strong> Confirm the USB cable is securely connected at both ends &#x2014; the PC and the rear panel of the machine.</p>
+                    <p><strong>Check USB Connection:</strong> Confirm the USB cable is securely connected at both ends
+                        &#x2014; the PC and the rear panel of the machine.</p>
                 </div>
                 <div class="step-item">
                     <span class="step-number">2</span>
-                    <p><strong>Verify Machine Status:</strong> The machine's LCD screen must display <strong>"Ready to receive"</strong> before you attempt to transfer.</p>
+                    <p><strong>Verify Machine Status:</strong> The machine's LCD screen must display <strong>"Ready to
+                            receive"</strong> before you attempt to transfer.</p>
                 </div>
                 <div class="step-item">
                     <span class="step-number">3</span>
-                    <p><strong>Click Print in Gravostyle:</strong> A status screen shows work completion as a percentage. The file may take several minutes to fully transfer. Wait until the machine display updates before proceeding.</p>
+                    <p><strong>Click Print in Gravostyle:</strong> A status screen shows work completion as a
+                        percentage. The file may take several minutes to fully transfer. Wait until the machine display
+                        updates before proceeding.</p>
                 </div>
                 <div class="step-item">
                     <span class="step-number">4</span>
-                    <p><strong>Confirm Transfer:</strong> Once complete, the machine display shows the file name and key engraving parameters, confirming the job is loaded and ready.</p>
+                    <p><strong>Confirm Transfer:</strong> Once complete, the machine display shows the file name and key
+                        engraving parameters, confirming the job is loaded and ready.</p>
                 </div>
             </div>
             <div class="key-takeaway" style="background:#fef2f2; border-color:#fca5a5; color:#991b1b;">
-                <strong>Do Not Rush:</strong> If the Gravostyle status screen disappears quickly, the file may still be transferring in the background. Always wait for the machine display to confirm before touching the machine.
+                <strong>Do Not Rush:</strong> If the Gravostyle status screen disappears quickly, the file may still be
+                transferring in the background. Always wait for the machine display to confirm before touching the
+                machine.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">&#x2190; Back</button>
@@ -429,16 +691,25 @@
                 <div class="equipment-card" style="background:#fffbeb; border:2px solid #f59e0b;">
                     <div style="font-size:2.5em; margin-bottom:12px;">&#x1F4CD;</div>
                     <h3>Position the Coaster</h3>
-                    <p>Open the front door. Place the coaster in the <strong>top-left corner</strong> of the engraving table against the scaled rulers. This position must match the circle location in your Gravostyle composition.</p>
+                    <p>Open the front door. Place the coaster in the <strong>top-left corner</strong> of the engraving
+                        table against the scaled rulers. This position must match the circle location in your Gravostyle
+                        composition.</p>
                 </div>
                 <div class="equipment-card" style="background:#fffbeb; border:2px solid #f59e0b;">
                     <div style="font-size:2.5em; margin-bottom:12px;">&#x1F50D;</div>
                     <h3>Focus the Head</h3>
-                    <p>Check that the table is low enough that the moving head will not touch the coaster. Press <strong>Autofocus</strong> to automatically set the focal height. Autofocus runs at each launch by default.</p>
+                    <p>Check that the table is low enough that the moving head will not touch the coaster. Press
+                        <strong>Autofocus</strong> to automatically set the focal height. Autofocus runs at each launch
+                        by default.</p>
                 </div>
             </div>
             <div class="key-takeaway">
-                <strong>Batch Engraving Tip:</strong> If engraving multiple coasters of the same thickness, you can disable autofocus after the first one to save time &#x2014; focus only runs on the first plate.
+                <strong>Batch Engraving Tip:</strong> If engraving multiple coasters of the same thickness, you can
+                disable autofocus after the first one to save time &#x2014; focus only runs on the first plate.<br><br>
+                <strong>&#x1F4A1; Quiz Hint (Z Levels):</strong> The laser beam converges to a specific focal point.
+                Moving the Z height away from this optimal distance changes the beam focus, causing the spot size to
+                increase and energy to disperse. Properly focused = deeper, sharper marks; out of focus = lighter, more
+                diffuse marks.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">&#x2190; Back</button>
@@ -451,19 +722,35 @@
             <h1>&#x25B6;&#xFE0F; Engraving Checklist</h1>
             <h2>Seven steps before pressing Start</h2>
             <div class="step-list">
-                <div class="step-item"><span class="step-number">1</span><p><strong>Switch on the air extraction system.</strong></p></div>
-                <div class="step-item"><span class="step-number">2</span><p><strong>Select the engraving mode.</strong> Your TA will specify which of the two available modes to use.</p></div>
-                <div class="step-item"><span class="step-number">3</span><p><strong>Confirm the coaster is correctly positioned</strong> in the top-left of the engraving area, against the rulers.</p></div>
-                <div class="step-item"><span class="step-number">4</span><p><strong>Check the focus.</strong> Press Autofocus if not already done for this coaster.</p></div>
-                <div class="step-item"><span class="step-number">5</span><p><strong>Close and confirm the door is fully shut.</strong></p></div>
-                <div class="step-item"><span class="step-number">6</span><p><strong>Confirm the LCD screen displays the correct file name</strong> for your composition.</p></div>
+                <div class="step-item"><span class="step-number">1</span>
+                    <p><strong>Switch on the air extraction system.</strong></p>
+                </div>
+                <div class="step-item"><span class="step-number">2</span>
+                    <p><strong>Select the engraving mode.</strong> Your TA will specify which of the two available modes
+                        to use.</p>
+                </div>
+                <div class="step-item"><span class="step-number">3</span>
+                    <p><strong>Confirm the coaster is correctly positioned</strong> in the top-left of the engraving
+                        area, against the rulers.</p>
+                </div>
+                <div class="step-item"><span class="step-number">4</span>
+                    <p><strong>Check the focus.</strong> Press Autofocus if not already done for this coaster.</p>
+                </div>
+                <div class="step-item"><span class="step-number">5</span>
+                    <p><strong>Close and confirm the door is fully shut.</strong></p>
+                </div>
+                <div class="step-item"><span class="step-number">6</span>
+                    <p><strong>Confirm the LCD screen displays the correct file name</strong> for your composition.</p>
+                </div>
                 <div class="step-item" style="background:#fef2f2; border:1px solid #fecaca;">
                     <span class="step-number" style="color:#dc2626;">7</span>
-                    <p><strong>Press the START button.</strong> The red light will flash during engraving. Do not open the door.</p>
+                    <p><strong>Press the START button.</strong> The red light will flash during engraving. Do not open
+                        the door.</p>
                 </div>
             </div>
             <div class="key-takeaway">
-                <strong>After Completion:</strong> The laser shuts off and the head returns to the origin (top-left). Wait a few seconds for fumes to be fully extracted, then open the door and remove your coaster.
+                <strong>After Completion:</strong> The laser shuts off and the head returns to the origin (top-left).
+                Wait a few seconds for fumes to be fully extracted, then open the door and remove your coaster.
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">&#x2190; Back</button>
@@ -478,14 +765,19 @@
             <div style="text-align:center; margin:40px 0;">
                 <h3>Today's Key Principles:</h3>
                 <p style="font-size:1.2em; margin:20px 0; line-height:2.2;">
-                    1. <strong>Laser Safety First:</strong> Invisible radiation &#x2014; never bypass safety systems or open covers during operation.<br>
-                    2. <strong>Extraction is Essential:</strong> Never run the laser without the fume extraction system switched on.<br>
-                    3. <strong>Precision Layout:</strong> Top-left in Gravostyle = top-left on the physical table. Alignment is everything.<br>
-                    4. <strong>Black Fill, No Contour:</strong> Correct Gravostyle settings are critical for a clean, consistent engrave.
+                    1. <strong>Laser Safety First:</strong> Invisible radiation &#x2014; never bypass safety systems or
+                    open covers during operation.<br>
+                    2. <strong>Extraction is Essential:</strong> Never run the laser without the fume extraction system
+                    switched on.<br>
+                    3. <strong>Precision Layout:</strong> Top-left in Gravostyle = top-left on the physical table.
+                    Alignment is everything.<br>
+                    4. <strong>Black Fill, No Contour:</strong> Correct Gravostyle settings are critical for a clean,
+                    consistent engrave.
                 </p>
             </div>
             <div class="key-takeaway" style="text-align:center;">
-                <strong>Next Steps:</strong> Confirm your Gravostyle composition with your TA, verify the coaster is properly positioned in the top-left corner, run through the 7-step checklist, and press Start!
+                <strong>Next Steps:</strong> Confirm your Gravostyle composition with your TA, verify the coaster is
+                properly positioned in the top-left corner, run through the 7-step checklist, and press Start!
             </div>
             <div class="navigation">
                 <button class="btn-secondary" onclick="prevSlide()">&#x2190; Back</button>
@@ -494,7 +786,6 @@
         </div>
 
     </div>
-
 
     <script>
         let currentSlide = 1;
@@ -546,7 +837,7 @@
                 (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
         }
 
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'ArrowRight') nextSlide();
             if (e.key === 'ArrowLeft') prevSlide();
         });
@@ -557,4 +848,5 @@
     </script>
 
 </body>
+
 </html>
