@@ -1,0 +1,2108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IE 4531 - Offline Robot Programming Lab Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 50px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+        
+        nav {
+            background: #f8f9fa;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 4px solid #11998e;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #11998e;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-weight: 600;
+            border: 2px solid transparent;
+        }
+        
+        nav a:hover {
+            background: #11998e;
+            color: white;
+            border-color: #11998e;
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            padding: 50px;
+        }
+        
+        section {
+            margin-bottom: 60px;
+            scroll-margin-top: 100px;
+        }
+        
+        h2 {
+            color: #11998e;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #11998e;
+        }
+        
+        h3 {
+            color: #38ef7d;
+            font-size: 1.7em;
+            margin: 30px 0 20px;
+        }
+        
+        h4 {
+            color: #555;
+            font-size: 1.3em;
+            margin: 25px 0 15px;
+        }
+        
+        .robot-icon {
+            font-size: 3em;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .safety-box {
+            background: #fff3cd;
+            border-left: 6px solid #ffc107;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .safety-box h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .danger-box {
+            background: #f8d7da;
+            border-left: 6px solid #dc3545;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .danger-box h3 {
+            color: #721c24;
+            margin-top: 0;
+        }
+        
+        .info-box {
+            background: #d1ecf1;
+            border-left: 6px solid #17a2b8;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .info-box h3 {
+            color: #0c5460;
+            margin-top: 0;
+        }
+        
+        .tip-box {
+            background: #d4edda;
+            border-left: 6px solid #28a745;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .tip-box h3 {
+            color: #155724;
+            margin-top: 0;
+        }
+        
+        .tech-box {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            border-left: 6px solid #00acc1;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .tech-box h3 {
+            color: #006064;
+            margin-top: 0;
+        }
+        
+        ul, ol {
+            margin: 15px 0 15px 35px;
+        }
+        
+        li {
+            margin: 10px 0;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .code-highlight {
+            background: #e9ecef;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #d63384;
+        }
+        
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .spec-table th {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .spec-table td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .spec-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .spec-table tr:hover {
+            background: #e9ecef;
+        }
+        
+        .learning-outcomes {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 25px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .learning-outcomes ul {
+            list-style: none;
+        }
+        
+        .learning-outcomes li {
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .learning-outcomes li:before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.4em;
+            position: absolute;
+            left: 0;
+        }
+        
+        .procedure-step {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid #11998e;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .procedure-step strong {
+            color: #11998e;
+            font-size: 1.1em;
+        }
+        
+        .workflow-card {
+            background: white;
+            border: 2px solid #11998e;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .workflow-card h4 {
+            color: #11998e;
+            margin-top: 0;
+            font-size: 1.4em;
+        }
+        
+        .robot-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .robot-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .robot-card h4 {
+            color: #11998e;
+            margin-top: 0;
+            text-align: center;
+            font-size: 1.5em;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            .content {
+                padding: 25px;
+            }
+            
+            .robot-compare {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="robot-icon">🤖</div>
+            <h1>IE 4531 - Offline Robot Programming Lab</h1>
+            <p>Learn Industrial Robotics with OCTOPUZ Software</p>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#learning-outcomes">Learning Outcomes</a></li>
+                <li><a href="#safety">Safety Rules</a></li>
+                <li><a href="#robot-basics">Robot Basics</a></li>
+                <li><a href="#octopuz">OCTOPUZ Software</a></li>
+                <li><a href="#ur5e-programming">UR5e Programming</a></li>
+                <li><a href="#fanuc-programming">FANUC Programming</a></li>
+                <li><a href="#deployment">Deploying Programs</a></li>
+                <li><a href="#quiz-hints">Quiz Hints</a></li>
+            </ul>
+        </nav>
+        
+        <div class="content">
+            <!-- Introduction Section -->
+            <section id="introduction">
+                <h2>🤖 Introduction: What is Offline Robot Programming?</h2>
+                
+                <p>Welcome to the Offline Robot Programming Lab! This lab introduces you to modern industrial robotics and teaches you how to program robots without physically touching them.</p>
+                
+                <h3>What is "Offline" Programming?</h3>
+                
+                <p>Traditionally, robots are programmed using a <strong>teach pendant</strong> (a handheld controller) where you manually move the robot to each position and save those points. This is called <strong>online programming</strong> or <strong>teach pendant programming</strong>.</p>
+                
+                <p><strong>Offline programming</strong> means you create and test robot programs on a computer using simulation software <em>before</em> ever touching the real robot. Think of it like:</p>
+                
+                <ul>
+                    <li><strong>Video game analogy:</strong> Just like playing a racing game before driving a real car</li>
+                    <li><strong>Flight simulator:</strong> Pilots practice in simulators before flying real planes</li>
+                    <li><strong>CAD/CAM analogy:</strong> Similar to how you design parts in CAD and generate CNC programs in CAM</li>
+                </ul>
+                
+                <div class="info-box">
+                    <h3>💡 Why Offline Programming?</h3>
+                    <p><strong>Advantages over teach pendant programming:</strong></p>
+                    <ul>
+                        <li><strong>No production downtime:</strong> The robot keeps working while you program the next job</li>
+                        <li><strong>Safer:</strong> You can test and debug in simulation without risk of crashes</li>
+                        <li><strong>Faster:</strong> Programming complex paths is much quicker in software</li>
+                        <li><strong>Better planning:</strong> You can see the entire cell and plan collision-free paths</li>
+                        <li><strong>Reusable:</strong> Save programs and modify them for similar tasks</li>
+                        <li><strong>Multi-robot:</strong> Easier to coordinate multiple robots working together</li>
+                    </ul>
+                </div>
+                
+                <h3>What You'll Be Doing</h3>
+                
+                <p>In this lab, you will:</p>
+                <ol>
+                    <li>Use <strong>OCTOPUZ</strong> software to program two different industrial robots</li>
+                    <li>Create a simple <strong>pick and place</strong> operation (like a robot picking up parts and moving them)</li>
+                    <li>Test your programs in <strong>simulation</strong> to verify they work correctly</li>
+                    <li>Export the programs in the correct file format for each robot brand</li>
+                    <li>Deploy (upload and run) your programs on the actual robots in the lab</li>
+                </ol>
+                
+                <h3>The Two Robots You'll Work With</h3>
+                
+                <div class="robot-compare">
+                    <div class="robot-card">
+                        <h4>Universal Robots UR5e</h4>
+                        <p><strong>Type:</strong> Collaborative Robot (Cobot)</p>
+                        <p><strong>Axes:</strong> 6-axis articulated arm</p>
+                        <p><strong>Reach:</strong> 850mm</p>
+                        <p><strong>Payload:</strong> 5kg</p>
+                        <p><strong>Application:</strong> Assembly tasks</p>
+                        <p><strong>Special feature:</strong> Safe to work alongside humans</p>
+                        <p><strong>File format:</strong> .urp (Universal Robots Program)</p>
+                    </div>
+                    
+                    <div class="robot-card">
+                        <h4>FANUC CR-7iA/L</h4>
+                        <p><strong>Type:</strong> Collaborative Robot</p>
+                        <p><strong>Axes:</strong> 7-axis (extra flexibility!)</p>
+                        <p><strong>Reach:</strong> 911mm</p>
+                        <p><strong>Payload:</strong> 7kg</p>
+                        <p><strong>Application:</strong> Machine tending, inspection</p>
+                        <p><strong>Special feature:</strong> Extra axis allows reaching around obstacles</p>
+                        <p><strong>File format:</strong> .LS → .TP (FANUC teach pendant format)</p>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>💡 What's a "Collaborative Robot" (Cobot)?</h3>
+                    <p>Unlike traditional industrial robots that are caged off for safety, <strong>collaborative robots</strong> are designed to work safely alongside humans. They have:</p>
+                    <ul>
+                        <li><strong>Force limiting:</strong> If they bump into something, they stop immediately</li>
+                        <li><strong>Rounded edges:</strong> No sharp pinch points</li>
+                        <li><strong>Speed monitoring:</strong> They slow down or stop when humans are nearby</li>
+                        <li><strong>Easy programming:</strong> Designed to be user-friendly</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Learning Outcomes Section -->
+            <section id="learning-outcomes">
+                <h2>🎯 Learning Outcomes</h2>
+                
+                <div class="learning-outcomes">
+                    <p>By the end of this lab, you should be able to:</p>
+                    <ul>
+                        <li>Explain what offline robot programming is and why it's important in modern manufacturing</li>
+                        <li>Set up robot base frames and tool frames in OCTOPUZ</li>
+                        <li>Create robot programs using Point-to-Point (PTP) and Linear motion statements</li>
+                        <li>Use OCTOPUZ Program Editor, Point Editor, and Jog menu effectively</li>
+                        <li>Call subprograms to control end-effectors (grippers, vacuum cups, etc.)</li>
+                        <li>Simulate and verify robot programs to check for collisions</li>
+                        <li>Export programs in the correct format for different robot brands</li>
+                        <li>Post-process FANUC programs using ROBOGUIDE software</li>
+                        <li>Upload and run programs on physical UR5e and FANUC CR-7iA/L robots</li>
+                        <li>Understand the complete workflow from design to deployment</li>
+                    </ul>
+                </div>
+                
+                <h3>Prerequisites</h3>
+                
+                <p>Before starting this lab, you should understand:</p>
+                
+                <table class="spec-table">
+                    <tr>
+                        <th>Concept</th>
+                        <th>What You Need to Know</th>
+                    </tr>
+                    <tr>
+                        <td>Robot Kinematics</td>
+                        <td>How robot joints and links work together to create motion</td>
+                    </tr>
+                    <tr>
+                        <td>Degrees of Freedom</td>
+                        <td>How many independent ways a robot can move (6-axis = 6 DOF)</td>
+                    </tr>
+                    <tr>
+                        <td>Work Envelope</td>
+                        <td>The 3D space a robot can reach with its end-effector</td>
+                    </tr>
+                    <tr>
+                        <td>End-Effectors</td>
+                        <td>The "hand" of the robot (gripper, vacuum cup, welding torch, etc.)</td>
+                    </tr>
+                    <tr>
+                        <td>TCP (Tool Center Point)</td>
+                        <td>The reference point at the tip of the robot's tool</td>
+                    </tr>
+                    <tr>
+                        <td>Base Frame</td>
+                        <td>The robot's coordinate system origin point</td>
+                    </tr>
+                    <tr>
+                        <td>Motion Control</td>
+                        <td>How robots move (joint motion vs. linear motion)</td>
+                    </tr>
+                </table>
+            </section>
+            
+            <!-- Safety Section -->
+            <section id="safety">
+                <h2>⚠️ Lab Safety Rules</h2>
+                
+                <div class="danger-box">
+                    <h3>🚨 CRITICAL SAFETY RULES</h3>
+                    <p><strong>Robots are powerful machines that can cause serious injury if misused. Always follow these rules!</strong></p>
+                </div>
+                
+                <h3>General Safety Rules (Same as CNC Lab)</h3>
+                
+                <div class="safety-box">
+                    <h4>1. Never Operate Without Supervision</h4>
+                    <p><strong>DO NOT</strong> touch or operate any robot without a lab technician or teaching assistant present. Robots move in ways you might not expect!</p>
+                </div>
+                
+                <div class="safety-box">
+                    <h4>2. Required Safety Equipment</h4>
+                    <ul>
+                        <li><strong>Safety glasses:</strong> MUST be worn at all times (robots can knock things loose)</li>
+                        <li><strong>Closed-toe shoes:</strong> Required (robots can drop heavy objects)</li>
+                        <li><strong>Appropriate clothing:</strong> No loose clothing, jewelry, or dangling accessories</li>
+                        <li><strong>Hair:</strong> Tie back long hair or wear a hair net</li>
+                    </ul>
+                </div>
+                
+                <h3>Robot-Specific Safety Rules</h3>
+                
+                <div class="danger-box">
+                    <h4>⚠️ Stay Clear of Moving Robots</h4>
+                    <ul>
+                        <li><strong>Never enter the robot's work area</strong> while it's running</li>
+                        <li><strong>Keep a safe distance:</strong> Even collaborative robots can hurt you if moving at full speed</li>
+                        <li><strong>Don't approach operators:</strong> Stay back when someone else is running their robot</li>
+                        <li><strong>Watch for unexpected movements:</strong> Robots can move suddenly when powered on</li>
+                    </ul>
+                </div>
+                
+                <div class="danger-box">
+                    <h4>⚠️ Emergency Stop Procedure</h4>
+                    <p><strong>If anything goes wrong:</strong></p>
+                    <ol>
+                        <li><strong>Press the Emergency Stop button immediately</strong> (red button on teach pendant or control box)</li>
+                        <li>The robot will stop all motion instantly</li>
+                        <li>Alert the lab instructor or TA</li>
+                        <li>Do NOT attempt to fix the problem yourself</li>
+                        <li>Do NOT reset the emergency stop without instructor approval</li>
+                    </ol>
+                </div>
+                
+                <h3>Proper Lab Attire</h3>
+                
+                <table class="spec-table">
+                    <tr>
+                        <th>Item</th>
+                        <th>Requirement</th>
+                        <th>Why?</th>
+                    </tr>
+                    <tr>
+                        <td>Hair</td>
+                        <td>Tie back long hair</td>
+                        <td>Can get caught in robot gripper or moving parts</td>
+                    </tr>
+                    <tr>
+                        <td>Safety Glasses</td>
+                        <td>Required at all times</td>
+                        <td>Robots can knock objects around</td>
+                    </tr>
+                    <tr>
+                        <td>Shirt</td>
+                        <td>Short sleeves or tight long sleeves</td>
+                        <td>Loose clothing can get caught</td>
+                    </tr>
+                    <tr>
+                        <td>Jewelry/Watch</td>
+                        <td>NO jewelry or watches</td>
+                        <td>Can get caught or interfere with sensors</td>
+                    </tr>
+                    <tr>
+                        <td>Pants</td>
+                        <td>Long pants</td>
+                        <td>Protection from dropped objects</td>
+                    </tr>
+                    <tr>
+                        <td>Shoes</td>
+                        <td>Closed-toe shoes</td>
+                        <td>Protection from heavy parts or tools</td>
+                    </tr>
+                </table>
+                
+                <h3>General Lab Rules</h3>
+                
+                <ol>
+                    <li><strong>Don't crowd machines:</strong> Give each operator plenty of space</li>
+                    <li><strong>Stay focused:</strong> Pay attention to what you're doing. Don't rush!</li>
+                    <li><strong>Listen:</strong> Unusual sounds can indicate problems</li>
+                    <li><strong>Ask questions:</strong> If you're unsure about anything, ask before proceeding</li>
+                    <li><strong>Clean up:</strong> Remove all personal items, trash, and tools when done</li>
+                </ol>
+            </section>
+            
+            <!-- Robot Basics Section -->
+            <section id="robot-basics">
+                <h2>🔧 Robot Programming Basics</h2>
+                
+                <h3>Understanding Robot Coordinate Systems</h3>
+                
+                <p>Before programming a robot, you need to understand how robots know where they are and where to move.</p>
+                
+                <h4>The Base Frame</h4>
+                
+                <div class="info-box">
+                    <h3>💡 What is a Base Frame?</h3>
+                    <p>The <strong>base frame</strong> is the robot's "home" coordinate system. It's like the origin point (0,0,0) on a graph. Every position the robot moves to is measured from this point.</p>
+                    <p><strong>Think of it like this:</strong> If you're giving directions to your house, you might say "3 blocks north, 2 blocks east from the town center." The town center is like the base frame - everything is measured from there.</p>
+                </div>
+                
+                <h4>The Tool Center Point (TCP)</h4>
+                
+                <div class="info-box">
+                    <h3>💡 What is TCP?</h3>
+                    <p>The <strong>Tool Center Point (TCP)</strong> is the reference point at the tip of whatever tool the robot is holding. For a gripper, it's usually at the center of the gripper jaws. For a welding torch, it's at the tip of the electrode.</p>
+                    <p><strong>Why it matters:</strong> When you tell the robot to move to a position, you're actually moving the TCP to that position, not the robot's wrist or base.</p>
+                </div>
+                
+                <h3>Types of Robot Motion</h3>
+                
+                <h4>1. Point-to-Point (PTP) Motion</h4>
+                
+                <p><strong>What it does:</strong> Moves the robot from current position to target position by the fastest route</p>
+                
+                <p><strong>How it works:</strong> Each joint moves at its own speed to reach the target simultaneously</p>
+                
+                <p><strong>Path:</strong> The TCP does NOT move in a straight line! The path is unpredictable.</p>
+                
+                <p><strong>When to use it:</strong></p>
+                <ul>
+                    <li>Moving between widely separated positions</li>
+                    <li>When the exact path doesn't matter</li>
+                    <li>When you need the fastest movement</li>
+                    <li>Moving to "approach" positions before a precise operation</li>
+                </ul>
+                
+                <div class="safety-box">
+                    <h4>⚠️ PTP Safety Warning</h4>
+                    <p>Because the path is unpredictable, <strong>PTP motion can cause collisions</strong> if obstacles are in the way. Always use PTP for moves in open space, not near objects!</p>
+                </div>
+                
+                <h4>2. Linear Motion</h4>
+                
+                <p><strong>What it does:</strong> Moves the TCP in a perfectly straight line from start to end</p>
+                
+                <p><strong>How it works:</strong> The robot calculates joint movements to make the TCP follow a linear path</p>
+                
+                <p><strong>Path:</strong> Predictable straight line</p>
+                
+                <p><strong>When to use it:</strong></p>
+                <ul>
+                    <li>Approaching/retracting from pick or place positions</li>
+                    <li>When precision path control is needed</li>
+                    <li>Moving near obstacles where collision is a risk</li>
+                    <li>Any operation where the path matters (welding, gluing, etc.)</li>
+                </ul>
+                
+                <div class="tip-box">
+                    <h3>✅ General Rule of Thumb</h3>
+                    <ul>
+                        <li><strong>Use PTP for:</strong> Long moves in open space, going "home", moving between work areas</li>
+                        <li><strong>Use Linear for:</strong> Final approach to pick/place, retracting from positions, moves near objects</li>
+                    </ul>
+                </div>
+                
+                <h3>Understanding the Pick and Place Task</h3>
+                
+                <p>The classic beginner robot task is <strong>pick and place</strong>. The robot picks up an object from one location and places it at another location. Simple, but it teaches all the fundamentals!</p>
+                
+                <h4>The Five Key Points (Waypoints)</h4>
+                
+                <table class="spec-table">
+                    <tr>
+                        <th>Point</th>
+                        <th>Name</th>
+                        <th>Purpose</th>
+                        <th>Motion Type</th>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>Home Position</td>
+                        <td>Safe starting/ending position, out of the way</td>
+                        <td>PTP</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>Approach Pick</td>
+                        <td>Above the pick position, ready to descend</td>
+                        <td>PTP (from A), Linear (to C)</td>
+                    </tr>
+                    <tr>
+                        <td>C</td>
+                        <td>Pick Position</td>
+                        <td>Exact location to grab the part</td>
+                        <td>Linear</td>
+                    </tr>
+                    <tr>
+                        <td>D</td>
+                        <td>Approach Place</td>
+                        <td>Above the place position, ready to descend</td>
+                        <td>PTP (from B), Linear (to E)</td>
+                    </tr>
+                    <tr>
+                        <td>E</td>
+                        <td>Place Position</td>
+                        <td>Exact location to release the part</td>
+                        <td>Linear</td>
+                    </tr>
+                </table>
+                
+                <div class="info-box">
+                    <h3>💡 Why Five Points Instead of Two?</h3>
+                    <p>You might think: "Why not just go directly from pick to place?" Here's why the intermediate points are critical:</p>
+                    <ul>
+                        <li><strong>Collision avoidance:</strong> The approach points (B and D) ensure the robot approaches from above, avoiding obstacles</li>
+                        <li><strong>Controlled descent:</strong> Using Linear motion from B to C ensures a straight, safe approach</li>
+                        <li><strong>Repeatability:</strong> Having defined approach points makes the program more reliable</li>
+                        <li><strong>Safety:</strong> If something goes wrong, the robot is more likely to be in a safe position</li>
+                    </ul>
+                </div>
+                
+                <h3>The Complete Sequence</h3>
+                
+                <div class="workflow-card">
+                    <h4>📋 Step-by-Step Pick and Place Sequence</h4>
+                    <ol>
+                        <li><strong>Start at Home (Point A)</strong> - Robot in safe position, gripper open</li>
+                        <li><strong>Open Gripper</strong> - Ensure gripper jaws are open (call subprogram)</li>
+                        <li><strong>Move to Approach Pick (Point B)</strong> - PTP motion to position above part</li>
+                        <li><strong>Descend to Pick (Point C)</strong> - Linear motion straight down to part</li>
+                        <li><strong>Close Gripper</strong> - Grab the part (call subprogram)</li>
+                        <li><strong>Retract to Approach (Point B)</strong> - Linear motion straight up</li>
+                        <li><strong>Move to Approach Place (Point D)</strong> - PTP motion to position above target</li>
+                        <li><strong>Descend to Place (Point E)</strong> - Linear motion straight down</li>
+                        <li><strong>Open Gripper</strong> - Release the part (call subprogram)</li>
+                        <li><strong>Retract to Approach (Point D)</strong> - Linear motion straight up</li>
+                        <li><strong>Return Home (Point A)</strong> - PTP motion back to starting position</li>
+                    </ol>
+                </div>
+            </section>
+            
+            <!-- OCTOPUZ Software Section -->
+            <section id="octopuz">
+                <h2>💻 OCTOPUZ Software Overview</h2>
+                
+                <h3>What is OCTOPUZ?</h3>
+                
+                <p><strong>OCTOPUZ</strong> is professional offline robot programming software used by companies worldwide. It allows you to:</p>
+                
+                <ul>
+                    <li>Create virtual robot cells with accurate 3D models</li>
+                    <li>Program robots using a graphical interface</li>
+                    <li>Simulate and verify programs before deployment</li>
+                    <li>Export programs for different robot brands (Universal Robots, FANUC, ABB, KUKA, etc.)</li>
+                    <li>Detect collisions and optimize robot paths</li>
+                </ul>
+                
+                <h3>Main Workspaces in OCTOPUZ</h3>
+                
+                <table class="spec-table">
+                    <tr>
+                        <th>Workspace</th>
+                        <th>Purpose</th>
+                        <th>What You Do Here</th>
+                    </tr>
+                    <tr>
+                        <td>HOME</td>
+                        <td>Cell setup and overview</td>
+                        <td>View cell components, show/hide objects, manage the overall environment</td>
+                    </tr>
+                    <tr>
+                        <td>PROGRAM</td>
+                        <td>Create and edit robot programs</td>
+                        <td>Write motion statements, jog the robot, test positions, simulate programs</td>
+                    </tr>
+                    <tr>
+                        <td>EXPORT</td>
+                        <td>Generate robot code</td>
+                        <td>Export programs in brand-specific formats (.urp, .LS, etc.)</td>
+                    </tr>
+                </table>
+                
+                <h3>Key Tools and Menus</h3>
+                
+                <h4>1. Cell Graph</h4>
+                
+                <p><strong>What it is:</strong> A hierarchical list of all objects in your robot cell</p>
+                
+                <p><strong>What you can do:</strong></p>
+                <ul>
+                    <li>Show/hide components (like cages, safety enclosures)</li>
+                    <li>Select robots, tools, fixtures</li>
+                    <li>Organize your workspace</li>
+                </ul>
+                
+                <div class="procedure-step">
+                    <strong>Common task:</strong> Hiding the safety cage
+                    <ol>
+                        <li>Click on "Cell Graph" in the HOME workspace</li>
+                        <li>Find "Hood" or "Cage" in the list</li>
+                        <li>Click the eye icon to hide it</li>
+                        <li>Now you can see the robot clearly!</li>
+                    </ol>
+                </div>
+                
+                <h4>2. Program Editor</h4>
+                
+                <p><strong>What it is:</strong> The main area where you write your robot program</p>
+                
+                <p><strong>What you can do:</strong></p>
+                <ul>
+                    <li>Add motion statements (PTP, Linear)</li>
+                    <li>Insert I/O commands (turn things on/off)</li>
+                    <li>Call subprograms</li>
+                    <li>Copy/paste/delete program lines</li>
+                    <li>Reorder statements by dragging</li>
+                </ul>
+                
+                <h4>3. Jog Menu</h4>
+                
+                <p><strong>What it is:</strong> Controls for manually moving the robot in simulation</p>
+                
+                <p><strong>What you can do:</strong></p>
+                <ul>
+                    <li>Move individual joints (Joint mode)</li>
+                    <li>Move in world coordinates X, Y, Z (World mode)</li>
+                    <li>Move relative to the tool (Tool mode)</li>
+                    <li>Rotate around tool axes (Rx, Ry, Rz)</li>
+                    <li>Select which tool is active</li>
+                </ul>
+                
+                <div class="tip-box">
+                    <h3>✅ Jogging Tips</h3>
+                    <ul>
+                        <li><strong>Start in World mode:</strong> Easier to understand (X=left/right, Y=forward/back, Z=up/down)</li>
+                        <li><strong>Use small increments:</strong> Start with 1mm or 5mm movements when near objects</li>
+                        <li><strong>Watch the robot:</strong> Keep an eye on the 3D view as you jog</li>
+                        <li><strong>Undo is your friend:</strong> Made a mistake? Use Ctrl+Z to undo!</li>
+                    </ul>
+                </div>
+                
+                <h4>4. Point Editor</h4>
+                
+                <p><strong>What it is:</strong> Detailed view of position data for each waypoint</p>
+                
+                <p><strong>What you can see:</strong></p>
+                <ul>
+                    <li>X, Y, Z coordinates (in millimeters)</li>
+                    <li>Rotation angles (Rx, Ry, Rz in degrees)</li>
+                    <li>Joint angles (J1, J2, J3, J4, J5, J6)</li>
+                    <li>Reference frame (World, Base, Tool)</li>
+                </ul>
+                
+                <h4>5. Statement Properties</h4>
+                
+                <p><strong>What it is:</strong> Settings for each motion statement in your program</p>
+                
+                <p><strong>What you can adjust:</strong></p>
+                <ul>
+                    <li><strong>Speed:</strong> How fast the robot moves (usually % of maximum)</li>
+                    <li><strong>Acceleration:</strong> How quickly the robot speeds up/slows down</li>
+                    <li><strong>Blend radius:</strong> How smoothly the robot transitions between points</li>
+                    <li><strong>Reference frame:</strong> Which coordinate system to use</li>
+                </ul>
+                
+                <h3>Understanding Subprograms</h3>
+                
+                <div class="info-box">
+                    <h3>💡 What are Subprograms?</h3>
+                    <p>Think of subprograms like functions in coding. Instead of writing the same code over and over, you create a reusable block of code that you can "call" whenever needed.</p>
+                    
+                    <p><strong>Example:</strong> Instead of writing the commands to open the gripper 10 times in your program, you create an "openGripper" subprogram once, then call it whenever you need to open the gripper.</p>
+                </div>
+                
+                <h4>Common Subprograms in This Lab:</h4>
+                
+                <table class="spec-table">
+                    <tr>
+                        <th>Subprogram</th>
+                        <th>Purpose</th>
+                        <th>When to Call It</th>
+                    </tr>
+                    <tr>
+                        <td>openGripper</td>
+                        <td>Opens the gripper jaws</td>
+                        <td>Before picking up a part, after placing a part</td>
+                    </tr>
+                    <tr>
+                        <td>closeGripper</td>
+                        <td>Closes the gripper jaws</td>
+                        <td>After positioning at the pick location</td>
+                    </tr>
+                    <tr>
+                        <td>VACUUMON</td>
+                        <td>Turns on vacuum suction</td>
+                        <td>When using vacuum gripper to pick parts</td>
+                    </tr>
+                    <tr>
+                        <td>VACUUMOFF</td>
+                        <td>Turns off vacuum suction</td>
+                        <td>When releasing parts from vacuum gripper</td>
+                    </tr>
+                    <tr>
+                        <td>pickLocationPallet</td>
+                        <td>Pre-saved pick position</td>
+                        <td>Reference for where to pick parts from pallet</td>
+                    </tr>
+                    <tr>
+                        <td>pickLocation2</td>
+                        <td>Pre-saved place position</td>
+                        <td>Reference for where to place parts in fixture</td>
+                    </tr>
+                </table>
+                
+                <h4>How to Use Subprograms:</h4>
+                
+                <div class="procedure-step">
+                    <strong>Calling a subprogram:</strong>
+                    <ol>
+                        <li>In the Program Editor, find the subprogram in the subprogram list</li>
+                        <li>Click on the subprogram to open it and see what it does</li>
+                        <li>Copy all the lines from the subprogram</li>
+                        <li>Paste them into your Main program at the appropriate location</li>
+                        <li>The commands will execute in sequence when the program runs</li>
+                    </ol>
+                </div>
+                
+                <h3>Simulation and Verification</h3>
+                
+                <p>One of the most powerful features of OCTOPUZ is the ability to <strong>test your program before running it on the real robot</strong>.</p>
+                
+                <h4>Running a Simulation:</h4>
+                
+                <ol>
+                    <li><strong>Play button:</strong> Click to run the entire program from start to finish</li>
+                    <li><strong>Step forward:</strong> Execute one statement at a time (good for debugging)</li>
+                    <li><strong>Speed control:</strong> Adjust simulation speed (slow it down to watch carefully)</li>
+                    <li><strong>Collision detection:</strong> OCTOPUZ will highlight if the robot hits anything</li>
+                </ol>
+                
+                <div class="tip-box">
+                    <h3>✅ Simulation Best Practices</h3>
+                    <ul>
+                        <li><strong>Always simulate before exporting!</strong> Catch errors in software, not on the real robot</li>
+                        <li><strong>Run it multiple times:</strong> Watch from different camera angles</li>
+                        <li><strong>Check for near-misses:</strong> Even if there's no collision, is the robot too close to objects?</li>
+                        <li><strong>Verify gripper operation:</strong> Make sure open/close happens at the right time</li>
+                        <li><strong>Use step mode:</strong> When debugging, step through line-by-line</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- UR5e Programming Section -->
+            <section id="ur5e-programming">
+                <h2>🔵 Programming the UR5e Robot</h2>
+                
+                <h3>Your Task: Transfer Phone Cases</h3>
+                
+                <p>For the UR5e robot, you'll program it to pick up small cellphone cases from a part carrier and place them into an assembly fixture. This simulates a real manufacturing assembly operation!</p>
+                
+                <h3>Step-by-Step Programming Guide</h3>
+                
+                <div class="procedure-step">
+                    <strong>Step 1:</strong> Open the Project File
+                    <ol>
+                        <li>Download <span class="code-highlight">URCell_Lab_PNP.vcmx</span> to your computer</li>
+                        <li>Open OCTOPUZ software</li>
+                        <li>File → Open → Select the .vcmx file</li>
+                        <li>Wait for the project to load (may take 30-60 seconds)</li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 2:</strong> Explore the Cell (HOME Workspace)
+                    <ol>
+                        <li>You'll see a complete robot assembly cell in 3D</li>
+                        <li>The robot is inside a safety cage called "Hood"</li>
+                        <li>To see the robot better:
+                            <ul>
+                                <li>Click on <strong>Cell Graph</strong> (usually on the left side)</li>
+                                <li>Find "Hood" in the component list</li>
+                                <li>Click the eye icon next to it to hide the cage</li>
+                                <li>Now you can see the UR5e robot clearly!</li>
+                            </ul>
+                        </li>
+                        <li>Take a moment to explore - rotate the 3D view, zoom in/out</li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 3:</strong> Switch to PROGRAM Workspace
+                    <ol>
+                        <li>Click on "PROGRAM" at the top of the screen</li>
+                        <li>This is where you'll write your robot program</li>
+                        <li>Notice the Program Editor on the left side</li>
+                        <li>The 3D view is in the center</li>
+                        <li>Properties and settings are on the right</li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 4:</strong> Verify Tool Setup
+                    <ol>
+                        <li>Open the <strong>Jog menu</strong> (usually at the top)</li>
+                        <li>Check that "StandardGripper" is selected as the Tool</li>
+                        <li>This tells OCTOPUZ which end-effector the robot is using</li>
+                        <li>The base frame and tool frame are already set up for you (pre-configured)</li>
+                    </ol>
+                </div>
+                
+                <div class="info-box">
+                    <h3>💡 What are Base and Tool Frames?</h3>
+                    <p><strong>Base Frame:</strong> Defines where the robot's coordinate system starts (usually at the robot base)</p>
+                    <p><strong>Tool Frame:</strong> Defines the Tool Center Point (TCP) - the reference point at the gripper tip</p>
+                    <p>For this lab, these are already configured. In real applications, you'd need to set these up yourself!</p>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 5:</strong> Create Point A (Home Position)
+                    <ol>
+                        <li>In the Program Editor, click <strong>Add Statement → PTP Motion</strong></li>
+                        <li>A new motion statement appears in your program</li>
+                        <li>The robot might move to a default position</li>
+                        <li>Use the Jog controls to move the robot to a safe "home" position:
+                            <ul>
+                                <li>Away from the part carrier and assembly fixture</li>
+                                <li>All joints in comfortable positions</li>
+                                <li>Easy to see and access the work area</li>
+                            </ul>
+                        </li>
+                        <li>Optional: Save this as your home state:
+                            <ul>
+                                <li>Click the gear icon at the top center</li>
+                                <li>Click "Save State"</li>
+                                <li>Now you can return to this position anytime!</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 6:</strong> Open the Gripper
+                    <ol>
+                        <li>Before picking anything, the gripper must be open!</li>
+                        <li>In the Program Editor, look for the <strong>subprogram list</strong></li>
+                        <li>Click on <span class="code-highlight">openGripper</span> subprogram</li>
+                        <li>You'll see the commands inside (usually I/O digital output commands)</li>
+                        <li>Select all the lines in the subprogram</li>
+                        <li>Copy them (Ctrl+C)</li>
+                        <li>Go back to your Main program</li>
+                        <li>Paste (Ctrl+V) after your home position statement</li>
+                    </ol>
+                </div>
+                
+                <div class="info-box">
+                    <h3>💡 Understanding I/O Commands</h3>
+                    <p>I/O stands for <strong>Input/Output</strong>. These are digital signals the robot sends to control external devices:</p>
+                    <ul>
+                        <li><strong>Digital Output = ON:</strong> Sends a signal (like pressing a button)</li>
+                        <li><strong>Digital Output = OFF:</strong> Stops the signal (like releasing a button)</li>
+                        <li>The gripper has a control board that receives these signals and opens/closes the jaws</li>
+                    </ul>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 7:</strong> Create Point B (Approach Pick Position)
+                    <ol>
+                        <li>This point MUST be directly above Point C (the pick position)</li>
+                        <li>Here's the trick to ensure they're aligned:
+                            <ul>
+                                <li>First, go to the exact pick position (Point C)</li>
+                                <li>Then, move only in Z (upward) to create Point B</li>
+                                <li>This guarantees B and C differ only in height</li>
+                            </ul>
+                        </li>
+                        <li>How to do it:
+                            <ul>
+                                <li>Open the <span class="code-highlight">pickLocationPallet</span> subprogram</li>
+                                <li>Copy the PTP Motion Statement from it</li>
+                                <li>Paste it into your Main program</li>
+                                <li>This moves the robot to Point C (the pick position)</li>
+                            </ul>
+                        </li>
+                        <li>Now create Point B:
+                            <ul>
+                                <li>In Statement Properties, select <strong>World</strong> coordinate system</li>
+                                <li>Use Jog menu to move ONLY in +Z direction (upward)</li>
+                                <li>Move to a safe height (maybe 50-100mm above the part)</li>
+                                <li>Click the red circle "Touch Up" button to save this as Point B</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="safety-box">
+                    <h4>⚠️ Why Point B Must Be Above Point C</h4>
+                    <p>If Point B and C are not vertically aligned:</p>
+                    <ul>
+                        <li>The robot might sweep sideways and hit the part carrier</li>
+                        <li>Could knock over parts or damage the fixture</li>
+                        <li>The approach would not be predictable or safe</li>
+                    </ul>
+                    <p><strong>Always use Linear motion from B to C</strong> to ensure a straight vertical descent!</p>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 8:</strong> Create Point C (Pick Position)
+                    <ol>
+                        <li>Open the <span class="code-highlight">pickLocationPallet</span> subprogram again</li>
+                        <li>Copy the PTP Motion Statement</li>
+                        <li>Paste it into your Main program (after Point B)</li>
+                        <li><strong>Important:</strong> Change it from PTP to <strong>Linear Motion</strong>:
+                            <ul>
+                                <li>Click on the statement</li>
+                                <li>Change motion type to "Linear"</li>
+                                <li>This ensures the robot descends straight down from B to C</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 9:</strong> Close the Gripper
+                    <ol>
+                        <li>Now that the robot is at the pick position, grab the part!</li>
+                        <li>Find the <span class="code-highlight">closeGripper</span> subprogram</li>
+                        <li>Copy all lines from it</li>
+                        <li>Paste into your Main program (after Point C)</li>
+                        <li>The gripper will close and hold the part</li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 10:</strong> Return to Point B (Retract)
+                    <ol>
+                        <li>After grabbing the part, lift straight up</li>
+                        <li>Click on Point B in your program</li>
+                        <li>Add a new <strong>Linear Motion</strong> statement</li>
+                        <li>Drag it to the end of the program (or copy/paste)</li>
+                        <li>This retracts the robot straight up with the part</li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 11:</strong> Create Point D (Approach Place Position)
+                    <ol>
+                        <li>Just like Point B, Point D must be directly above Point E</li>
+                        <li>First, move to Point E:
+                            <ul>
+                                <li>Open <span class="code-highlight">pickLocation2</span> subprogram</li>
+                                <li>Copy the PTP Motion Statement</li>
+                                <li>Paste to Main program</li>
+                                <li>Change to Linear Motion</li>
+                            </ul>
+                        </li>
+                        <li>Now create Point D:
+                            <ul>
+                                <li>Jog upward (+Z) to a safe height</li>
+                                <li>Touch up the point</li>
+                                <li>This is your approach to the place position</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 12:</strong> Create Point E (Place Position)
+                    <ol>
+                        <li>Open <span class="code-highlight">pickLocation2</span> subprogram</li>
+                        <li>Copy the PTP Motion Statement</li>
+                        <li>Paste into Main program</li>
+                        <li>Change to <strong>Linear Motion</strong></li>
+                        <li>This is where the robot will place the part</li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 13:</strong> Open the Gripper (Release Part)
+                    <ol>
+                        <li>Now release the part at the place position</li>
+                        <li>Copy the <span class="code-highlight">openGripper</span> subprogram</li>
+                        <li>Paste into Main program</li>
+                        <li>The part is now placed in the assembly fixture!</li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 14:</strong> Retract to Point D
+                    <ol>
+                        <li>Move straight up from the place position</li>
+                        <li>Click on Point D</li>
+                        <li>Add a new Linear Motion statement</li>
+                        <li>Move it to the end of the program</li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 15:</strong> Return Home
+                    <ol>
+                        <li>Finally, return to the home position (Point A)</li>
+                        <li>Add a <strong>PTP Motion</strong> statement</li>
+                        <li>If you saved the home state earlier, recall it</li>
+                        <li>Otherwise, manually jog back to home and touch up</li>
+                        <li>This completes one pick and place cycle!</li>
+                    </ol>
+                </div>
+                
+                <h3>Testing Your Program</h3>
+                
+                <div class="procedure-step">
+                    <strong>Simulation Checklist:</strong>
+                    <ol>
+                        <li>Click the Play button to run the simulation</li>
+                        <li>Watch carefully for:
+                            <ul>
+                                <li>Collisions with the part carrier, fixture, or table</li>
+                                <li>Gripper opening/closing at the right times</li>
+                                <li>Smooth transitions between points</li>
+                                <li>Robot staying within its work envelope</li>
+                            </ul>
+                        </li>
+                        <li>If there are errors:
+                            <ul>
+                                <li>Identify which statement causes the problem</li>
+                                <li>Adjust the position or motion type</li>
+                                <li>Re-simulate until it's perfect</li>
+                            </ul>
+                        </li>
+                        <li>Run the simulation at least 3 times from different viewing angles</li>
+                    </ol>
+                </div>
+                
+                <div class="tip-box">
+                    <h3>✅ Common Mistakes to Avoid</h3>
+                    <ul>
+                        <li><strong>Using PTP near objects:</strong> Always use Linear motion when close to the part or fixture</li>
+                        <li><strong>Forgetting to open gripper:</strong> Make sure the gripper is open before trying to pick</li>
+                        <li><strong>Points not aligned:</strong> B must be directly above C, D must be directly above E</li>
+                        <li><strong>Approach height too low:</strong> Give yourself plenty of clearance (50mm minimum)</li>
+                        <li><strong>Not simulating enough:</strong> Test thoroughly before exporting!</li>
+                    </ul>
+                </div>
+                
+                <h3>Program Structure Overview</h3>
+                
+                <div class="tech-box">
+                    <h3>📝 Your Final Program Should Look Like This:</h3>
+                    <pre style="background: white; padding: 15px; border-radius: 5px; overflow-x: auto;">
+1.  PTP Motion to Point A (Home)
+2.  Call openGripper subprogram
+3.  PTP Motion to Point B (Approach Pick)
+4.  Linear Motion to Point C (Pick Position)
+5.  Call closeGripper subprogram
+6.  Linear Motion to Point B (Retract)
+7.  PTP Motion to Point D (Approach Place)
+8.  Linear Motion to Point E (Place Position)
+9.  Call openGripper subprogram
+10. Linear Motion to Point D (Retract)
+11. PTP Motion to Point A (Return Home)
+                    </pre>
+                </div>
+            </section>
+            
+            <!-- FANUC Programming Section -->
+            <section id="fanuc-programming">
+                <h2>🟢 Programming the FANUC CR-7iA/L Robot</h2>
+                
+                <h3>Your Task: Coaster Pick and Place</h3>
+                
+                <p>For the FANUC robot, you'll program a simpler task: pick up a coaster from one side of a table and place it on the other side. This teaches you the same concepts but with a different robot brand.</p>
+                
+                <h3>What Makes the FANUC Different?</h3>
+                
+                <div class="info-box">
+                    <h3>💡 7-Axis vs. 6-Axis Robots</h3>
+                    <p>Most industrial robots have 6 axes (like the UR5e). The FANUC CR-7iA/L has <strong>7 axes</strong>!</p>
+                    
+                    <p><strong>What does the extra axis do?</strong></p>
+                    <ul>
+                        <li><strong>More flexibility:</strong> Can reach around obstacles</li>
+                        <li><strong>Multiple solutions:</strong> Can reach the same point in different ways (like how you can scratch your back with either hand)</li>
+                        <li><strong>Avoid singularities:</strong> Less likely to get "stuck" in problematic positions</li>
+                        <li><strong>Better for confined spaces:</strong> Can maneuver in tight areas</li>
+                    </ul>
+                    
+                    <p><strong>The tradeoff:</strong> Slightly more complex to program and control</p>
+                </div>
+                
+                <h3>FANUC Programming Differences</h3>
+                
+                <table class="spec-table">
+                    <tr>
+                        <th>Feature</th>
+                        <th>Universal Robots UR5e</th>
+                        <th>FANUC CR-7iA/L</th>
+                    </tr>
+                    <tr>
+                        <td>End-Effector</td>
+                        <td>Gripper (mechanical jaws)</td>
+                        <td>Vacuum suction cup</td>
+                    </tr>
+                    <tr>
+                        <td>Subprograms</td>
+                        <td>openGripper / closeGripper</td>
+                        <td>VACUUMON / VACUUMOFF</td>
+                    </tr>
+                    <tr>
+                        <td>Export Format</td>
+                        <td>.urp (directly usable)</td>
+                        <td>.LS (must convert to .TP)</td>
+                    </tr>
+                    <tr>
+                        <td>Programming Style</td>
+                        <td>Very intuitive, user-friendly</td>
+                        <td>More industrial, traditional FANUC style</td>
+                    </tr>
+                    <tr>
+                        <td>Extra Step</td>
+                        <td>None</td>
+                        <td>Requires ROBOGUIDE post-processing</td>
+                    </tr>
+                </table>
+                
+                <h3>Step-by-Step FANUC Programming</h3>
+                
+                <div class="procedure-step">
+                    <strong>Step 1:</strong> Open the FANUC Project
+                    <ol>
+                        <li>Download <span class="code-highlight">CR7_Lab_PNP.vcmx</span> to your computer</li>
+                        <li>Open it in OCTOPUZ</li>
+                        <li>Navigate to the PROGRAM workspace</li>
+                        <li>Notice this cell is simpler - just a table with the robot</li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 2:</strong> Program the Pick and Place Sequence
+                    <ol>
+                        <li>Follow the same 5-point strategy:
+                            <ul>
+                                <li>Point A: Home position (away from the table)</li>
+                                <li>Point B: Above the coaster on the left side</li>
+                                <li>Point C: At the coaster (to pick it up)</li>
+                                <li>Point D: Above the target location on the right side</li>
+                                <li>Point E: At the target location (to place it down)</li>
+                            </ul>
+                        </li>
+                        <li>Remember:
+                            <ul>
+                                <li>Use <strong>PTP</strong> for moves between widely separated points (A→B, B→D, D→A)</li>
+                                <li>Use <strong>Linear</strong> for approaches and retracts (B→C, C→B, D→E, E→D)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 3:</strong> Control the Vacuum Gripper
+                    <ol>
+                        <li>Instead of openGripper/closeGripper, use:
+                            <ul>
+                                <li><span class="code-highlight">VACUUMON</span> - Turn on suction (call this at Point C after positioning)</li>
+                                <li><span class="code-highlight">VACUUMOFF</span> - Turn off suction (call this at Point E after placing)</li>
+                            </ul>
+                        </li>
+                        <li>Insert these subprogram calls at the appropriate locations in your program</li>
+                    </ol>
+                </div>
+                
+                <div class="info-box">
+                    <h3>💡 How Vacuum Grippers Work</h3>
+                    <p>A vacuum gripper uses suction (negative air pressure) to hold parts, similar to how a vacuum cleaner picks up dirt:</p>
+                    <ul>
+                        <li><strong>VACUUMON:</strong> Turns on the vacuum pump, creating suction at the suction cup</li>
+                        <li><strong>Contact:</strong> When the cup touches the part, the vacuum holds it firmly</li>
+                        <li><strong>VACUUMOFF:</strong> Releases the vacuum, the part drops or stays in place</li>
+                        <li><strong>Best for:</strong> Flat parts, non-porous materials (plastic, metal, glass)</li>
+                    </ul>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 4:</strong> Collision Check
+                    <ol>
+                        <li>This is CRITICAL for the FANUC robot!</li>
+                        <li>The suction gripper extends down from the robot wrist</li>
+                        <li>Make sure the gripper doesn't hit the table surface</li>
+                        <li>In simulation:
+                            <ul>
+                                <li>Watch the gripper body, not just the suction cup</li>
+                                <li>Zoom in to check clearances</li>
+                                <li>Rotate the view to see from different angles</li>
+                            </ul>
+                        </li>
+                        <li>If there's a collision risk, adjust Point C and E heights</li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Step 5:</strong> Complete and Verify
+                    <ol>
+                        <li>Your final program should have the same structure as the UR5e program</li>
+                        <li>Run the simulation multiple times</li>
+                        <li>Test at different speeds (slow and full speed)</li>
+                        <li>Verify no collisions occur</li>
+                        <li>Check that vacuum turns on/off at the right times</li>
+                    </ol>
+                </div>
+                
+                <h3>Program Structure for FANUC</h3>
+                
+                <div class="tech-box">
+                    <h3>📝 FANUC Program Structure:</h3>
+                    <pre style="background: white; padding: 15px; border-radius: 5px; overflow-x: auto;">
+1.  PTP Motion to Point A (Home)
+2.  Call VACUUMOFF subprogram (ensure vacuum is off)
+3.  PTP Motion to Point B (Approach Pick)
+4.  Linear Motion to Point C (Pick Position - coaster)
+5.  Call VACUUMON subprogram (turn on suction)
+6.  [Optional: Add a short delay to ensure vacuum stabilizes]
+7.  Linear Motion to Point B (Retract with coaster)
+8.  PTP Motion to Point D (Approach Place)
+9.  Linear Motion to Point E (Place Position)
+10. Call VACUUMOFF subprogram (release coaster)
+11. Linear Motion to Point D (Retract)
+12. PTP Motion to Point A (Return Home)
+                    </pre>
+                </div>
+            </section>
+            
+            <!-- Deployment Section -->
+            <section id="deployment">
+                <h2>🚀 Exporting and Deploying Your Programs</h2>
+                
+                <h3>Exporting from OCTOPUZ</h3>
+                
+                <p>Once your simulation is perfect, you need to export the program in a format the real robot can understand.</p>
+                
+                <div class="workflow-card">
+                    <h4>Universal Robots UR5e Export Process</h4>
+                    
+                    <div class="procedure-step">
+                        <strong>Step 1:</strong> Export the Program
+                        <ol>
+                            <li>In OCTOPUZ, click <strong>Export → Code → Robot Code</strong></li>
+                            <li>Select <strong>.urp</strong> as the file format</li>
+                            <li>Choose a save location and give it a descriptive name (e.g., "phone_case_transfer.urp")</li>
+                            <li>Click Export</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="procedure-step">
+                        <strong>Step 2:</strong> Transfer to Robot
+                        <ol>
+                            <li>Copy the .urp file to a USB flash drive</li>
+                            <li>Insert the USB drive into the UR5e teach pendant</li>
+                            <li>On the teach pendant:
+                                <ul>
+                                    <li>Go to Program menu</li>
+                                    <li>Click "Load Program"</li>
+                                    <li>Navigate to USB drive</li>
+                                    <li>Select your .urp file</li>
+                                </ul>
+                            </li>
+                            <li>The program loads directly - ready to run!</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="workflow-card">
+                    <h4>FANUC CR-7iA/L Export Process (More Steps)</h4>
+                    
+                    <div class="procedure-step">
+                        <strong>Step 1:</strong> Export from OCTOPUZ
+                        <ol>
+                            <li>Click <strong>Export → Code → Robot Code</strong></li>
+                            <li>Select <strong>.LS</strong> as the file format (FANUC LS format)</li>
+                            <li>Save the file with a descriptive name (e.g., "coaster_transfer.LS")</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="procedure-step">
+                        <strong>Step 2:</strong> Post-Process with ROBOGUIDE
+                        <ol>
+                            <li>Copy the .LS file to a USB drive</li>
+                            <li>Take it to the lab computer (with ROBOGUIDE installed)</li>
+                            <li><strong>Ask the lab TA to help with this step!</strong></li>
+                            <li>ROBOGUIDE converts .LS to .TP (FANUC teach pendant format)</li>
+                            <li>This conversion:
+                                <ul>
+                                    <li>Optimizes the code for the specific FANUC controller</li>
+                                    <li>Adds any required FANUC-specific commands</li>
+                                    <li>Converts coordinate formats</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                    
+                    <div class="procedure-step">
+                        <strong>Step 3:</strong> Load to Robot
+                        <ol>
+                            <li>Put the .TP file on your USB drive</li>
+                            <li>Insert USB into the FANUC teach pendant</li>
+                            <li><strong>The TA will help you load and run the program</strong></li>
+                            <li>FANUC robots have more complex safety systems - always have supervision!</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>💡 Why the Extra Step for FANUC?</h3>
+                    <p>Different robot brands use different programming languages and file formats:</p>
+                    <ul>
+                        <li><strong>Universal Robots:</strong> Uses URScript, .urp files are directly executable</li>
+                        <li><strong>FANUC:</strong> Uses Karel and TP (teach pendant) language, requires compilation</li>
+                        <li><strong>ROBOGUIDE:</strong> FANUC's official software for program conversion and simulation</li>
+                    </ul>
+                    <p>This is like how different video game consoles need different game formats!</p>
+                </div>
+                
+                <h3>Running Programs on the Physical Robots</h3>
+                
+                <div class="danger-box">
+                    <h3>🚨 CRITICAL SAFETY FOR PHYSICAL ROBOTS</h3>
+                    <p><strong>When running on real robots:</strong></p>
+                    <ul>
+                        <li><strong>Always have a TA present</strong> - they will supervise and can hit emergency stop</li>
+                        <li><strong>Start at reduced speed:</strong> 10-25% of programmed speed for first run</li>
+                        <li><strong>Test in manual mode first:</strong> Step through the program line by line</li>
+                        <li><strong>Stay alert:</strong> Keep your hand near the emergency stop</li>
+                        <li><strong>Clear the area:</strong> Make sure no one is in the robot's reach</li>
+                        <li><strong>Expect differences:</strong> The real robot might not behave exactly like the simulation</li>
+                    </ul>
+                </div>
+                
+                <h4>Universal Robots UR5e - Running the Program</h4>
+                
+                <div class="procedure-step">
+                    <ol>
+                        <li><strong>Load the program</strong> (as described above)</li>
+                        <li><strong>Check the installation:</strong> Make sure the gripper and parts are set up correctly</li>
+                        <li><strong>Switch to Manual mode</strong> on the teach pendant</li>
+                        <li><strong>Test at reduced speed:</strong> Set speed slider to 10%</li>
+                        <li><strong>Press Play</strong> and watch carefully</li>
+                        <li>If successful, gradually increase speed to 25%, 50%, then 100%</li>
+                    </ol>
+                </div>
+                
+                <h4>FANUC CR-7iA/L - Running the Program</h4>
+                
+                <div class="procedure-step">
+                    <ol>
+                        <li><strong>TA will load the program</strong> to the robot controller</li>
+                        <li><strong>Safety check:</strong> Verify the work area is clear</li>
+                        <li><strong>TA will run in T1 mode</strong> (teach mode with reduced speed)</li>
+                        <li><strong>Step-by-step execution:</strong> The program will run one line at a time</li>
+                        <li><strong>Observation:</strong> Watch how the robot performs each motion</li>
+                        <li>If successful, <strong>TA may run at higher speed</strong> or in Auto mode</li>
+                    </ol>
+                </div>
+                
+                <div class="tip-box">
+                    <h3>✅ Debugging Physical Robot Programs</h3>
+                    <p>If the program doesn't work perfectly on the real robot:</p>
+                    <ul>
+                        <li><strong>Common issue #1 - Position offsets:</strong> Points might be slightly off due to calibration differences
+                            <ul>
+                                <li>Solution: Use teach pendant to adjust positions slightly</li>
+                            </ul>
+                        </li>
+                        <li><strong>Common issue #2 - Speed too fast:</strong> Robot moves too aggressively
+                            <ul>
+                                <li>Solution: Reduce speed in program or use speed override</li>
+                            </ul>
+                        </li>
+                        <li><strong>Common issue #3 - Gripper timing:</strong> Opens/closes at wrong time
+                            <ul>
+                                <li>Solution: Add small delays (Wait commands) before/after gripper operations</li>
+                            </ul>
+                        </li>
+                        <li><strong>Common issue #4 - Near collisions:</strong> Robot comes too close to objects
+                            <ul>
+                                <li>Solution: Increase approach heights, adjust positions</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Complete Workflow Section -->
+            <section id="complete-workflow">
+                <h2>📋 Complete Lab Workflow</h2>
+                
+                <h3>Before Lab Session</h3>
+                
+                <div class="procedure-step">
+                    <strong>Preparation (30 minutes):</strong>
+                    <ul>
+                        <li>Review robot programming concepts from lecture</li>
+                        <li>Download the OCTOPUZ project files</li>
+                        <li>Read through this tutorial</li>
+                        <li>Watch any provided tutorial videos</li>
+                        <li>Plan your pick and place points on paper (sketch it out!)</li>
+                    </ul>
+                </div>
+                
+                <h3>During Lab Session</h3>
+                
+                <div class="procedure-step">
+                    <strong>Part 1: OCTOPUZ Programming (60-90 minutes)</strong>
+                    <ol>
+                        <li><strong>Setup (10 min):</strong>
+                            <ul>
+                                <li>Log into lab computer</li>
+                                <li>Open OCTOPUZ software</li>
+                                <li>Load project file</li>
+                                <li>Familiarize yourself with the interface</li>
+                            </ul>
+                        </li>
+                        <li><strong>UR5e Programming (30-40 min):</strong>
+                            <ul>
+                                <li>Create the 11-step pick and place program</li>
+                                <li>Test each point individually</li>
+                                <li>Simulate the complete program</li>
+                                <li>Debug any issues</li>
+                                <li>Export as .urp file</li>
+                            </ul>
+                        </li>
+                        <li><strong>FANUC Programming (30-40 min):</strong>
+                            <ul>
+                                <li>Create similar pick and place program for coasters</li>
+                                <li>Verify no collisions with table</li>
+                                <li>Simulate thoroughly</li>
+                                <li>Export as .LS file</li>
+                                <li>Work with TA to convert to .TP using ROBOGUIDE</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Part 2: Physical Robot Deployment (30-45 minutes)</strong>
+                    <ol>
+                        <li><strong>Safety briefing (5 min):</strong>
+                            <ul>
+                                <li>TA reviews safety procedures</li>
+                                <li>Locate emergency stops</li>
+                                <li>Understand safe zones and danger zones</li>
+                            </ul>
+                        </li>
+                        <li><strong>UR5e deployment (15-20 min):</strong>
+                            <ul>
+                                <li>Load .urp program via USB</li>
+                                <li>Verify setup (gripper, parts, fixture)</li>
+                                <li>Run at reduced speed</li>
+                                <li>Debug if needed</li>
+                                <li>Run at full speed if successful</li>
+                            </ul>
+                        </li>
+                        <li><strong>FANUC deployment (15-20 min):</strong>
+                            <ul>
+                                <li>TA loads .TP program</li>
+                                <li>Check vacuum system operation</li>
+                                <li>TA runs in T1 mode step-by-step</li>
+                                <li>Observe and document robot behavior</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="procedure-step">
+                    <strong>Part 3: Documentation (15-20 minutes)</strong>
+                    <ul>
+                        <li>Complete lab report or worksheet</li>
+                        <li>Document:
+                            <ul>
+                                <li>Your program structure</li>
+                                <li>Any challenges encountered</li>
+                                <li>Solutions implemented</li>
+                                <li>Differences between simulation and reality</li>
+                                <li>Cycle time (how long one complete pick-place cycle takes)</li>
+                            </ul>
+                        </li>
+                        <li>Save all files (OCTOPUZ projects, exported programs)</li>
+                    </ul>
+                </div>
+                
+                <h3>Time Management Tips</h3>
+                
+                <div class="tip-box">
+                    <h3>✅ Making the Most of Your Lab Time</h3>
+                    <ul>
+                        <li><strong>Prepare ahead:</strong> Review materials before coming to lab</li>
+                        <li><strong>Work efficiently:</strong> Have a plan before you start programming</li>
+                        <li><strong>Save frequently:</strong> OCTOPUZ can crash - save your work every 10 minutes!</li>
+                        <li><strong>Help each other:</strong> Work with lab partners, share insights</li>
+                        <li><strong>Ask early:</strong> Don't waste time being stuck - ask TAs for help</li>
+                        <li><strong>Document as you go:</strong> Take notes and screenshots during the process</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Advanced Topics Section -->
+            <section id="advanced">
+                <h2>🎓 Understanding the Technology</h2>
+                
+                <h3>How Do Robots Know Where They Are?</h3>
+                
+                <div class="tech-box">
+                    <h3>🔍 Robot Position Sensing</h3>
+                    
+                    <p>Industrial robots use <strong>encoders</strong> on each joint to measure position:</p>
+                    
+                    <ul>
+                        <li><strong>Encoder:</strong> A sensor that counts motor shaft rotations</li>
+                        <li><strong>Resolution:</strong> Can detect tiny movements (micrometers)</li>
+                        <li><strong>Feedback loop:</strong> Controller constantly reads encoder values</li>
+                        <li><strong>Position calculation:</strong> Using known gear ratios and arm lengths, the controller calculates exactly where the TCP is in 3D space</li>
+                    </ul>
+                    
+                    <p><strong>This is called "forward kinematics":</strong> Given joint angles, calculate TCP position</p>
+                </div>
+                
+                <h3>How Do Robots Plan Their Movements?</h3>
+                
+                <div class="tech-box">
+                    <h3>🔍 Inverse Kinematics</h3>
+                    
+                    <p>When you tell a robot to move to a position, the controller must figure out what angle each joint should be at:</p>
+                    
+                    <ul>
+                        <li><strong>The problem:</strong> "I want the TCP at X=100, Y=200, Z=300. What should joints 1-6 be?"</li>
+                        <li><strong>The solution:</strong> Complex mathematical calculations (inverse kinematics)</li>
+                        <li><strong>Multiple solutions:</strong> Often there are several ways to reach the same point!</li>
+                        <li><strong>Robot chooses:</strong> Based on which solution is closest to current position, or has no collisions</li>
+                    </ul>
+                    
+                    <p><strong>Why 7 axes help:</strong> The FANUC's 7th axis provides even more solution options!</p>
+                </div>
+                
+                <h3>Why Simulation is Critical</h3>
+                
+                <table class="spec-table">
+                    <tr>
+                        <th>Risk</th>
+                        <th>What Could Happen</th>
+                        <th>How Simulation Prevents It</th>
+                    </tr>
+                    <tr>
+                        <td>Collision</td>
+                        <td>Robot crashes into fixture, damages equipment</td>
+                        <td>Collision detection shows problems before running on real robot</td>
+                    </tr>
+                    <tr>
+                        <td>Out of Reach</td>
+                        <td>Robot can't physically reach a programmed position</td>
+                        <td>OCTOPUZ shows if positions are outside work envelope</td>
+                    </tr>
+                    <tr>
+                        <td>Singularity</td>
+                        <td>Robot gets stuck in a problematic joint configuration</td>
+                        <td>Simulation identifies singularities, suggests alternatives</td>
+                    </tr>
+                    <tr>
+                        <td>Wrong Sequence</td>
+                        <td>Gripper closes at wrong time, robot moves in wrong order</td>
+                        <td>Visual simulation shows logic errors clearly</td>
+                    </tr>
+                    <tr>
+                        <td>Speed Issues</td>
+                        <td>Robot moves too fast and overshoots</td>
+                        <td>Can test different speeds safely in simulation</td>
+                    </tr>
+                </table>
+                
+                <h3>Real-World Applications</h3>
+                
+                <p>The skills you're learning in this lab are used every day in industry:</p>
+                
+                <h4>Manufacturing Applications:</h4>
+                
+                <ul>
+                    <li><strong>Assembly:</strong> Putting together products (cars, electronics, appliances)</li>
+                    <li><strong>Machine tending:</strong> Loading/unloading CNC machines, injection molding machines</li>
+                    <li><strong>Packaging:</strong> Picking products and placing them in boxes</li>
+                    <li><strong>Palletizing:</strong> Stacking boxes on pallets for shipping</li>
+                    <li><strong>Quality inspection:</strong> Moving parts to inspection cameras or gauges</li>
+                    <li><strong>Welding:</strong> Following complex weld paths</li>
+                    <li><strong>Painting/coating:</strong> Applying finishes to products</li>
+                    <li><strong>Material handling:</strong> Moving parts between workstations</li>
+                </ul>
+                
+                <h4>Why Offline Programming is Essential:</h4>
+                
+                <div class="info-box">
+                    <h3>💡 Industry Perspective</h3>
+                    <p>In real manufacturing:</p>
+                    <ul>
+                        <li><strong>Production time is money:</strong> Can't afford to have a $100,000 robot sitting idle while you teach it</li>
+                        <li><strong>Complex paths:</strong> Modern parts require thousands of motion points (impossible to teach manually)</li>
+                        <li><strong>Quick changeover:</strong> Need to switch between products rapidly</li>
+                        <li><strong>Multi-robot coordination:</strong> Several robots working together - must be simulated</li>
+                        <li><strong>Safety validation:</strong> Must prove programs are safe before running in production</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Tips and Troubleshooting -->
+            <section id="troubleshooting">
+                <h2>🔧 Tips and Troubleshooting</h2>
+                
+                <h3>Common OCTOPUZ Problems</h3>
+                
+                <table class="spec-table">
+                    <tr>
+                        <th>Problem</th>
+                        <th>Cause</th>
+                        <th>Solution</th>
+                    </tr>
+                    <tr>
+                        <td>Robot won't move in jog mode</td>
+                        <td>Wrong tool selected or no tool active</td>
+                        <td>Check Jog menu, ensure a tool is selected</td>
+                    </tr>
+                    <tr>
+                        <td>Collision detected in simulation</td>
+                        <td>Robot path intersects with object</td>
+                        <td>Adjust waypoint positions, increase clearances</td>
+                    </tr>
+                    <tr>
+                        <td>Point unreachable</td>
+                        <td>Position outside robot's work envelope</td>
+                        <td>Move point closer to robot base, check if feasible</td>
+                    </tr>
+                    <tr>
+                        <td>Unexpected robot orientation</td>
+                        <td>Multiple inverse kinematic solutions</td>
+                        <td>Manually adjust joint angles to preferred configuration</td>
+                    </tr>
+                    <tr>
+                        <td>Simulation runs but jerky motion</td>
+                        <td>PTP motion near obstacles</td>
+                        <td>Change to Linear motion for those segments</td>
+                    </tr>
+                    <tr>
+                        <td>Can't export program</td>
+                        <td>Program has errors or warnings</td>
+                        <td>Check error log, fix all warnings before exporting</td>
+                    </tr>
+                </table>
+                
+                <h3>Best Practices for Clean Programs</h3>
+                
+                <div class="tip-box">
+                    <h3>✅ Professional Programming Habits</h3>
+                    <ol>
+                        <li><strong>Name your points clearly:</strong> Use descriptive names (Home, ApproachPick, PickCoaster, etc.)</li>
+                        <li><strong>Comment your code:</strong> Add notes explaining what each section does</li>
+                        <li><strong>Consistent approach heights:</strong> Use the same clearance height for all approach/retract moves</li>
+                        <li><strong>Speed zones:</strong> Slow down near objects, full speed in open areas</li>
+                        <li><strong>Modular programs:</strong> Use subprograms for repeated operations</li>
+                        <li><strong>Test incrementally:</strong> Build and test your program in sections, not all at once</li>
+                        <li><strong>Save versions:</strong> Save different versions as you develop (v1, v2, v3)</li>
+                    </ol>
+                </div>
+                
+                <h3>Comparison: Simulation vs. Reality</h3>
+                
+                <table class="spec-table">
+                    <tr>
+                        <th>Aspect</th>
+                        <th>In Simulation (OCTOPUZ)</th>
+                        <th>On Physical Robot</th>
+                    </tr>
+                    <tr>
+                        <td>Accuracy</td>
+                        <td>Perfect mathematical precision</td>
+                        <td>Real-world tolerances, slight variations</td>
+                    </tr>
+                    <tr>
+                        <td>Speed</td>
+                        <td>Programmed speed always achieved</td>
+                        <td>May be limited by robot safety systems</td>
+                    </tr>
+                    <tr>
+                        <td>Gripper</td>
+                        <td>Opens/closes instantly</td>
+                        <td>Takes time, might need delays for pneumatics/vacuum</td>
+                    </tr>
+                    <tr>
+                        <td>Environment</td>
+                        <td>Perfect CAD models</td>
+                        <td>Real fixtures might be slightly different positions</td>
+                    </tr>
+                    <tr>
+                        <td>Safety</td>
+                        <td>Can't hurt anyone</td>
+                        <td>Real hazards exist - must be careful!</td>
+                    </tr>
+                    <tr>
+                        <td>Cost of mistakes</td>
+                        <td>Just click undo</td>
+                        <td>Could damage equipment or hurt people</td>
+                    </tr>
+                </table>
+                
+                <h3>What to Do If...</h3>
+                
+                <div class="danger-box">
+                    <h4>🚨 Emergency Situations</h4>
+                    
+                    <p><strong>If the robot starts moving unexpectedly:</strong></p>
+                    <ul>
+                        <li>Press Emergency Stop immediately</li>
+                        <li>Alert the TA</li>
+                        <li>Do NOT try to grab or stop the robot with your hands</li>
+                    </ul>
+                    
+                    <p><strong>If you see a collision about to happen:</strong></p>
+                    <ul>
+                        <li>Press Emergency Stop or Pause button</li>
+                        <li>Alert the TA</li>
+                        <li>Review the program to find the error</li>
+                    </ul>
+                    
+                    <p><strong>If something doesn't work as expected:</strong></p>
+                    <ul>
+                        <li>Stop the program (don't let it keep running if something's wrong)</li>
+                        <li>Ask the TA for help</li>
+                        <li>Don't try to fix physical robot issues yourself</li>
+                    </ul>
+                </div>
+                
+                <h3>Learning Resources</h3>
+                
+                <div class="info-box">
+                    <h3>📚 Additional Learning</h3>
+                    <ul>
+                        <li><strong>OCTOPUZ Documentation:</strong> Available in the software (Help menu)</li>
+                        <li><strong>Universal Robots Academy:</strong> Free online courses at academy.universal-robots.com</li>
+                        <li><strong>FANUC Training:</strong> Industrial robot programming courses</li>
+                        <li><strong>YouTube tutorials:</strong> Search for "OCTOPUZ robot programming tutorials"</li>
+                        <li><strong>Course textbook:</strong> Review robotics chapters</li>
+                        <li><strong>Office hours:</strong> Ask instructor for clarification on concepts</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Quiz Hints Section -->
+            <section id="quiz-hints">
+                <h2>🧠 Quiz Preparation Hints</h2>
+
+                <div class="info-box">
+                    <h3>💡 How to Use These Hints</h3>
+                    <p>Re-read the indicated sections of this guide, then use your understanding to answer your quiz questions. These hints point you in the right direction — they don't give away the answer directly.</p>
+                </div>
+
+                <div class="tip-box">
+                    <h3>✅ Hint — Question 1: Tool Center Point (TCP)</h3>
+                    <p><strong>Core concept:</strong> What happens when the TCP is defined incorrectly in OCTOPUZ?</p>
+                    <ul>
+                        <li>Re-read the <strong>"What is TCP?"</strong> info box in the <em>Robot Programming Basics</em> section.</li>
+                        <li>Think about what OCTOPUZ actually uses the TCP definition for when computing robot motion paths.</li>
+                        <li><em>Direction:</em> An incorrect TCP shifts <strong>all computed tool paths</strong> away from their intended targets. The robot calculates motion from a wrong reference point — this error appears on the <strong>real robot</strong> (not just in simulation rendering), and the robot cannot self-correct for a misconfigured TCP.</li>
+                    </ul>
+                </div>
+
+                <div class="tip-box">
+                    <h3>✅ Hint — Question 2: Why We Specify the Robot Base Frame</h3>
+                    <p><strong>Core concept:</strong> Why is setting the correct base frame essential in OCTOPUZ?</p>
+                    <ul>
+                        <li>Re-read the <strong>"What is a Base Frame?"</strong> info box in the <em>Robot Programming Basics</em> section.</li>
+                        <li>Consider: every position, reachability check, collision envelope, and coordinate transformation is measured <strong>relative to the base frame</strong>.</li>
+                        <li><em>Direction:</em> Without the correct base, OCTOPUZ cannot properly transform CAD toolpaths into real joint motions. It also cannot correctly place fixtures, tooling, and workcell geometry. All downstream spatial calculations depend on this foundation.</li>
+                    </ul>
+                </div>
+
+                <div class="tip-box">
+                    <h3>✅ Hint — Question 3: Point-to-Point vs. Linear Motion</h3>
+                    <p><strong>Core concept:</strong> What is the defining difference between PTP and Linear motion?</p>
+                    <ul>
+                        <li>Re-read the full <strong>"Types of Robot Motion"</strong> subsections (both PTP and Linear) in the <em>Robot Programming Basics</em> section.</li>
+                        <li>Focus on: <em>which type constrains the TCP to a straight Cartesian path</em> vs. which lets each joint move independently at its own speed.</li>
+                        <li><em>Direction:</em> PTP = fastest, joint-space motion (TCP follows an unpredictable arc). Linear = straight-line TCP path (predictable, used for approaches and retracts near objects). Think about which one you must use when descending from Point B to Point C.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Final Section -->
+            <section id="final">
+                <h2>✅ Summary and Key Takeaways</h2>
+                
+                <h3>What You Learned</h3>
+                
+                <div class="learning-outcomes">
+                    <ul>
+                        <li><strong>Offline programming:</strong> How to program robots using simulation software</li>
+                        <li><strong>OCTOPUZ software:</strong> Professional CAM tool for robot programming</li>
+                        <li><strong>Motion types:</strong> When to use PTP vs. Linear motion</li>
+                        <li><strong>Pick and place:</strong> The fundamental industrial robot task</li>
+                        <li><strong>Two robot brands:</strong> Universal Robots and FANUC programming</li>
+                        <li><strong>Simulation:</strong> Testing and verifying before deployment</li>
+                        <li><strong>Real robots:</strong> Deploying programs to physical hardware</li>
+                        <li><strong>Safety:</strong> Critical procedures for working with robots</li>
+                    </ul>
+                </div>
+                
+                <h3>Key Concepts to Remember</h3>
+                
+                <table class="spec-table">
+                    <tr>
+                        <th>Concept</th>
+                        <th>Key Point</th>
+                    </tr>
+                    <tr>
+                        <td>PTP Motion</td>
+                        <td>Fast but unpredictable path - use for long moves in open space</td>
+                    </tr>
+                    <tr>
+                        <td>Linear Motion</td>
+                        <td>Straight line path - use for precision moves near objects</td>
+                    </tr>
+                    <tr>
+                        <td>Approach Points</td>
+                        <td>Must be directly above pick/place points for safe vertical approach</td>
+                    </tr>
+                    <tr>
+                        <td>TCP</td>
+                        <td>Tool Center Point - the reference point you're controlling</td>
+                    </tr>
+                    <tr>
+                        <td>Subprograms</td>
+                        <td>Reusable code blocks - like functions in programming</td>
+                    </tr>
+                    <tr>
+                        <td>Simulation</td>
+                        <td>Always test in software before running on real hardware</td>
+                    </tr>
+                    <tr>
+                        <td>Safety</td>
+                        <td>Emergency stop is your best friend - don't hesitate to use it</td>
+                    </tr>
+                </table>
+                
+                <h3>Moving Forward</h3>
+                
+                <p>After mastering these basics, you can explore:</p>
+                
+                <ul>
+                    <li><strong>More complex paths:</strong> Welding seams, gluing patterns, spray painting</li>
+                    <li><strong>Vision systems:</strong> Cameras that help robots find and identify parts</li>
+                    <li><strong>Force control:</strong> Robots that can "feel" and adjust to contact</li>
+                    <li><strong>Multi-robot cells:</strong> Coordinating several robots to work together</li>
+                    <li><strong>Conveyor tracking:</strong> Picking parts from moving conveyors</li>
+                    <li><strong>Advanced OCTOPUZ:</strong> Path optimization, cycle time reduction</li>
+                </ul>
+                
+                <div class="tip-box">
+                    <h3>✅ Final Checklist</h3>
+                    <p><strong>Before leaving the lab, make sure you:</strong></p>
+                    <ul>
+                        <li>☐ Saved all your OCTOPUZ project files</li>
+                        <li>☐ Exported both robot programs (.urp and .TP)</li>
+                        <li>☐ Backed up files to USB or cloud storage</li>
+                        <li>☐ Completed lab documentation</li>
+                        <li>☐ Cleaned up your work area</li>
+                        <li>☐ Logged out of the computer</li>
+                        <li>☐ Returned all borrowed tools and materials</li>
+                        <li>☐ Reported any equipment issues to the TA</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h3>💡 Remember</h3>
+                    <p><strong>The three pillars of successful robot programming:</strong></p>
+                    <ol>
+                        <li><strong>Safety First:</strong> Protect yourself and the equipment</li>
+                        <li><strong>Simulate Thoroughly:</strong> Test everything before deployment</li>
+                        <li><strong>Ask Questions:</strong> TAs are there to help you learn</li>
+                    </ol>
+                    <p><strong>Most importantly:</strong> Have fun! Robot programming is challenging but incredibly rewarding. You're learning skills that are in high demand in modern manufacturing!</p>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p><strong>IE 4531 - Manufacturing Systems & Techniques</strong></p>
+            <p>Offline Robot Programming Lab - OCTOPUZ, UR5e & FANUC CR-7iA/L</p>
+            <p style="margin-top: 10px; font-size: 1.1em;">🤖 Simulate First, Deploy Smart, Stay Safe! 🤖</p>
+            <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">
+                This guide is for educational purposes. Always follow your institution's specific safety protocols and instructor guidance.
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
